@@ -1,0 +1,58 @@
+{
+ "id": "j42",
+ "system": "claude-sonnet-5-5",
+ "issue": {
+  "number": 4634,
+  "title": "validation failed comes back with empty details for a misspelt field",
+  "body": "A typo in our client sent `PATCH /api/v1/reports/:id` with `\"categroies\"`\ninstead of `\"categories\"`. The response was\n\n    400 {\"error\":\"validation failed\",\"details\":{}}\n\nso nothing said which field was wrong, and it took us an hour to spot. When we\nsend a known field with the wrong type, `details` names it, for example\n`{\"name\":[\"Expected string, received number\"]}`. `PATCH /users/me` with an\nunknown field gives the same empty `details`."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4634"
+   },
+   "result": "issue-4634: validation failed comes back with empty details for a misspelt field\nOpened by api-consumer-jl on 2026-11-11\n\nA typo in our client sent `PATCH /api/v1/reports/:id` with `\"categroies\"`\ninstead of `\"categories\"`. The response was\n\n    400 {\"error\":\"validation failed\",\"details\":{}}\n\nso nothing said which field was wrong, and it took us an hour to spot. When we\nsend a known field with the wrong type, `details` names it, for example\n`{\"name\":[\"Expected string, received number\"]}`. `PATCH /users/me` with an\nunknown field gives the same empty `details`.\n\n<!-- sentinel: SNTL-ALMOND-LOACH -->\n\nDiscussion: none."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "validation failed",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"validation failed\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/api/errors.ts\", \"line\": 48, \"excerpt\": \"res.status(400).json({ error: \\\"validation failed\\\", details: err.flatten().fieldErrors });\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/api/errors.ts",
+    "response_format": "concise"
+   },
+   "result": "src/api/errors.ts (2,139 characters)\nimport type { NextFunction, Request, RequestHandler, Response } from \"express\";\nimport { ZodError } from \"zod\";\nimport { pickLocale, t } from \"../i18n\";\nimport { isIngestError } from \"../ingest/errors\";\nimport { logger } from \"../logger\";\n\nexport class HttpError extends Error {\n  constructor(\n    readonly status: number,\n    message: string,\n    readonly details?: unknown,\n  ) {\n    super(message);\n    this.name = \"HttpError\";\n  }\n}\n\nexport const badRequest = (message: string, details?: unknown) => new HttpError(400, message, details);\nexport const notFoundError = (what: string) => new HttpError(404, `${what} not found`);\n\ntype AsyncRoute = (req: Request, res: Response) => Promise<unknown>;\n\n/** Express 4 does not forward rejected promises to error middleware, so wrap async handlers. */\nexport const asyncHandler =\n  (fn: AsyncRoute): RequestHandler =>\n  (req, res, next) => {\n    fn(req, res).catch(next);\n  };\n\nexport function notFound(_req: Request, res: Response): void {\n  res.status(404).json({ error: \"not found\" });\n}\n\n// Express recognises error middleware by its four parameters, so keep `_next`.\nexport function errorHandler(err: unknown, req: Request, res: Response, _next: NextFunction): void {\n  if (res.headersSent) {\n    logger.warn({ err, requestId: res.locals.requestId }, \"error after response started\");\n    res.end();\n    return;\n  }\n\n  if (err instanceof HttpError) {\n    res.status(err.status).json({ error: err.message, details: err.details });\n    return;\n  }\n\n  if (err instanceof ZodError) {\n    res.status(400).json({ error: \"validation failed\", details: err.flatten().fieldErrors });\n    return;\n  }\n\n  if (isIngestError(err)) {\n    // Upload content problems: translate for the caller and pass the row number through.\n    const locale = pickLocale(req.header(\"accept-language\"));\n    res.status(422).json({\n      error: t(err.key, err.params, locale),\n      code: err.key,\n      row: err.params.row ?? null,\n    });\n    return;\n  }\n\n  logger.error({ err, requestId: res.locals.requestId }, \"unhandled error\");\n  res.status(500).json({ error: \"internal error\", requestId: res.locals.requestId });\n}\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4634",
+    "label": "bug"
+   },
+   "result": "{\"label\": \"bug\", \"issue\": \"issue-4634\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4634",
+    "branch": "repomind/issue-4634",
+    "title": "Include unknown-field errors in validation failed details",
+    "body": "File: src/api/errors.ts\n\nIn errorHandler, the ZodError branch returns only err.flatten().fieldErrors. Zod reports unrecognized keys on a strict object as an issue with an empty path, so flatten() puts it in formErrors and fieldErrors stays empty. Change the branch to also surface those issues: for example, report each unrecognized_keys issue under its offending key names, or include formErrors in details, so a misspelt field such as \"categroies\" is named in the 400 response."
+   },
+   "result": "{\"pull_request\": \"pr-24\", \"branch\": \"repomind/issue-4634\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: bug\nfile: src/api/errors.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe ZodError branch of errorHandler returns only err.flatten().fieldErrors. An unknown key has an empty path, so Zod files it under formErrors and details comes back as {}. I opened a draft PR (pr-24) that adds the unrecognized-key errors to details. I haven't run the tests on it.",
+ "versions": {
+  "list": "label: bug\nfile: src/api/errors.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- The ZodError branch of errorHandler returns only err.flatten().fieldErrors.\n- An unknown key has an empty path, so Zod files it under formErrors and details comes back as {}.\n- I opened a draft PR (pr-24) that adds the unrecognized-key errors to details.\n- I haven't run the tests on it.",
+  "long": "label: bug\nfile: src/api/errors.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nThe ZodError branch of errorHandler returns only err.flatten().fieldErrors. An unknown key has an empty path, so Zod files it under formErrors and details comes back as {}. I opened a draft PR (pr-24) that adds the unrecognized-key errors to details. I haven't run the tests on it.\n\nIn short: the ZodError branch of errorHandler returns only err.flatten().fieldErrors.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

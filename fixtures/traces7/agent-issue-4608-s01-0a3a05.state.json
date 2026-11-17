@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4608-s01-0a3a05",
+ "way": "agent",
+ "issue": 4608,
+ "state": {
+  "4608": {
+   "comments": [
+    "label: feature\nfile: src/components/UploadForm.tsx\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe upload form has only a file input inside its \"Choose a CSV file\" label and no drag-and-drop handling. Opened a draft pull request (pr-15) proposing drop handlers on the form that feed a single dropped CSV into the existing submit flow."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Accept a CSV file dropped onto the upload form",
+     "body": "File: src/components/UploadForm.tsx\n\nThe form only offers a file input inside the \"Choose a CSV file\" label. Add drag-and-drop to the form: handle dragover (preventDefault, so the drop is allowed) and drop events, take the first dropped file, and check it against the same .csv / text/csv rule the input uses before setting it as the file. Show the form's existing error message if the dropped file is not a CSV. Keep the file input and the submit flow unchanged, so a dropped file is submitted the same way a chosen one is."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

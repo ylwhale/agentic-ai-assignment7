@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4633-s01-a5f973",
+ "way": "planned",
+ "issue": 4633,
+ "state": {
+  "4633": {
+   "comments": [
+    "label: bug\nfile: src/ingest/dedupe.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Catch overlapping days when two statements are uploaded together",
+     "body": "File: src/ingest/dedupe.ts\n\nProblem: two statements uploaded close together (about ten seconds apart, both finished within a minute) both keep the shared days 28 to 30 September, and both uploads report 0 duplicates. Uploading the same two files a few minutes apart reports 9 duplicates, so the key logic works when one upload has already been stored before the other is checked.\n\nWhat this file does: dedupe() drops a row when its key is in `seen` or appears earlier in the same `rows` array. keysFor() builds `seen` from transactions already stored on the account. The dedupe key is date|amount|description.\n\nProposed change: make sure the second upload's duplicate check sees the first upload's rows even when the two uploads are processed without the first one being committed yet. In practice this means the key set used by dedupe() should be built from the stored ledger at the moment of checking, or the check should be serialized per account so an upload's keys are visible to the next one. Add a test with two overlapping statements processed back to back, expecting the shared days to be counted as duplicates.\n\nNot yet verified: the caller that builds `seen` (src/api/uploads.ts) was not read in this step, so the exact timing gap is a hypothesis to confirm before the change is final."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

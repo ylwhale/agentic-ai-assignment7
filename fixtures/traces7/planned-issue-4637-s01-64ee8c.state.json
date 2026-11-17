@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4637-s01-64ee8c",
+ "way": "planned",
+ "issue": 4637,
+ "state": {
+  "4637": {
+   "comments": [
+    "label: feature\nfile: src/export/xlsx.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Show negative amounts in red in XLSX exports",
+     "body": "File: src/export/xlsx.ts\n\nNegative amounts in the Amount column of the XLSX export should display in red, so controllers no longer need to reformat the sheet by hand. CSV output is not affected.\n\nProposed change: in amountFormat(), add a negative section with the [Red] colour code to the number formats the function returns. For currencies with zero minor digits, use \"#,##0;[Red]-#,##0\" instead of \"#,##0\". For all other currencies, use \"#,##0.00;[Red]-#,##0.00\" instead of \"#,##0.00\". The positive section stays as it is, so positive amounts and the cell values themselves are unchanged. The format is applied per cell in writeXlsx() through added.getCell(\"amount\").numFmt, so no other call site needs to change.\n\nNot yet verified: that the spreadsheet application used by the controllers renders the [Red] section as expected, and that existing tests which assert the exact numFmt string are updated to match."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

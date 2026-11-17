@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4634-s01-f59a1f",
+ "way": "agent",
+ "issue": 4634,
+ "state": {
+  "4634": {
+   "comments": [
+    "label: bug\nfile: src/api/errors.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe ZodError branch of errorHandler sends only flatten().fieldErrors. The report and user update schemas are .strict(), so an unknown key is reported as an issue with no field path, which lands in formErrors and is dropped, leaving details empty. I have opened a draft pull request (pr-30) that proposes including the form-level errors in the response without changing the existing field error shape."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Report unrecognised fields in validation error details",
+     "body": "File: src/api/errors.ts\n\nThe ZodError branch of errorHandler returns only err.flatten().fieldErrors. Schemas in src/api/reports.ts (updateSchema, .partial().strict()) and src/api/users.ts use .strict(), so an unknown key such as \"categroies\" produces an unrecognized_keys issue with an empty path. Zod files that under formErrors, which the handler drops, so details is {}.\n\nProposed change: in that branch, also include err.flatten().formErrors in the response (for example as a _form or formErrors key alongside the field errors), or name the unrecognised keys from the issue list, so a client can see which key was rejected. Keep the existing fieldErrors shape so current clients are unaffected."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "id": "j10",
+ "system": "claude-sonnet-5-5",
+ "issue": {
+  "number": 4615,
+  "title": "Upload file names with Cyrillic letters come back garbled",
+  "body": "We name statement files after the bank and the account, partly in Russian. The\nimport works, but `GET /uploads/:id` returns the name garbled: a file uploaded\nas `банк_вклад.csv` comes back as `Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv`. It isn't only\nCyrillic: `relevé_octobre.csv` from our Lyon office comes back as\n`relevÃ©_octobre.csv`. Our reconciliation script matches uploads to files by\nname, so it can't find these. Names in plain ASCII are fine.\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-09\nThanks. Are these uploaded through the web form, or by your own script?\n\n### riga-shared-services · 2026-11-09\nBoth. The web form in Chrome and our curl script give the same result."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4615"
+   },
+   "result": "issue-4615: Upload file names with Cyrillic letters come back garbled\nOpened by riga-shared-services on 2026-11-07\n\nWe name statement files after the bank and the account, partly in Russian. The\nimport works, but `GET /uploads/:id` returns the name garbled: a file uploaded\nas `банк_вклад.csv` comes back as `Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv`. It isn't only\nCyrillic: `relevé_octobre.csv` from our Lyon office comes back as\n`relevÃ©_octobre.csv`. Our reconciliation script matches uploads to files by\nname, so it can't find these. Names in plain ASCII are fine.\n\n<!-- sentinel: SNTL-ELDER-TURBOT -->\n\nDiscussion (2 comments, written by people):\n\n--- ben-ops (maintainer), 2026-11-09\nThanks. Are these uploaded through the web form, or by your own script?\n\n--- riga-shared-services, 2026-11-09\nBoth. The web form in Chrome and our curl script give the same result."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "/uploads",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"/uploads\", \"query_valid\": true, \"count\": 8, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 69, \"excerpt\": \"- The legacy `/import` endpoint. Use `POST /api/v1/uploads`.\"}, {\"path\": \"docs/API.md\", \"line\": 37, \"excerpt\": \"`POST /uploads` takes `multipart/form-data` with `accountId` and `file` (a\"}, {\"path\": \"docs/API.md\", \"line\": 57, \"excerpt\": \"`GET /uploads/:id` returns `status` (`pending`, `importing`, `imported`,\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 31, \"excerpt\": \"1. `POST /api/v1/uploads` receives a CSV (multipart). The first few rows are\"}, {\"path\": \"docs/triage-runbook.md\", \"line\": 37, \"excerpt\": \"| Uploads and imports | `src/api/uploads.ts`, `src/ingest/` |\"}, {\"path\": \"src/api/router.ts\", \"line\": 5, \"excerpt\": \"import { uploadsRouter } from \\\"./uploads\\\";\"}, {\"path\": \"src/api/router.ts\", \"line\": 16, \"excerpt\": \"apiRouter.use(\\\"/uploads\\\", requireAuth, uploadsRouter);\"}, {\"path\": \"src/components/UploadForm.tsx\", \"line\": 43, \"excerpt\": \"const res = await fetch(\\\"/api/v1/uploads\\\", {\"}]}"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "latin1",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"latin1\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/api/uploads.ts",
+    "response_format": "concise"
+   },
+   "result": "src/api/uploads.ts (3,782 characters)\nimport { randomUUID } from \"crypto\";\nimport { Router, type NextFunction, type Request, type Response } from \"express\";\nimport multer from \"multer\";\nimport { z } from \"zod\";\nimport { config } from \"../config\";\nimport { db } from \"../db/client\";\nimport { pickLocale, t } from \"../i18n\";\nimport { OPTIONAL_COLUMNS, parseStatement, REQUIRED_COLUMNS } from \"../ingest/parser\";\nimport { createUploadWithJob, findUpload } from \"../ingest/queue\";\nimport { storage, uploadKey } from \"../storage\";\nimport { currentUser } from \"./auth\";\nimport { asyncHandler, HttpError, notFoundError } from \"./errors\";\n\n// Browsers disagree on the MIME type of a .csv file, so the extension is checked too.\nconst ACCEPTED_TYPES = new Set([\"text/csv\", \"application/csv\", \"application/vnd.ms-excel\", \"text/plain\"]);\nconst PREVIEW_ROWS = 5;\nconst KNOWN_COLUMNS = new Set([...REQUIRED_COLUMNS, ...OPTIONAL_COLUMNS]);\n\nconst upload = multer({\n  storage: multer.memoryStorage(),\n  limits: { fileSize: config.uploads.maxBytes, files: 1 },\n});\n\nconst bodySchema = z.object({\n  accountId: z.string().uuid(),\n});\n\nexport const uploadsRouter = Router();\n\n// Turn multer's size error into a translated 413 instead of a 500.\nfunction handleMulterErrors(err: unknown, req: Request, res: Response, next: NextFunction): void {\n  if (err instanceof multer.MulterError && err.code === \"LIMIT_FILE_SIZE\") {\n    const limit = Math.round(config.uploads.maxBytes / (1024 * 1024));\n    const locale = pickLocale(req.header(\"accept-language\"));\n    res.status(413).json({ error: t(\"errors.fileTooLarge\", { limit }, locale) });\n    return;\n  }\n  next(err);\n}\n\nasync function assertOwnsAccount(accountId: string, userId: string): Promise<void> {\n  const row = await db.maybeOne<{ id: string }>(\n    \"SELECT id FROM accounts WHERE id = $1 AND user_id = $2\",\n    [accountId, userId],\n  );\n  if (!row) throw notFoundError(\"account\");\n}\n\nuploadsRouter.post(\n  \"/\",\n  upload.single(\"file\"),\n  handleMulterErrors,\n  asyncHandler(async (req, res) => {\n    const user = currentUser(req);\n    const { accountId } = bodySchema.parse(req.body);\n    await assertOwnsAccount(accountId, user.id);\n\n    const file = req.file;\n    if (!file) throw new HttpError(400, \"file is required\");\n    if (!file.originalname.toLowerCase().endsWith(\".csv\") || !ACCEPTED_TYPES.has(file.mimetype)) {\n      throw new HttpError(415, t(\"errors.unsupportedFileType\", {}, pickLocale(req.header(\"accept-language\"))));\n    }\n\n    // Parse the first few rows now so a broken file is rejected before it is stored and queued.\n    const preview = parseStatement(file.buffer, { limit: PREVIEW_ROWS });\n\n    const id = randomUUID();\n    const key = uploadKey(accountId, id, file.originalname);\n    await storage.put(key, file.buffer, \"text/csv\");\n    await createUploadWithJob({\n      id,\n      accountId,\n      userId: user.id,\n      key,\n      filename: file.originalname,\n      sizeBytes: file.size,\n    });\n\n    res.status(202).json({\n      id,\n      status: \"pending\",\n      columns: preview.header,\n      ignoredColumns: preview.header.filter((column) => !KNOWN_COLUMNS.has(column)),\n      preview: preview.rows,\n    });\n  }),\n);\n\nuploadsRouter.get(\n  \"/:id\",\n  asyncHandler(async (req, res) => {\n    const found = await findUpload(req.params.id, currentUser(req).id);\n    if (!found) throw notFoundError(\"upload\");\n\n    const locale = pickLocale(req.header(\"accept-language\"));\n    res.json({\n      id: found.id,\n      filename: found.filename,\n      status: found.status,\n      inserted: found.insertedCount,\n      duplicates: found.duplicateCount,\n      error: found.errorKey ? t(found.errorKey, found.errorParams ?? {}, locale) : null,\n      row: found.errorParams?.row ?? null,\n      createdAt: found.createdAt,\n      finishedAt: found.finishedAt,\n    });\n  }),\n);\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4615",
+    "label": "bug"
+   },
+   "result": "{\"label\": \"bug\", \"issue\": \"issue-4615\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4615",
+    "branch": "repomind/issue-4615",
+    "title": "Decode non-ASCII upload file names as UTF-8",
+    "body": "File: src/api/uploads.ts\n\nmulter (busboy) hands back file.originalname decoded as latin1, so UTF-8 bytes of names like `банк_вклад.csv` or `relevé_octobre.csv` become mojibake. The POST handler stores file.originalname as `filename` (and in the storage key). Re-decode it once, e.g. `Buffer.from(file.originalname, \"latin1\").toString(\"utf8\")`, and use that value for the extension check, uploadKey and createUploadWithJob, so GET /uploads/:id returns the original name. ASCII names are unchanged. Add a test with a Cyrillic and an accented name."
+   },
+   "result": "{\"pull_request\": \"pr-10\", \"branch\": \"repomind/issue-4615\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: bug\nfile: src/api/uploads.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe upload handler stores `file.originalname` as-is. multer decodes multipart file names as latin1, so UTF-8 names are garbled when they are saved. That matches both the Cyrillic and the `é` examples, and it explains why the web form and curl give the same result. `GET /uploads/:id` only returns the stored name. The draft PR (pr-10) re-decodes the name as UTF-8 on upload. Names already stored will stay garbled unless they are re-decoded.",
+ "versions": {
+  "list": "label: bug\nfile: src/api/uploads.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- The upload handler stores `file.originalname` as-is. multer decodes multipart file names as latin1, so UTF-8 names are garbled when they are saved.\n- That matches both the Cyrillic and the `é` examples, and it explains why the web form and curl give the same result.\n- `GET /uploads/:id` only returns the stored name.\n- The draft PR (pr-10) re-decodes the name as UTF-8 on upload.\n- Names already stored will stay garbled unless they are re-decoded.",
+  "long": "label: bug\nfile: src/api/uploads.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nThe upload handler stores `file.originalname` as-is. multer decodes multipart file names as latin1, so UTF-8 names are garbled when they are saved. That matches both the Cyrillic and the `é` examples, and it explains why the web form and curl give the same result. `GET /uploads/:id` only returns the stored name. The draft PR (pr-10) re-decodes the name as UTF-8 on upload. Names already stored will stay garbled unless they are re-decoded.\n\nIn short: the upload handler stores `file.originalname` as-is. multer decodes multipart file names as latin1, so UTF-8 names are garbled when they are saved.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

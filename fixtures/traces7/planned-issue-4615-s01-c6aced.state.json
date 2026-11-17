@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4615-s01-c6aced",
+ "way": "planned",
+ "issue": 4615,
+ "state": {
+  "4615": {
+   "comments": [
+    "label: bug\nfile: src/api/uploads.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Keep non-ASCII upload file names intact when storing and returning them",
+     "body": "File: src/api/uploads.ts\n\nThe upload handler in POST /uploads takes file.originalname from multer and uses it unchanged for the extension check, for the storage key (uploadKey) and for the filename saved with createUploadWithJob. GET /uploads/:id then returns that saved value. Names such as банк_вклад.csv come back as Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv, which is the pattern of UTF-8 bytes read as Latin-1. The likely cause is that the multipart filename reaches multer undecoded, so the name is already mojibake before this handler sees it. This is a hypothesis from the code and the report; it has not been reproduced.\n\nProposed change: at the start of the POST handler, before the extension check, normalise file.originalname. Re-decode it from Latin-1 bytes to UTF-8 when that round trip yields valid text, and leave plain ASCII names unchanged. Use the normalised name for the .csv check, uploadKey and the filename passed to createUploadWithJob, so the stored name and the GET response are both correct. Also confirm that the web form and curl paths produce the same bytes, since the reporter saw the same result from both.\n\nOpen question: uploads already stored with garbled names will still return them. A one-off repair of the filename column, or a note to the reporter, may be needed. The reconciliation script in the report matches by name, so that matters for existing rows as well as new ones."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

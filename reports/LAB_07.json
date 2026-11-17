@@ -1,0 +1,22 @@
+{
+  "golden": {"version": null, "tasks": 0,
+             "strata": {"routine": 0, "unusual": 0, "adversarial": 0, "should_not_act": 0},
+             "decisions": {"act": 0, "refuse": 0, "stop": 0}, "thinnest": null},
+  "claim": {"claim": null, "measure": null, "gain": null, "k": null, "sweeps": null,
+            "s_a": null, "s_b": null, "delta": null, "n_needed": null, "price_usd": null,
+            "difference": null, "interval": null, "by_stratum": {}, "verdict": null},
+  "arms": {
+    "A": {"way": null, "switches": {}, "runs": 0, "measure": {"mean": null, "sd": null},
+          "score": {"mean": null, "sd": null}, "pass_at_k": null, "pass_hat_k": null, "facts_share": null,
+          "cost_per_run_usd": null, "no_tools": 0, "by_stratum": {}},
+    "B": {"way": null, "switches": {}, "runs": 0, "measure": {"mean": null, "sd": null},
+          "score": {"mean": null, "sd": null}, "pass_at_k": null, "pass_hat_k": null, "facts_share": null,
+          "cost_per_run_usd": null, "no_tools": 0, "by_stratum": {}}
+  },
+  "failures": [],
+  "grid": {"A": {}, "B": {}},
+  "judge": {"split": {"examples": 0, "tuning": 0, "test": 0}, "model": null,
+            "tpr": null, "tnr": null, "p": null, "corrected": null, "interval": null, "coin": null,
+            "flip_rate": null, "majority": {"tpr": null, "tnr": null, "kept": null}, "moved_share": null,
+            "by_system": {}}
+}

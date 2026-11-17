@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4613-s01-092041",
+ "way": "planned",
+ "issue": 4613,
+ "state": {
+  "4613": {
+   "comments": [
+    "label: bug\nfile: src/api/reports.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Make the reports list order stable so pages do not overlap or skip reports",
+     "body": "File: src/api/reports.ts\n\nThe GET /reports handler passes params.pageSize and params.offset to reportRepo.list and returns the page through toPage. When several reports share the same creation moment, the database can return them in a different order for each request, so the same report can appear on two pages while others are skipped. The reporter saw exactly this with twelve reports created by one script.\n\nProposed change: make the ordering used for paging deterministic at this call site. The list should be sorted by creation time and then by id, so every page request sees the same total order. The handler should pass that ordering to reportRepo.list (or the repo should apply it by default) and leave the rest of the response shape unchanged.\n\nNote for the reviewer: the maintainer's comment says #901 in 3.2.1 already added id ordering for reports created at the same moment, and the reporter confirmed the pages are correct on 3.2.1. Before merging, check whether the current code on the default branch already applies that tie-breaker. If it does, this pull request should be closed as a duplicate; if it does not, this change restores the guarantee."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

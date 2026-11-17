@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4619-s01-b076e6",
+ "way": "planned",
+ "issue": 4619,
+ "state": {
+  "4619": {
+   "comments": [
+    "label: feature\nfile: src/util/pagination.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Add page count and next-page flag to paginated report responses",
+     "body": "File: src/util/pagination.ts\n\nClients reading GET /reports cannot tell from a page whether another page follows, except by computing it from total and pageSize (which can move between requests as reports are created) or by requesting an extra empty page. The pagination helpers already compute what is needed: toPage() builds the page object from items, total, and params, and pageCount(total, pageSize) returns the number of pages.\n\nProposed change in this file: have toPage() also include the page count (via pageCount) and a boolean flag saying whether a page follows the current one (page < pageCount). Keep the existing fields unchanged so current clients are unaffected. The reports handler in src/api/reports.ts and the Page type in src/types.ts would then carry the new fields through to the response, and docs/API.md should describe them for GET /reports.\n\nThis is a draft for maintainer review; no code has been committed."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

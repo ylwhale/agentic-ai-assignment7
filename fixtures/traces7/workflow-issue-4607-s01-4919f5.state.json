@@ -1,0 +1,18 @@
+{
+ "run_id": "workflow-issue-4607-s01-4919f5",
+ "way": "workflow",
+ "issue": 4607,
+ "state": {
+  "4607": {
+   "comments": [
+    "label: question\nfile: none\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [],
+   "prs": [],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4625-s01-29c661",
+ "way": "planned",
+ "issue": 4625,
+ "state": {
+  "4625": {
+   "comments": [
+    "label: feature\nfile: src/exportUtils.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Add a semicolon separator option to CSV exports for German-locale Excel",
+     "body": "File: src/exportUtils.ts\n\nProblem: CSV exports always separate columns with commas. Excel with Austrian or German regional settings expects semicolons, so a double-clicked CSV opens with every line in column A. The reporter asks for a semicolon option next to the CSV format.\n\nProposed change, in prose:\n- Add a separator parameter to toDelimited, defaulting to \",\" so existing callers and the current output stay the same. Join the header and each row with that separator instead of a hard-coded comma.\n- Change escapeField so it quotes a field when it contains the active separator, a double quote, or a newline. Today it only checks for commas, so a semicolon inside a description would split the column under the new option.\n- Keep the separator choice out of the format list. SUPPORTED_FORMATS and CONTENT_TYPES stay as they are. The export entry point passes \";\" when the user picks the semicolon variant. The file extension and content type remain csv.\n- Leave the XLSX path and formatExportFilename unchanged.\n\nOpen question for review: whether the semicolon variant should be a separate format key or a option on the csv format. The reporter asked for a choice next to the format, so a separate option in the export dialog seems closest."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4606-s01-b2d4e2",
+ "way": "agent",
+ "issue": 4606,
+ "state": {
+  "4606": {
+   "comments": [
+    "label: bug\nfile: src/components/Toast.tsx\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe close button's label comes from t(\"ui.toast.dismiss\") with no locale argument, so it always falls back to English (\"Dismiss\"), even though fr.json has \"Fermer\" for that key. The draft pull request passes the user's locale through Toast and ToastProvider, as DateRangePicker already does."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Translate the toast close button's label using the user's locale",
+     "body": "File: src/components/Toast.tsx\n\nToast calls t(\"ui.toast.dismiss\") without a locale argument, so t() falls back to DEFAULT_LOCALE (\"en\") and the close button's aria-label is always \"Dismiss\", even though fr.json has \"Fermer\". The other components (DateRangePicker, ReportTable) take an optional locale prop and pass it to t(). Change Toast to accept a locale (default \"en\") and pass it as the third argument of t(), and have ToastProvider accept the same locale and hand it down to each Toast. The app shell that mounts ToastProvider should then pass the user's locale, as the other components already receive it."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

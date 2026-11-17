@@ -1,0 +1,14 @@
+# Lecture 7, slide 27's trace: its task, for Part B's metric tests (checks/FORMATS.md,
+# section 15.5). The reference is the slide's: four calls, four tools.
+id: s27
+kind: single
+issues: [4417]
+stratum: routine
+decision: act
+expect:
+  comment: {label: bug, file: src/exportUtils.ts}
+  labels: [bug]
+  pr: none
+source: "Lecture 7, slide 27"
+runs: [s27-recorded]
+reference: {calls: 4, tools: [read_issue, search_repo, read_file, post_comment]}

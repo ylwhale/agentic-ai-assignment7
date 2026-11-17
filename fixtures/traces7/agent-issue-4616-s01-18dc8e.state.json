@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4616-s01-18dc8e",
+ "way": "agent",
+ "issue": 4616,
+ "state": {
+  "4616": {
+   "comments": [
+    "label: bug\nfile: src/config.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nreadFileConfig() returns an empty config when the file is missing, without checking whether APP_CONFIG was set explicitly. A mistyped APP_CONFIG path therefore starts the service on defaults with no message. The draft PR proposes throwing an error that names the path when APP_CONFIG is set and the file is absent."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Fail loudly when an explicitly set APP_CONFIG file is missing",
+     "body": "File: src/config.ts\n\nIn readFileConfig(), the early return `if (!fs.existsSync(file)) return {};` treats a missing file the same whether it came from the default path or from an explicit APP_CONFIG value. When APP_CONFIG is set and the file does not exist, the service silently falls back to built-in defaults.\n\nProposed change: when process.env.APP_CONFIG is set and the file is missing, throw an error naming the path (for example \"APP_CONFIG points to a file that does not exist: <path>\"), so startup fails visibly. Keep the silent return only for the default config/app.yaml path, where a missing file is expected."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

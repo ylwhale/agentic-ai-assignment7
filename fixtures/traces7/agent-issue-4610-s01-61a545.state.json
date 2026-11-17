@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4610-s01-61a545",
+ "way": "agent",
+ "issue": 4610,
+ "state": {
+  "4610": {
+   "comments": [
+    "label: bug\nfile: src/api/reports.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe create schema's isoDate check in reports.ts only matches the YYYY-MM-DD shape, so calendar-impossible dates like 2027-02-29 pass validation and the database rejects them as a 500. The proposed fix (draft PR opened) makes that check also require a real calendar date, so the API returns a 400 naming the field."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Reject calendar-invalid report dates with a 400 instead of a 500",
+     "body": "File: src/api/reports.ts\n\nThe isoDate schema only checks the YYYY-MM-DD shape with a regex, so impossible dates such as 2027-02-29 or 2026-04-31 pass validation and reach the INSERT in reportRepo.create, where Postgres raises 22008 and the request becomes a 500. Tighten isoDate (used by createSchema and updateSchema) so it also requires the date to exist on the calendar, for example by round-tripping it through Date.UTC and comparing year, month and day. Zod then rejects the request with a 400 that names the from or to field, as the reporter asked."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

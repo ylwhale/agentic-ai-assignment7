@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4612-s01-b5d2e1",
+ "way": "agent",
+ "issue": 4612,
+ "state": {
+  "4612": {
+   "comments": [
+    "label: docs\nfile: docs/API.md\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe limits are enforced in src/api/reports.ts (name up to 120 characters, up to 50 categories of up to 60 characters, up to 20 schedule recipients) but the Reports section of docs/API.md does not state them. A draft pull request adds them to that section."
+   ],
+   "labels": [
+    "docs"
+   ],
+   "prs": [
+    {
+     "title": "Document the limits on report fields in the API reference",
+     "body": "File: docs/API.md\n\nThe Reports section lists the fields of POST /reports and the shape of schedule but gives no limits. The limits enforced in src/api/reports.ts are: name 1 to 120 characters (MAX_NAME_LENGTH); categories at most 50 entries, each 1 to 60 characters; schedule.recipients 1 to 20 valid email addresses; from and to in YYYY-MM-DD form with from on or before to. Add these to the Reports section of docs/API.md, next to the schedule shape, so clients can validate before sending. PATCH accepts the same limits."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

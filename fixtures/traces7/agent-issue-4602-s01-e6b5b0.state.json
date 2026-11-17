@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4602-s01-e6b5b0",
+ "way": "agent",
+ "issue": 4602,
+ "state": {
+  "4602": {
+   "comments": [
+    "label: bug\nfile: src/notifications/rollup.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe hourly scheduler only fires at the top of each UTC hour, and isRollupDue sends only when the user's local hour is 8. Zones with half-hour or quarter-hour offsets (Asia/Kolkata, America/St_Johns, Asia/Kathmandu) hit local 08:00 at :30 or :45 UTC, so their only matching tick lands at 08:30 or 08:45 local. The fix belongs in this file: tick more often and send in the first minutes after local 08:00. A draft pull request (pr-18) proposes this."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Send weekly rollup at 08:00 local for half-hour and quarter-hour zones",
+     "body": "File: src/notifications/rollup.ts\n\nThe hourly schedule (startRollupSchedule) fires only at the top of each UTC hour, and isRollupDue only matches when the local hour is 8. A zone whose offset is not a whole hour (Asia/Kolkata +05:30, America/St_Johns -03:30, Asia/Kathmandu +05:45) reaches local 08:00 at a half-past or quarter-past UTC instant, so the only tick that falls in its 08:xx hour lands at 08:30 or 08:45 local.\n\nProposed change: run the schedule more often (every 15 minutes), and make isRollupDue fire once per user per week in the first 15 minutes after local 08:00, with a guard so a user is not sent twice when two ticks fall in that window. The 24-hour first-day check can stay as it is."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

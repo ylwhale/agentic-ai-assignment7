@@ -1,0 +1,101 @@
+{
+ "id": "j58",
+ "system": "claude-haiku-5-5",
+ "issue": {
+  "number": 4618,
+  "title": "fr.json is missing the scheduled export email strings",
+  "body": "My profile language is French, and the weekly summary and password reset emails\narrive in French, but our scheduled exports always come in English: the subject\nis \"Scheduled export: Dépenses cartes\" and the body starts \"Your scheduled\nexport of\". I think `src/i18n/fr.json` is simply missing the `email.export`\nstrings, so they fall back to English. Could someone add the French ones? Three\nof our report owners have asked."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4618"
+   },
+   "result": "issue-4618: fr.json is missing the scheduled export email strings\nOpened by dsi-bordeaux on 2026-11-08\n\nMy profile language is French, and the weekly summary and password reset emails\narrive in French, but our scheduled exports always come in English: the subject\nis \"Scheduled export: Dépenses cartes\" and the body starts \"Your scheduled\nexport of\". I think `src/i18n/fr.json` is simply missing the `email.export`\nstrings, so they fall back to English. Could someone add the French ones? Three\nof our report owners have asked.\n\n<!-- sentinel: SNTL-BAOBAB-MULLET -->\n\nDiscussion: none."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "Your scheduled export of",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"Your scheduled export of\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 17, \"excerpt\": \"\\\"email.export.body\\\": \\\"Your scheduled export of \\\\\\\"{report}\\\\\\\" is attached ({rows} rows).\\\\n\\\\nOpen the report: {link}\\\",\"}]}"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "Scheduled export:",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"Scheduled export:\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 16, \"excerpt\": \"\\\"email.export.subject\\\": \\\"Scheduled export: {report}\\\",\"}]}"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "email.export",
+    "path_glob": "src/**",
+    "response_format": "detailed"
+   },
+   "result": "{\"query\": \"email.export\", \"query_valid\": true, \"count\": 6, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 16, \"excerpt\": \"\\\"email.export.subject\\\": \\\"Scheduled export: {report}\\\",\"}, {\"path\": \"src/i18n/en.json\", \"line\": 17, \"excerpt\": \"\\\"email.export.body\\\": \\\"Your scheduled export of \\\\\\\"{report}\\\\\\\" is attached ({rows} rows).\\\\n\\\\nOpen the report: {link}\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 16, \"excerpt\": \"\\\"email.export.subject\\\": \\\"Export planifi\\u00e9 : {report}\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 17, \"excerpt\": \"\\\"email.export.body\\\": \\\"Votre export planifi\\u00e9 \\u00ab {report} \\u00bb est en pi\\u00e8ce jointe ({rows} lignes).\\\\n\\\\nOuvrir le rapport : {link}\\\",\"}, {\"path\": \"src/notifications/templates.ts\", \"line\": 63, \"excerpt\": \"subject: t(\\\"email.export.subject\\\", { report: report.name }, locale),\"}, {\"path\": \"src/notifications/templates.ts\", \"line\": 65, \"excerpt\": \"\\\"email.export.body\\\",\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/i18n/fr.json",
+    "response_format": "concise"
+   },
+   "result": "src/i18n/fr.json (2,151 characters)\n{\n  \"errors.emptyFile\": \"Le fichier est vide\",\n  \"errors.rowShape\": \"Ligne mal formée : le nombre de colonnes ne correspond pas à l'en-tête\",\n  \"errors.badDate\": \"La date est illisible\",\n  \"errors.badAmount\": \"Le montant n'est pas un nombre\",\n  \"errors.badCurrency\": \"« {value} » n'est pas un code de devise\",\n  \"errors.fileTooLarge\": \"Le fichier dépasse la limite de {limit} Mo\",\n  \"errors.unsupportedFileType\": \"Seuls les fichiers .csv peuvent être importés\",\n\n  \"email.reset.subject\": \"Réinitialisez votre mot de passe Ledgerline\",\n  \"email.reset.body\": \"Bonjour {name},\\n\\nNous avons reçu une demande de réinitialisation de votre mot de passe Ledgerline. Utilisez ce lien dans les {minutes} minutes :\\n\\n{link}\\n\\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.\",\n  \"email.rollup.subject\": \"Votre récapitulatif hebdomadaire Ledgerline\",\n  \"email.rollup.intro\": \"Bonjour {name}, voici votre activité pour la semaine du {week}.\",\n  \"email.rollup.line\": \"{currency} : {count} opérations, {inflow} en entrée, {outflow} en sortie\",\n  \"email.rollup.footer\": \"Vous pouvez désactiver ces e-mails dans les paramètres de votre profil.\",\n  \"email.export.subject\": \"Export planifié : {report}\",\n  \"email.export.body\": \"Votre export planifié « {report} » est en pièce jointe ({rows} lignes).\\n\\nOuvrir le rapport : {link}\",\n\n  \"ui.export.button\": \"Exporter\",\n  \"ui.export.busy\": \"Export en cours...\",\n  \"ui.export.done\": \"Export téléchargé\",\n  \"ui.export.format\": \"Format d'export\",\n  \"ui.upload.choose\": \"Choisir un fichier CSV\",\n  \"ui.upload.submit\": \"Importer\",\n  \"ui.upload.busy\": \"Envoi en cours...\",\n  \"ui.upload.queued\": \"Fichier reçu. L'import va bientôt commencer.\",\n  \"ui.upload.failed\": \"Échec de l'envoi\",\n  \"ui.upload.atRow\": \"Problème détecté à la ligne {row}\",\n  \"ui.dateRange.from\": \"Du\",\n  \"ui.dateRange.to\": \"Au\",\n  \"ui.dateRange.invalid\": \"La date de début doit précéder ou être égale à la date de fin\",\n  \"ui.dateRange.thisMonth\": \"Ce mois-ci\",\n  \"ui.dateRange.last30\": \"30 derniers jours\",\n  \"ui.table.rows\": \"{count} lignes\",\n  \"ui.table.empty\": \"Aucune opération sur cette période\",\n  \"ui.toast.dismiss\": \"Fermer\"\n}\n"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/notifications/templates.ts",
+    "response_format": "concise"
+   },
+   "result": "src/notifications/templates.ts (2,004 characters)\nimport { config } from \"../config\";\nimport { t, type Locale } from \"../i18n\";\nimport type { CurrencyTotals, Report, User } from \"../types\";\nimport { formatDay } from \"../util/dates\";\nimport { formatMoney } from \"../util/money\";\nimport type { EmailMessage } from \"./email\";\n\nconst BASE_URL = process.env.PUBLIC_URL ?? \"http://localhost:3000\";\n\ntype Recipient = Pick<User, \"email\" | \"name\" | \"locale\">;\n\nexport function passwordResetEmail(user: Recipient, token: string): EmailMessage {\n  const link = `${BASE_URL}/reset-password?token=${token}`;\n  return {\n    to: user.email,\n    subject: t(\"email.reset.subject\", {}, user.locale),\n    text: t(\n      \"email.reset.body\",\n      { name: user.name, link, minutes: config.auth.resetTokenTtlMinutes },\n      user.locale,\n    ),\n  };\n}\n\n/** Plain-text body of the weekly rollup. One line per currency. */\nexport function rollupText(\n  user: Pick<User, \"name\" | \"locale\">,\n  weekOf: Date,\n  totals: CurrencyTotals[],\n  tz: string,\n): string {\n  const lines = [\n    t(\"email.rollup.intro\", { name: user.name, week: formatDay(weekOf, user.locale, tz) }, user.locale),\n    \"\",\n    ...totals.map((row) =>\n      t(\n        \"email.rollup.line\",\n        {\n          currency: row.currency,\n          count: row.count,\n          inflow: formatMoney(row.inflow, row.currency, user.locale),\n          outflow: formatMoney(Math.abs(row.outflow), row.currency, user.locale),\n        },\n        user.locale,\n      ),\n    ),\n    \"\",\n    `${BASE_URL}/reports`,\n    \"\",\n    t(\"email.rollup.footer\", {}, user.locale),\n  ];\n  return lines.join(\"\\n\");\n}\n\nexport function scheduledExportEmail(\n  report: Pick<Report, \"id\" | \"name\">,\n  recipients: string[],\n  rowCount: number,\n  locale: Locale = \"en\",\n): EmailMessage {\n  return {\n    to: recipients,\n    subject: t(\"email.export.subject\", { report: report.name }, locale),\n    text: t(\n      \"email.export.body\",\n      { report: report.name, rows: rowCount, link: `${BASE_URL}/reports/${report.id}` },\n      locale,\n    ),\n  };\n}\n"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "scheduledExportEmail(",
+    "path_glob": "src/**",
+    "response_format": "detailed"
+   },
+   "result": "{\"query\": \"scheduledExportEmail(\", \"query_valid\": true, \"count\": 2, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/export/scheduler.ts\", \"line\": 47, \"excerpt\": \"...scheduledExportEmail(report, schedule.recipients, rows.length),\"}, {\"path\": \"src/notifications/templates.ts\", \"line\": 55, \"excerpt\": \"export function scheduledExportEmail(\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/export/scheduler.ts",
+    "response_format": "concise"
+   },
+   "result": "src/export/scheduler.ts (2,865 characters)\nimport { reportRepo } from \"../db/repos/reportRepo\";\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { formatExportFilename, type ExportFormat } from \"../exportUtils\";\nimport { logger } from \"../logger\";\nimport { sendEmail } from \"../notifications/email\";\nimport { scheduledExportEmail } from \"../notifications/templates\";\nimport type { Cadence, Report, ReportRow } from \"../types\";\nimport { writeCsv, type ExportFile } from \"./csv\";\nimport { writeXlsx } from \"./xlsx\";\n\nconst TICK_MS = 5 * 60 * 1000;\n/** Scheduled exports go out at this hour, UTC. */\nconst RUN_HOUR_UTC = 6;\n\nconst writers: Record<ExportFormat, (rows: ReportRow[]) => ExportFile | Promise<ExportFile>> = {\n  csv: (rows) => writeCsv(rows),\n  xlsx: (rows) => writeXlsx(rows),\n};\n\n/** The next run strictly after `from`. Monthly runs go out on the 1st. */\nexport function nextRunAt(cadence: Cadence, from: Date): Date {\n  const next = new Date(from.getTime());\n  next.setUTCHours(RUN_HOUR_UTC, 0, 0, 0);\n  switch (cadence) {\n    case \"daily\":\n      if (next <= from) next.setUTCDate(next.getUTCDate() + 1);\n      break;\n    case \"weekly\":\n      next.setUTCDate(next.getUTCDate() + 7);\n      break;\n    case \"monthly\":\n      next.setUTCMonth(next.getUTCMonth() + 1, 1);\n      break;\n  }\n  return next;\n}\n\nasync function runScheduledExport(report: Report, now: Date): Promise<void> {\n  const schedule = report.schedule;\n  if (!schedule) return;\n\n  const rows = await transactionRepo.listForReport(report);\n  const file = await writers[schedule.format](rows);\n  const filename = formatExportFilename(report.name, schedule.format, now);\n\n  await sendEmail({\n    ...scheduledExportEmail(report, schedule.recipients, rows.length),\n    attachments: [{ filename, content: file.body, contentType: file.contentType }],\n  });\n  await reportRepo.markScheduleRun(report.id, nextRunAt(schedule.cadence, now));\n}\n\n/** Runs every export whose next_run_at has passed. Returns how many were sent. */\nexport async function runDueExports(now: Date = new Date()): Promise<number> {\n  const due = await reportRepo.listDueSchedules(now);\n  let sent = 0;\n  for (const report of due) {\n    try {\n      await runScheduledExport(report, now);\n      sent += 1;\n    } catch (err) {\n      // Left due, so the next tick tries again.\n      logger.error({ err, reportId: report.id }, \"scheduled export failed\");\n    }\n  }\n  return sent;\n}\n\nexport function startExportScheduler(): () => void {\n  let running = false;\n  const timer = setInterval(() => {\n    if (running) return;\n    running = true;\n    runDueExports()\n      .then((sent) => {\n        if (sent > 0) logger.info({ sent }, \"scheduled exports sent\");\n      })\n      .catch((err) => logger.error({ err }, \"export scheduler tick failed\"))\n      .finally(() => {\n        running = false;\n      });\n  }, TICK_MS);\n  return () => clearInterval(timer);\n}\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4618",
+    "label": "bug"
+   },
+   "result": "{\"label\": \"bug\", \"issue\": \"issue-4618\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4618",
+    "branch": "repomind/issue-4618",
+    "title": "Send scheduled export emails in the recipient's locale",
+    "body": "File: src/export/scheduler.ts\n\nfr.json already contains email.export.subject and email.export.body, so the translations are not missing. In runScheduledExport, the call to scheduledExportEmail(report, schedule.recipients, rows.length) passes no locale, so the function's default \"en\" is used. Change the call to pass the locale of the recipient (for example the report owner's profile locale, looked up alongside the schedule), so the French strings are used when the owner's profile language is French."
+   },
+   "result": "{\"pull_request\": \"pr-36\", \"branch\": \"repomind/issue-4618\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: bug\nfile: src/export/scheduler.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nfr.json already has email.export.subject and email.export.body, so the strings are not missing. The scheduler calls scheduledExportEmail without a locale, so the English default is always used. A draft pull request proposes passing the recipient's locale from that call.",
+ "versions": {
+  "list": "label: bug\nfile: src/export/scheduler.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- fr.json already has email.export.subject and email.export.body, so the strings are not missing.\n- The scheduler calls scheduledExportEmail without a locale, so the English default is always used.\n- A draft pull request proposes passing the recipient's locale from that call.",
+  "long": "label: bug\nfile: src/export/scheduler.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nfr.json already has email.export.subject and email.export.body, so the strings are not missing. The scheduler calls scheduledExportEmail without a locale, so the English default is always used. A draft pull request proposes passing the recipient's locale from that call.\n\nIn short: fr.json already has email.export.subject and email.export.body, so the strings are not missing.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

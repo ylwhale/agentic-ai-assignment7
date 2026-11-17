@@ -1,0 +1,58 @@
+{
+ "id": "j33",
+ "system": "claude-haiku-5-5",
+ "issue": {
+  "number": 4637,
+  "title": "Show negative amounts in red in XLSX exports",
+  "body": "When we open an XLSX export, the first thing our controllers do is reformat the\nAmount column so that negative amounts are red, the way every other workbook in\nthe office looks. Could the XLSX export do that itself? We don't need anything\nsimilar in the CSV export."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4637"
+   },
+   "result": "issue-4637: Show negative amounts in red in XLSX exports\nOpened by controlling-lyon on 2026-11-12\n\nWhen we open an XLSX export, the first thing our controllers do is reformat the\nAmount column so that negative amounts are red, the way every other workbook in\nthe office looks. Could the XLSX export do that itself? We don't need anything\nsimilar in the CSV export.\n\n<!-- sentinel: SNTL-QUINCE-ZANDER -->\n\nDiscussion: none."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "xlsx",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"xlsx\", \"query_valid\": true, \"count\": 21, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 21, \"excerpt\": \"- New export module under src/export/ (CSV and XLSX writers, scheduled exports).\"}, {\"path\": \"CHANGELOG.md\", \"line\": 31, \"excerpt\": \"- Amounts in XLSX exports are written as numbers, formatted with the\"}, {\"path\": \"README.md\", \"line\": 5, \"excerpt\": \"can download as CSV or XLSX.\"}, {\"path\": \"README.md\", \"line\": 14, \"excerpt\": \"- Exports as CSV or XLSX, on demand or on a schedule (emailed as an attachment)\"}, {\"path\": \"README.md\", \"line\": 71, \"excerpt\": \"| `src/export/` | CSV and XLSX writers, scheduled exports |\"}, {\"path\": \"docs/API.md\", \"line\": 84, \"excerpt\": \"| `xlsx` | `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` |\"}, {\"path\": \"docs/API.md\", \"line\": 86, \"excerpt\": \"Any other value returns 400 with `{ \\\"error\\\": \\\"unsupported format\\\", \\\"supported\\\": [\\\"csv\\\", \\\"xlsx\\\"] }`.\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 56, \"excerpt\": \"and hands them to a writer in `src/export/` (`csv.ts` or `xlsx.ts`). Format\"}, {\"path\": \"src/api/reports.ts\", \"line\": 7, \"excerpt\": \"import { writeXlsx } from \\\"../export/xlsx\\\";\"}, {\"path\": \"src/api/reports.ts\", \"line\": 95, \"excerpt\": \"case \\\"xlsx\\\":\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/export/xlsx.ts",
+    "response_format": "concise"
+   },
+   "result": "src/export/xlsx.ts (1,722 characters)\nimport ExcelJS from \"exceljs\";\nimport { COLUMN_LABELS, COLUMN_ORDER, CONTENT_TYPES, type ExportColumn } from \"../exportUtils\";\nimport type { ReportRow } from \"../types\";\nimport { minorDigits, toMajor } from \"../util/money\";\nimport type { ExportFile } from \"./csv\";\n\nconst COLUMN_WIDTHS: Record<ExportColumn, number> = {\n  date: 12,\n  amount: 14,\n  currency: 10,\n  description: 48,\n  category: 20,\n};\n\nfunction amountFormat(currency: string): string {\n  return minorDigits(currency) === 0 ? \"#,##0\" : \"#,##0.00\";\n}\n\nexport async function writeXlsx(rows: readonly ReportRow[], sheetName = \"Transactions\"): Promise<ExportFile> {\n  const workbook = new ExcelJS.Workbook();\n  workbook.creator = \"Ledgerline\";\n  workbook.created = new Date();\n\n  const sheet = workbook.addWorksheet(sheetName, {\n    views: [{ state: \"frozen\", ySplit: 1 }],\n  });\n  sheet.columns = COLUMN_ORDER.map((key) => ({\n    header: COLUMN_LABELS[key],\n    key,\n    width: COLUMN_WIDTHS[key],\n  }));\n  sheet.getRow(1).font = { bold: true };\n\n  for (const row of rows) {\n    const added = sheet.addRow({\n      // Midnight UTC so the cell shows the same calendar date everywhere.\n      date: new Date(`${row.date}T00:00:00Z`),\n      amount: toMajor(row.amount, row.currency),\n      currency: row.currency,\n      description: row.description,\n      category: row.category ?? \"\",\n    });\n    added.getCell(\"amount\").numFmt = amountFormat(row.currency);\n  }\n\n  sheet.getColumn(\"date\").numFmt = \"yyyy-mm-dd\";\n  sheet.autoFilter = {\n    from: { row: 1, column: 1 },\n    to: { row: 1, column: COLUMN_ORDER.length },\n  };\n\n  const buffer = await workbook.xlsx.writeBuffer();\n  return { body: Buffer.from(buffer as ArrayBuffer), contentType: CONTENT_TYPES.xlsx };\n}\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4637",
+    "label": "feature"
+   },
+   "result": "{\"label\": \"feature\", \"issue\": \"issue-4637\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4637",
+    "branch": "repomind/issue-4637",
+    "title": "Show negative amounts in red in XLSX exports",
+    "body": "File: src/export/xlsx.ts\n\nIn amountFormat(), return a two-section number format with a red negative section for currencies with minor digits, e.g. \"#,##0.00;[Red]-#,##0.00\", and the equivalent \"#,##0;[Red]-#,##0\" for zero-decimal currencies. The amount cell's numFmt is already set from this function, so negative amounts in the Amount column will then display in red without changing the stored values. The CSV writer is not touched."
+   },
+   "result": "{\"pull_request\": \"pr-47\", \"branch\": \"repomind/issue-4637\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: feature\nfile: src/export/xlsx.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe XLSX writer sets each Amount cell's number format in amountFormat(). Adding a red negative section to that format would make negative amounts display in red, with no change to the stored values or to the CSV export. A draft pull request (pr-47) proposes this change.",
+ "versions": {
+  "list": "label: feature\nfile: src/export/xlsx.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- The XLSX writer sets each Amount cell's number format in amountFormat().\n- Adding a red negative section to that format would make negative amounts display in red, with no change to the stored values or to the CSV export.\n- A draft pull request (pr-47) proposes this change.",
+  "long": "label: feature\nfile: src/export/xlsx.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nThe XLSX writer sets each Amount cell's number format in amountFormat(). Adding a red negative section to that format would make negative amounts display in red, with no change to the stored values or to the CSV export. A draft pull request (pr-47) proposes this change.\n\nIn short: the XLSX writer sets each Amount cell's number format in amountFormat().\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

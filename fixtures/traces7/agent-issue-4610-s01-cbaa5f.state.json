@@ -1,0 +1,23 @@
+{
+ "run_id": "agent-issue-4610-s01-cbaa5f",
+ "way": "agent",
+ "issue": 4610,
+ "state": {
+  "4610": {
+   "comments": [],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Reject calendar-invalid dates such as 2027-02-29 with a 400 on reports",
+     "body": "File: src/api/reports.ts\n\nThe isoDate schema (line 28) only checks the YYYY-MM-DD shape with a regex, so impossible dates like 2027-02-29 or 2026-04-31 pass validation and reach Postgres, which rejects them with error 22008 and the API returns a 500. Add a refinement to isoDate that parses the value and confirms it round-trips to the same calendar date (for example via Date.UTC and comparing year, month and day), with a message such as \"not a valid calendar date\". Zod validation failures already become 400 responses naming the field, so the from and to fields would then get a 400 instead of a 500."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

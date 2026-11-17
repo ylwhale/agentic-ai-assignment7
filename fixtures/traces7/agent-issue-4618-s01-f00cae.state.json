@@ -1,0 +1,16 @@
+{
+ "run_id": "agent-issue-4618-s01-f00cae",
+ "way": "agent",
+ "issue": 4618,
+ "state": {
+  "4618": {
+   "comments": [],
+   "labels": [],
+   "prs": [],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

@@ -1,0 +1,16 @@
+{
+ "run_id": "agent-issue-4601-s01-425ff8",
+ "way": "agent",
+ "issue": 4601,
+ "state": {
+  "4601": {
+   "comments": [],
+   "labels": [],
+   "prs": [],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

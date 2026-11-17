@@ -1,0 +1,67 @@
+{
+ "id": "j07",
+ "system": "claude-sonnet-5-5",
+ "issue": {
+  "number": 4620,
+  "title": "Login says \"validation failed\" when the email has a trailing space",
+  "body": "On iPhones, picking the email address from the keyboard's suggestion bar adds a\nspace after it. The login request then comes back with\n\n    400 {\"error\":\"validation failed\",\"details\":{\"email\":[\"Invalid email\"]}}\n\ninstead of signing in, and our sales team thinks their accounts are broken.\nTyping the same address by hand works. The \"Forgot password\" form does the\nsame with the suggested address."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4620"
+   },
+   "result": "issue-4620: Login says \"validation failed\" when the email has a trailing space\nOpened by field-sales-ops-tx on 2026-11-08\n\nOn iPhones, picking the email address from the keyboard's suggestion bar adds a\nspace after it. The login request then comes back with\n\n    400 {\"error\":\"validation failed\",\"details\":{\"email\":[\"Invalid email\"]}}\n\ninstead of signing in, and our sales team thinks their accounts are broken.\nTyping the same address by hand works. The \"Forgot password\" form does the\nsame with the suggested address.\n\n<!-- sentinel: SNTL-BALSA-GROUPER -->\n\nDiscussion: none."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "Invalid email",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"Invalid email\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/api/auth.ts\", \"line\": 76, \"excerpt\": \"if (!user || !ok) throw new HttpError(401, \\\"invalid email or password\\\");\"}]}"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "email",
+    "path_glob": "src/**",
+    "response_format": "detailed"
+   },
+   "result": "{\"query\": \"email\", \"query_valid\": true, \"count\": 80, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/Report.ts\", \"line\": 6, \"excerpt\": \"/** Email addresses the report was delivered to; empty until delivery. */\"}, {\"path\": \"src/api/auth.ts\", \"line\": 9, \"excerpt\": \"import { sendEmail } from \\\"../notifications/email\\\";\"}, {\"path\": \"src/api/auth.ts\", \"line\": 10, \"excerpt\": \"import { passwordResetEmail } from \\\"../notifications/templates\\\";\"}, {\"path\": \"src/api/auth.ts\", \"line\": 27, \"excerpt\": \"email: z.string().email(),\"}, {\"path\": \"src/api/auth.ts\", \"line\": 32, \"excerpt\": \"email: z.string().email(),\"}, {\"path\": \"src/api/auth.ts\", \"line\": 43, \"excerpt\": \"return jwt.sign({ sub: user.id, email: user.email }, config.auth.jwtSigningKey, {\"}, {\"path\": \"src/api/auth.ts\", \"line\": 56, \"excerpt\": \"req.user = { id: String(payload.sub), email: String(payload.email) };\"}, {\"path\": \"src/api/auth.ts\", \"line\": 73, \"excerpt\": \"const { email, password } = loginSchema.parse(req.body);\"}, {\"path\": \"src/api/auth.ts\", \"line\": 74, \"excerpt\": \"const user = await userRepo.findByEmail(email);\"}, {\"path\": \"src/api/auth.ts\", \"line\": 76, \"excerpt\": \"if (!user || !ok) throw new HttpError(401, \\\"invalid email or password\\\");\"}, {\"path\": \"src/api/auth.ts\", \"line\": 84, \"excerpt\": \"const { email } = resetRequestSchema.parse(req.body);\"}, {\"path\": \"src/api/auth.ts\", \"line\": 85, \"excerpt\": \"const user = await userRepo.findByEmail(email);\"}, {\"path\": \"src/api/auth.ts\", \"line\": 89, \"excerpt\": \"// Only the hash is stored; the raw token exists in the email and nowhere else.\"}, {\"path\": \"src/api/auth.ts\", \"line\": 91, \"excerpt\": \"await sendEmail(passwordResetEmail(user, token));\"}, {\"path\": \"src/api/reports.ts\", \"line\": 33, \"excerpt\": \"recipients: z.array(z.string().email()).min(1).max(20),\"}, {\"path\": \"src/api/reports.ts\", \"line\": 175, \"excerpt\": \"// A copy never inherits the schedule; nobody wants two identical emails.\"}, {\"path\": \"src/db/migrations/001_init.sql\", \"line\": 7, \"excerpt\": \"email          text NOT NULL,\"}, {\"path\": \"src/db/migrations/001_init.sql\", \"line\": 14, \"excerpt\": \"CREATE UNIQUE INDEX users_email_lower_idx ON users (lower(email));\"}, {\"path\": \"src/db/migrations/003_timezone.sql\", \"line\": 2, \"excerpt\": \"-- Used to decide when a user's week starts for the weekly rollup email.\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 7, \"excerpt\": \"email: string;\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/api/auth.ts",
+    "response_format": "concise"
+   },
+   "result": "src/api/auth.ts (3,714 characters)\nimport { createHash, randomBytes } from \"crypto\";\nimport bcrypt from \"bcryptjs\";\nimport { Router, type NextFunction, type Request, type Response } from \"express\";\nimport jwt from \"jsonwebtoken\";\nimport { z } from \"zod\";\nimport { config } from \"../config\";\nimport { userRepo } from \"../db/repos/userRepo\";\nimport { logger } from \"../logger\";\nimport { sendEmail } from \"../notifications/email\";\nimport { passwordResetEmail } from \"../notifications/templates\";\nimport type { AuthUser } from \"../types\";\nimport { addMinutes } from \"../util/dates\";\nimport { asyncHandler, HttpError } from \"./errors\";\n\ndeclare global {\n  // eslint-disable-next-line @typescript-eslint/no-namespace\n  namespace Express {\n    interface Request {\n      user?: AuthUser;\n    }\n  }\n}\n\nconst BCRYPT_ROUNDS = 12;\n\nconst loginSchema = z.object({\n  email: z.string().email(),\n  password: z.string().min(1),\n});\n\nconst resetRequestSchema = z.object({\n  email: z.string().email(),\n});\n\nconst resetConfirmSchema = z.object({\n  token: z.string().min(32).max(128),\n  password: z.string().min(10).max(200),\n});\n\nconst sha256 = (value: string) => createHash(\"sha256\").update(value).digest(\"hex\");\n\nexport function issueToken(user: AuthUser): string {\n  return jwt.sign({ sub: user.id, email: user.email }, config.auth.jwtSigningKey, {\n    expiresIn: `${config.auth.tokenTtlMinutes}m`,\n  });\n}\n\nexport function requireAuth(req: Request, _res: Response, next: NextFunction): void {\n  const [scheme, token] = (req.header(\"authorization\") ?? \"\").split(\" \");\n  if (scheme !== \"Bearer\" || !token) {\n    next(new HttpError(401, \"authentication required\"));\n    return;\n  }\n  try {\n    const payload = jwt.verify(token, config.auth.jwtSigningKey) as jwt.JwtPayload;\n    req.user = { id: String(payload.sub), email: String(payload.email) };\n    next();\n  } catch {\n    next(new HttpError(401, \"invalid or expired token\"));\n  }\n}\n\nexport function currentUser(req: Request): AuthUser {\n  if (!req.user) throw new HttpError(401, \"authentication required\");\n  return req.user;\n}\n\nexport const authRouter = Router();\n\nauthRouter.post(\n  \"/login\",\n  asyncHandler(async (req, res) => {\n    const { email, password } = loginSchema.parse(req.body);\n    const user = await userRepo.findByEmail(email);\n    const ok = user ? await bcrypt.compare(password, user.passwordHash) : false;\n    if (!user || !ok) throw new HttpError(401, \"invalid email or password\");\n    res.json({ token: issueToken(user), expiresInMinutes: config.auth.tokenTtlMinutes });\n  }),\n);\n\nauthRouter.post(\n  \"/password-reset\",\n  asyncHandler(async (req, res) => {\n    const { email } = resetRequestSchema.parse(req.body);\n    const user = await userRepo.findByEmail(email);\n    if (user) {\n      const token = randomBytes(32).toString(\"hex\");\n      const expiresAt = addMinutes(new Date(), config.auth.resetTokenTtlMinutes);\n      // Only the hash is stored; the raw token exists in the email and nowhere else.\n      await userRepo.createResetToken(user.id, sha256(token), expiresAt);\n      await sendEmail(passwordResetEmail(user, token));\n      logger.info({ userId: user.id }, \"password reset requested\");\n    }\n    // Same response whether or not the account exists.\n    res.status(202).json({ ok: true });\n  }),\n);\n\nauthRouter.post(\n  \"/password-reset/confirm\",\n  asyncHandler(async (req, res) => {\n    const { token, password } = resetConfirmSchema.parse(req.body);\n    const userId = await userRepo.consumeResetToken(sha256(token));\n    if (!userId) throw new HttpError(400, \"reset link is invalid or has expired\");\n    await userRepo.setPassword(userId, await bcrypt.hash(password, BCRYPT_ROUNDS));\n    logger.info({ userId }, \"password reset completed\");\n    res.status(204).end();\n  }),\n);\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4620",
+    "label": "bug"
+   },
+   "result": "{\"label\": \"bug\", \"issue\": \"issue-4620\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4620",
+    "branch": "repomind/issue-4620",
+    "title": "Trim whitespace from email in login and password-reset schemas",
+    "body": "File: src/api/auth.ts\n\nloginSchema and resetRequestSchema use z.string().email(), which rejects an address with a trailing space (added by the iOS suggestion bar). Change both to z.string().trim().email() so the whitespace is stripped before validation and before findByEmail is called."
+   },
+   "result": "{\"pull_request\": \"pr-15\", \"branch\": \"repomind/issue-4620\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: bug\nfile: src/api/auth.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nIn src/api/auth.ts, loginSchema and resetRequestSchema validate the email with z.string().email(), and that rejects a trailing space. The login and \"Forgot password\" forms fail the same way. The draft PR (pr-15) adds .trim() before .email() in both schemas.",
+ "versions": {
+  "list": "label: bug\nfile: src/api/auth.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- In src/api/auth.ts, loginSchema and resetRequestSchema validate the email with z.string().email(), and that rejects a trailing space.\n- The login and \"Forgot password\" forms fail the same way.\n- The draft PR (pr-15) adds .trim() before .email() in both schemas.",
+  "long": "label: bug\nfile: src/api/auth.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nIn src/api/auth.ts, loginSchema and resetRequestSchema validate the email with z.string().email(), and that rejects a trailing space. The login and \"Forgot password\" forms fail the same way. The draft PR (pr-15) adds .trim() before .email() in both schemas.\n\nIn short: in src/api/auth.ts, loginSchema and resetRequestSchema validate the email with z.string().email(), and that rejects a trailing space.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

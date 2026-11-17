@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4635-s01-cb51e0",
+ "way": "planned",
+ "issue": 4635,
+ "state": {
+  "4635": {
+   "comments": [
+    "label: bug\nfile: src/api/reports.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Compute report totals in the database instead of loading every row",
+     "body": "File: src/api/reports.ts\n\nThe GET /reports/:id/totals handler (route at line 185) times out and runs out of memory on reports with about 1.6 million transactions. The file read in this run stopped at the start of that handler, so the rest of its body was not seen. The proposal is based on the helper it uses, totalsByCurrency (line 79), which walks every ReportRow in memory to build count, inflow and outflow per currency. Loading all those rows for a totals-only request is what causes the multi-second runtime, the statement timeout and the gigabyte memory jump.\n\nProposed change: have the totals route ask the database for the three aggregates per currency and not fetch the rows. transactionRepo already has totalsBetween(userId, from, to) at src/db/repos/transactionRepo.ts line 65, which returns CurrencyTotals[]. Check whether it covers the report's account and categories filters; if it does not, extend it so it applies the same filters as listForReport, using GROUP BY currency with COUNT and SUM split on amount sign in SQL. The route would then return that result directly, and totalsByCurrency would be used only by callers that still need in-memory rows, or removed if none remain.\n\nExpected result: totals for large reports return in a single aggregate query, and memory no longer scales with transaction count. Confirm the output shape matches the current response (count, inflow, outflow per currency, sorted by currency) and cover a large report in a test.\n\nThis is a draft for review. The handler body was not read in full in this run, so verify the change against it before merging."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

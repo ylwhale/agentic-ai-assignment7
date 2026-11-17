@@ -1,0 +1,18 @@
+{
+ "run_id": "direct-issue-4636-s01-548b9b",
+ "way": "direct",
+ "issue": 4636,
+ "state": {
+  "4636": {
+   "comments": [
+    "label: bug\nfile: src/ingest/parser.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [],
+   "prs": [],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

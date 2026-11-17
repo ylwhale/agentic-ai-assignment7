@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4630-s01-396d87",
+ "way": "agent",
+ "issue": 4630,
+ "state": {
+  "4630": {
+   "comments": [
+    "label: feature\nfile: src/util/dates.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe date parser (parseStatementDate) accepts day-first dates only with a four-digit year, so 31/10/26 is rejected and the row fails with \"The date could not be read\". Supporting two-digit years as 20xx would go in that function. A draft pull request is open with the proposed change."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Accept two-digit years in day-first statement dates",
+     "body": "File: src/util/dates.ts\n\nparseStatementDate only matches DAY_FIRST with a four-digit year (\\d{4}), so 31/10/26 is rejected with errors.badDate. Extend DAY_FIRST to accept a two-digit year as well, and map a two-digit year to 20xx (for example 26 becomes 2026), keeping the existing calendar check so impossible dates still return null. Four-digit years and the ISO format should behave as before."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

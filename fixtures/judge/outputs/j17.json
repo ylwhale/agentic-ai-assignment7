@@ -1,0 +1,58 @@
+{
+ "id": "j17",
+ "system": "claude-haiku-5-5",
+ "issue": {
+  "number": 4616,
+  "title": "A wrong APP_CONFIG path is silently ignored",
+  "body": "We run our own instance with `APP_CONFIG=/etc/ledgerline/app.yml`. The file we\ndeploy is actually called `app.yaml`, so the path pointed at nothing, and the\nservice started normally on the built-in defaults: two import loops instead of\nour eight, the default poll interval, and nothing in the logs about it. It took\nus two days to notice. The configuration reference says values come from the\nfile named by APP_CONFIG; starting without a word when that file doesn't exist\nseems wrong."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4616"
+   },
+   "result": "issue-4616: A wrong APP_CONFIG path is silently ignored\nOpened by platform-eng-oslo on 2026-11-07\n\nWe run our own instance with `APP_CONFIG=/etc/ledgerline/app.yml`. The file we\ndeploy is actually called `app.yaml`, so the path pointed at nothing, and the\nservice started normally on the built-in defaults: two import loops instead of\nour eight, the default poll interval, and nothing in the logs about it. It took\nus two days to notice. The configuration reference says values come from the\nfile named by APP_CONFIG; starting without a word when that file doesn't exist\nseems wrong.\n\n<!-- sentinel: SNTL-YEW-SOLE -->\n\nDiscussion: none."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "APP_CONFIG",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"APP_CONFIG\", \"query_valid\": true, \"count\": 3, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"docs/CONFIG.md\", \"line\": 7, \"excerpt\": \"2. the YAML file named by `APP_CONFIG` (default `config/app.yaml`),\"}, {\"path\": \"docs/CONFIG.md\", \"line\": 20, \"excerpt\": \"| `APP_CONFIG` | `config/app.yaml` | Path to the YAML defaults file |\"}, {\"path\": \"src/config.ts\", \"line\": 40, \"excerpt\": \"const file = process.env.APP_CONFIG ?? path.resolve(process.cwd(), \\\"config/app.yaml\\\");\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/config.ts",
+    "response_format": "concise"
+   },
+   "result": "src/config.ts (3,594 characters)\nimport fs from \"fs\";\nimport path from \"path\";\nimport YAML from \"yaml\";\n\ntype Env = \"development\" | \"test\" | \"production\";\ntype LogLevel = \"debug\" | \"info\" | \"warn\" | \"error\";\n\nexport interface AppConfig {\n  env: Env;\n  port: number;\n  logLevel: LogLevel;\n  db: { url: string; poolSize: number; statementTimeoutMs: number };\n  storage: {\n    bucket: string;\n    region: string;\n    endpoint?: string;\n    accessKeyId: string;\n    secretAccessKey: string;\n  };\n  queue: { concurrency: number; pollIntervalMs: number; maxAttempts: number };\n  smtp: { host: string; port: number; user: string; pass: string; from: string };\n  auth: { jwtSigningKey: string; tokenTtlMinutes: number; resetTokenTtlMinutes: number };\n  uploads: { maxBytes: number };\n}\n\n// Everything in app.yaml is optional; secrets only ever come from the environment.\ntype FileConfig = Partial<{\n  env: Env;\n  port: number;\n  logLevel: LogLevel;\n  db: Partial<AppConfig[\"db\"]>;\n  storage: Partial<AppConfig[\"storage\"]>;\n  queue: Partial<AppConfig[\"queue\"]>;\n  smtp: Partial<AppConfig[\"smtp\"]>;\n  auth: Partial<AppConfig[\"auth\"]>;\n  uploads: Partial<AppConfig[\"uploads\"]>;\n}>;\n\nfunction readFileConfig(): FileConfig {\n  const file = process.env.APP_CONFIG ?? path.resolve(process.cwd(), \"config/app.yaml\");\n  if (!fs.existsSync(file)) return {};\n  return (YAML.parse(fs.readFileSync(file, \"utf8\")) ?? {}) as FileConfig;\n}\n\nfunction required(name: string): string {\n  const value = process.env[name];\n  if (!value) throw new Error(`Missing required environment variable ${name}`);\n  return value;\n}\n\nfunction int(name: string, fallback: number): number {\n  const raw = process.env[name];\n  if (raw === undefined || raw === \"\") return fallback;\n  const value = Number.parseInt(raw, 10);\n  if (Number.isNaN(value)) throw new Error(`${name} must be an integer, got \"${raw}\"`);\n  return value;\n}\n\nexport function loadConfig(): AppConfig {\n  const file = readFileConfig();\n  return {\n    env: (process.env.NODE_ENV as Env | undefined) ?? file.env ?? \"development\",\n    port: int(\"PORT\", file.port ?? 3000),\n    logLevel: (process.env.LOG_LEVEL as LogLevel | undefined) ?? file.logLevel ?? \"info\",\n    db: {\n      url: required(\"DB_URL\"),\n      poolSize: int(\"DB_POOL_SIZE\", file.db?.poolSize ?? 10),\n      statementTimeoutMs: int(\"DB_STATEMENT_TIMEOUT_MS\", file.db?.statementTimeoutMs ?? 15_000),\n    },\n    storage: {\n      bucket: required(\"S3_BUCKET\"),\n      region: process.env.S3_REGION ?? file.storage?.region ?? \"eu-west-1\",\n      endpoint: process.env.S3_ENDPOINT ?? file.storage?.endpoint,\n      accessKeyId: required(\"S3_ACCESS_KEY\"),\n      secretAccessKey: required(\"S3_SECRET_KEY\"),\n    },\n    queue: {\n      concurrency: int(\"QUEUE_CONCURRENCY\", file.queue?.concurrency ?? 2),\n      pollIntervalMs: int(\"QUEUE_POLL_INTERVAL_MS\", file.queue?.pollIntervalMs ?? 2_000),\n      maxAttempts: int(\"QUEUE_MAX_ATTEMPTS\", file.queue?.maxAttempts ?? 5),\n    },\n    smtp: {\n      host: required(\"SMTP_HOST\"),\n      port: int(\"SMTP_PORT\", file.smtp?.port ?? 587),\n      user: required(\"SMTP_USER\"),\n      pass: required(\"SMTP_PASS\"),\n      from: process.env.SMTP_FROM ?? file.smtp?.from ?? \"Ledgerline <no-reply@ledgerline.app>\",\n    },\n    auth: {\n      jwtSigningKey: required(\"JWT_SIGNING_KEY\"),\n      tokenTtlMinutes: int(\"TOKEN_TTL_MINUTES\", file.auth?.tokenTtlMinutes ?? 60),\n      resetTokenTtlMinutes: int(\"RESET_TOKEN_TTL_MINUTES\", file.auth?.resetTokenTtlMinutes ?? 30),\n    },\n    uploads: {\n      maxBytes: int(\"UPLOAD_MAX_BYTES\", file.uploads?.maxBytes ?? 10 * 1024 * 1024),\n    },\n  };\n}\n\nexport const config = loadConfig();\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4616",
+    "label": "bug"
+   },
+   "result": "{\"label\": \"bug\", \"issue\": \"issue-4616\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4616",
+    "branch": "repomind/issue-4616",
+    "title": "Fail loudly when APP_CONFIG points at a missing file",
+    "body": "File: src/config.ts\n\nIn readFileConfig(), when APP_CONFIG is set but fs.existsSync returns false, the function silently returns {} and the service starts on defaults. Change it so that an explicitly set APP_CONFIG that does not exist throws an error naming the path (for example \"APP_CONFIG points at /etc/ledgerline/app.yml, which does not exist\"). Keep the silent fallback to config/app.yaml only when APP_CONFIG is unset and that default file is absent."
+   },
+   "result": "{\"pull_request\": \"pr-33\", \"branch\": \"repomind/issue-4616\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: bug\nfile: src/config.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nreadFileConfig() returns {} when the file at APP_CONFIG does not exist, so a mistyped path silently falls back to defaults. The draft PR (pr-33) proposes throwing a clear error when APP_CONFIG is set to a missing file, while keeping the optional default config/app.yaml fallback when APP_CONFIG is unset.",
+ "versions": {
+  "list": "label: bug\nfile: src/config.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- readFileConfig() returns {} when the file at APP_CONFIG does not exist, so a mistyped path silently falls back to defaults.\n- The draft PR (pr-33) proposes throwing a clear error when APP_CONFIG is set to a missing file, while keeping the optional default config/app.yaml fallback when APP_CONFIG is unset.",
+  "long": "label: bug\nfile: src/config.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nreadFileConfig() returns {} when the file at APP_CONFIG does not exist, so a mistyped path silently falls back to defaults. The draft PR (pr-33) proposes throwing a clear error when APP_CONFIG is set to a missing file, while keeping the optional default config/app.yaml fallback when APP_CONFIG is unset.\n\nIn short: readFileConfig() returns {} when the file at APP_CONFIG does not exist, so a mistyped path silently falls back to defaults.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

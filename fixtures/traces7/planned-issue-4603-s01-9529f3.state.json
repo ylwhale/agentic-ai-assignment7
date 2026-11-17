@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4603-s01-9529f3",
+ "way": "planned",
+ "issue": 4603,
+ "state": {
+  "4603": {
+   "comments": [
+    "label: bug\nfile: src/util/money.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Parse dot-grouped thousands in bank amounts such as 12.500 CLP correctly",
+     "body": "File: src/util/money.ts\n\nProblem: parseAmount() only treats \".\" as a decimal point and only strips \",\" as a grouping separator. A Chilean-style amount such as \"12.500\" is read as 12.5, and for CLP (zero minor digits) Math.round turns that into 13, which matches the reported CLP 13. \"8.990\" becomes 8.99 and then 9. A value with several grouping dots, such as \"-1.250.000\", fails the /^\\d+(\\.\\d+)?$/ check and returns null, which is where \"The amount is not a number\" comes from.\n\nProposed change: in parseAmount(), when minorDigits(currency) is 0, treat a \".\" followed by exactly three digits as a thousands separator and remove it before the numeric check, so \"12.500\" parses to 12500 and \"-1.250.000\" parses to -1250000. Keep the existing behaviour for two-decimal currencies, so \"12.50\" and \"1,234.56\" are unchanged. Add unit tests for CLP amounts with dot grouping, negative CLP amounts, and the unchanged EUR cases.\n\nNote: the reporter suspected a division in src/components/ReportTable.tsx. The formatting path in money.ts (toMajor, formatMinor, formatMoney) looks correct for zero-decimal currencies, so the fault appears to be in parsing. Confirm against the bank file once the fix is in."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

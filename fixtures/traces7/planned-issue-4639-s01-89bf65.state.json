@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4639-s01-89bf65",
+ "way": "planned",
+ "issue": 4639,
+ "state": {
+  "4639": {
+   "comments": [
+    "label: feature\nfile: src/api/health.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Health check reports object storage reachability as a third check",
+     "body": "File: src/api/health.ts\n\nThe readiness handler in this file builds `checks` from only two dependencies, `db` and `queue`, so `/api/v1/health` can return `\"status\": \"ok\"` while uploads fail because the object storage bucket is unreachable. The load balancer relies on this endpoint, so it never sees the outage.\n\nProposed change, in prose: in the readiness handler (the route mounted at \"/\"), add a third check named for the bucket, for example `storage`, alongside `db` and `queue`. Probe the bucket with a short timeout, using the same kind of lightweight call the upload path depends on, and mark the check \"ok\" when the probe succeeds and \"down\" when it fails or times out. Include the new check in the `checks` object in the response.\n\nFold the storage result into the overall status the same way the database result is handled: a storage failure makes the overall status \"degraded\" and the HTTP code stays 200 for that case, unless storage is treated as required for readiness, in which case it should be \"down\" with a 503. The team should decide which of these applies, since the load balancer's behaviour depends on it. The liveness route at \"/live\" should stay unchanged and must not call the bucket.\n\nDocs in docs/API.md describe the `/health` response shape and should list the new check once this lands."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

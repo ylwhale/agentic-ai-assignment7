@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4623-s01-14d866",
+ "way": "planned",
+ "issue": 4623,
+ "state": {
+  "4623": {
+   "comments": [
+    "label: docs\nfile: docs/API.md\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "docs"
+   ],
+   "prs": [
+    {
+     "title": "Document the amount formats uploads accept in the Uploads section",
+     "body": "File: docs/API.md\n\nThe Uploads section (around line 35) lists the date formats uploads read but says nothing about amounts. Add a short paragraph under Uploads describing the amount formats the parser accepts. The parser is parseAmount in src/util/money.ts, which accepts \"1234.56\", \"1,234.56\", \"-12.5\", \"+3\", \"(12.50)\" for a negative amount, and a leading €, $, £ or ¥.\n\nProposed paragraph, as the issue's reporter drafted it:\n\nAmounts may use a dot for decimals and commas between thousands, a leading + or -, parentheses for a negative amount, and a leading €, $, £ or ¥.\n\nBefore merging, check the wording against parseAmount. It strips currency symbols and whitespace wherever they appear, not only at the start, and it does not check where thousands commas fall. The paragraph should describe what is supported, so \"leading\" may need softening or a note on that behaviour.\n\nThis is a documentation change only. No code changes. It is opened as a draft pull request for review rather than pushed to main, so the change gets a normal review.\n"
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

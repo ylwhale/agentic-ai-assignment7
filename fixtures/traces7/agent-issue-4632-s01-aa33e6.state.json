@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4632-s01-aa33e6",
+ "way": "agent",
+ "issue": 4632,
+ "state": {
+  "4632": {
+   "comments": [
+    "label: docs\nfile: docs/ARCHITECTURE.md\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe Notifications section says the weekly rollup goes out every Monday at 08:00 and does not mention that it is skipped. In src/notifications/rollup.ts, sendWeeklyRollups skips a user when there are no totals for the previous week, so the page should say empty weeks get no email. A draft pull request (pr-29) proposes that wording."
+   ],
+   "labels": [
+    "docs"
+   ],
+   "prs": [
+    {
+     "title": "Document that the weekly rollup email is skipped for weeks with no transactions",
+     "body": "File: docs/ARCHITECTURE.md\n\nIn the \"Notifications\" section, the weekly rollup bullet says the email is sent on Monday at 08:00 in each user's time zone. Add that the email is not sent when the previous week has no transactions on any of the user's accounts, since sendWeeklyRollups in src/notifications/rollup.ts skips a user whose totals for that week are empty (counted as \"skipped\", not sent). Users who see no Monday email in a quiet week will then know this is expected."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

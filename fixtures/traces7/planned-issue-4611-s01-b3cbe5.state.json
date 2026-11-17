@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4611-s01-b3cbe5",
+ "way": "planned",
+ "issue": 4611,
+ "state": {
+  "4611": {
+   "comments": [
+    "label: bug\nfile: src/ingest/schema.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Accept amounts under one euro written without a leading zero, such as -.75 and .50",
+     "body": "File: src/ingest/schema.ts\n\nThe row check in toTransaction calls parseAmount(row.amount, currency) and throws errors.badAmount (\"The amount is not a number\") when the result is null, at line 42. Amounts such as `-.75` and `.50` come back null, while `-1,204.10` parses correctly, so the rejection comes from the amount parsing rather than from the row checks around it.\n\nProposed change: make the amount parsing accept a sign followed directly by a decimal point with no integer digits, and a bare leading decimal point, treating `-.75` as -0.75 and `.50` as 0.50 before the value is validated. Keep thousands separators working as they do now, and keep rejecting strings that are not numbers. The change belongs in the parsing that schema.ts relies on; the function parseAmount lives in src/util/money.ts, which was not read in this triage, so the exact edit there should be confirmed when the pull request is reviewed.\n\nAdd a test with a file containing `-.75`, `.50` and `-1,204.10` in the same import, and confirm all three rows import with the expected amounts."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

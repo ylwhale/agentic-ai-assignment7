@@ -1,0 +1,67 @@
+{
+ "id": "j09",
+ "system": "claude-sonnet-5-5",
+ "issue": {
+  "number": 4601,
+  "title": "Statements with quoted column names are rejected at row 1",
+  "body": "Since our bank changed its export last week, every statement we upload is\nrejected straight away with\n\n    Malformed row: the number of columns does not match the header\n\nand \"Problem found at row 1\". The first line of the file is\n`\"Date\",\"Amount\",\"Description\",\"Reference\"`, with every name in double quotes.\nIf I delete the quotes on that first line only and upload again, the whole file\nimports, quotes on the transaction lines and all.\n## Discussion\n\n### lena-k (maintainer) · 2026-11-03\nThanks. Do the transaction lines have quotes around every field as well?\n\n### treasury-ops-lund · 2026-11-03\nYes, every field on every line is quoted, and those lines are read fine once\nthe first line has no quotes."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4601"
+   },
+   "result": "issue-4601: Statements with quoted column names are rejected at row 1\nOpened by treasury-ops-lund on 2026-11-02\n\nSince our bank changed its export last week, every statement we upload is\nrejected straight away with\n\n    Malformed row: the number of columns does not match the header\n\nand \"Problem found at row 1\". The first line of the file is\n`\"Date\",\"Amount\",\"Description\",\"Reference\"`, with every name in double quotes.\nIf I delete the quotes on that first line only and upload again, the whole file\nimports, quotes on the transaction lines and all.\n\n<!-- sentinel: SNTL-ALDER-MARLIN -->\n\nDiscussion (2 comments, written by people):\n\n--- lena-k (maintainer), 2026-11-03\nThanks. Do the transaction lines have quotes around every field as well?\n\n--- treasury-ops-lund, 2026-11-03\nYes, every field on every line is quoted, and those lines are read fine once\nthe first line has no quotes."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "number of columns does not match",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"number of columns does not match\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 3, \"excerpt\": \"\\\"errors.rowShape\\\": \\\"Malformed row: the number of columns does not match the header\\\",\"}]}"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "errors.rowShape",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"errors.rowShape\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 3, \"excerpt\": \"\\\"errors.rowShape\\\": \\\"Malformed row: the number of columns does not match the header\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 3, \"excerpt\": \"\\\"errors.rowShape\\\": \\\"Ligne mal form\\u00e9e : le nombre de colonnes ne correspond pas \\u00e0 l'en-t\\u00eate\\\",\"}, {\"path\": \"src/ingest/errors.ts\", \"line\": 8, \"excerpt\": \"| \\\"errors.rowShape\\\"\"}, {\"path\": \"src/ingest/parser.ts\", \"line\": 60, \"excerpt\": \"throw new IngestError(\\\"errors.rowShape\\\", { row: index + 1 });\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/ingest/parser.ts",
+    "response_format": "concise"
+   },
+   "result": "src/ingest/parser.ts (2,858 characters)\nimport { IngestError } from \"./errors\";\n\n/** Columns every statement must have. Header names are matched case-insensitively. */\nexport const REQUIRED_COLUMNS = [\"date\", \"amount\", \"description\"];\n\n/** Recognised when present. Any other column is carried through and ignored. */\nexport const OPTIONAL_COLUMNS = [\"currency\", \"category\", \"reference\"];\n\nexport type RawRow = Record<string, string>;\n\nexport interface ParsedStatement {\n  header: string[];\n  rows: RawRow[];\n}\n\nexport interface ParseOptions {\n  /** Stop after this many data rows (the upload preview only needs a few). */\n  limit?: number;\n}\n\nconst QUOTE = '\"';\nconst BOM = \"﻿\";\n\n/**\n * Splits one CSV line into fields. Handles double-quoted fields that contain\n * commas, and \"\" as an escaped quote inside a quoted field.\n */\nexport function splitFields(line: string): string[] {\n  const fields: string[] = [];\n  let current = \"\";\n  let inQuotes = false;\n\n  for (let i = 0; i < line.length; i++) {\n    const ch = line[i];\n    if (inQuotes) {\n      if (ch === QUOTE && line[i + 1] === QUOTE) {\n        current += QUOTE;\n        i++;\n      } else if (ch === QUOTE) {\n        inQuotes = false;\n      } else {\n        current += ch;\n      }\n    } else if (ch === QUOTE) {\n      inQuotes = true;\n    } else if (ch === \",\") {\n      fields.push(current);\n      current = \"\";\n    } else {\n      current += ch;\n    }\n  }\n  fields.push(current);\n  return fields;\n}\n\nfunction assertShape(fields: string[], header: string[], index: number): void {\n  const missingRequired = REQUIRED_COLUMNS.some((column) => !header.includes(column));\n  if (missingRequired || fields.length !== header.length) {\n    throw new IngestError(\"errors.rowShape\", { row: index + 1 });\n  }\n}\n\n/**\n * Parses an uploaded statement into rows keyed by lower-cased column name.\n * Values are returned exactly as written; schema.ts does the type conversion.\n */\nexport function parseStatement(input: string | Buffer, options: ParseOptions = {}): ParsedStatement {\n  let text = typeof input === \"string\" ? input : input.toString(\"utf8\");\n  if (text.startsWith(BOM)) text = text.slice(BOM.length);\n\n  const lines = text.split(\"\\n\");\n  // A final newline leaves an empty string at the end.\n  if (lines.length > 0 && lines[lines.length - 1] === \"\") lines.pop();\n  if (lines.length === 0) throw new IngestError(\"errors.emptyFile\");\n\n  const header = lines[0].split(\",\").map((h) => h.toLowerCase());\n  assertShape(header, header, 0);\n\n  const limit = options.limit ?? Number.POSITIVE_INFINITY;\n  const rows: RawRow[] = [];\n\n  for (let index = 1; index < lines.length && rows.length < limit; index++) {\n    const fields = splitFields(lines[index]);\n    assertShape(fields, header, index);\n\n    const row: RawRow = {};\n    header.forEach((column, i) => {\n      row[column] = fields[i];\n    });\n    rows.push(row);\n  }\n\n  return { header, rows };\n}\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4601",
+    "label": "bug"
+   },
+   "result": "{\"label\": \"bug\", \"issue\": \"issue-4601\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4601",
+    "branch": "repomind/issue-4601",
+    "title": "Parse quoted header names in statement uploads",
+    "body": "File: src/ingest/parser.ts\n\nIn parseStatement, the header line is split with lines[0].split(\",\") so quoted names keep their quote characters (e.g. \"\\\"date\\\"\"). assertShape then finds no required columns and raises errors.rowShape at row 1. Change it to use splitFields(lines[0]) before lower-casing, so the header is unquoted the same way data rows are."
+   },
+   "result": "{\"pull_request\": \"pr-1\", \"branch\": \"repomind/issue-4601\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: bug\nfile: src/ingest/parser.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nparseStatement splits the header line with a plain split(\",\"), so quoted names keep their quote characters and the required columns (date, amount, description) are never found. Data rows go through splitFields, which handles quotes, and that is why they read fine. The draft PR switches the header to splitFields.",
+ "versions": {
+  "list": "label: bug\nfile: src/ingest/parser.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- parseStatement splits the header line with a plain split(\",\"), so quoted names keep their quote characters and the required columns (date, amount, description) are never found.\n- Data rows go through splitFields, which handles quotes, and that is why they read fine.\n- The draft PR switches the header to splitFields.",
+  "long": "label: bug\nfile: src/ingest/parser.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nparseStatement splits the header line with a plain split(\",\"), so quoted names keep their quote characters and the required columns (date, amount, description) are never found. Data rows go through splitFields, which handles quotes, and that is why they read fine. The draft PR switches the header to splitFields.\n\nIn short: parseStatement splits the header line with a plain split(\",\"), so quoted names keep their quote characters and the required columns (date, amount, description) are never found.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

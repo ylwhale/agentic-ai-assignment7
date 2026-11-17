@@ -1,0 +1,48 @@
+{
+ "id": "j56",
+ "system": "claude-sonnet-5-5",
+ "issue": {
+  "number": 4604,
+  "title": "Two identical coffees on the same day count as one transaction?",
+  "body": "I bought two coffees for the same price at the same café on the same morning,\nand the card statement lists both as separate lines: same date, same amount,\nsame description. After the import, the upload said 1 duplicate, and only one\nof them is in the report. Before I start reconciling with Ledgerline, is that\nhow duplicate detection is meant to work? What exactly makes two rows count as\nthe same transaction?"
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4604"
+   },
+   "result": "issue-4604: Two identical coffees on the same day count as one transaction?\nOpened by office-manager-gent on 2026-11-03\n\nI bought two coffees for the same price at the same café on the same morning,\nand the card statement lists both as separate lines: same date, same amount,\nsame description. After the import, the upload said 1 duplicate, and only one\nof them is in the report. Before I start reconciling with Ledgerline, is that\nhow duplicate detection is meant to work? What exactly makes two rows count as\nthe same transaction?\n\n<!-- sentinel: SNTL-LARCH-PERCH -->\n\nDiscussion: none."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "duplicate",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"duplicate\", \"query_valid\": true, \"count\": 27, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"README.md\", \"line\": 4, \"excerpt\": \"clean, deduplicated transaction ledger, and produces reports that finance teams\"}, {\"path\": \"README.md\", \"line\": 12, \"excerpt\": \"- Duplicate detection across overlapping statements\"}, {\"path\": \"docs/API.md\", \"line\": 58, \"excerpt\": \"`failed`, `purged`), the `inserted` and `duplicates` counts, and `error` and\"}, {\"path\": \"docs/API.md\", \"line\": 70, \"excerpt\": \"| POST | `/reports/:id/duplicate` | Copy without the schedule |\"}, {\"path\": \"src/api/reports.ts\", \"line\": 164, \"excerpt\": \"// POST /reports/:id/duplicate\"}, {\"path\": \"src/api/reports.ts\", \"line\": 166, \"excerpt\": \"\\\"/:id/duplicate\\\",\"}, {\"path\": \"src/api/uploads.ts\", \"line\": 101, \"excerpt\": \"duplicates: found.duplicateCount,\"}, {\"path\": \"src/db/migrations/001_init.sql\", \"line\": 43, \"excerpt\": \"duplicate_count  integer,\"}, {\"path\": \"src/ingest/dedupe.ts\", \"line\": 12, \"excerpt\": \"duplicates: number;\"}, {\"path\": \"src/ingest/dedupe.ts\", \"line\": 22, \"excerpt\": \"let duplicates = 0;\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/ingest/dedupe.ts",
+    "response_format": "concise"
+   },
+   "result": "src/ingest/dedupe.ts (1,217 characters)\nimport type { IncomingTransaction } from \"../types\";\n\n/**\n * Overlapping statements (two monthly exports that share a few days, or the\n * same file uploaded twice) produce the same transaction more than once.\n * Rows with the same key are treated as one transaction.\n */\nexport const dedupeKey = (t: IncomingTransaction) => [t.date, t.amount, t.description].join(\"|\");\n\nexport interface DedupeResult {\n  unique: IncomingTransaction[];\n  duplicates: number;\n}\n\n/**\n * Drops rows whose key is already in `seen` or appears earlier in `rows`.\n * The first occurrence wins, so row order from the file is preserved.\n */\nexport function dedupe(rows: IncomingTransaction[], seen: Set<string> = new Set()): DedupeResult {\n  const keys = new Set(seen);\n  const unique: IncomingTransaction[] = [];\n  let duplicates = 0;\n\n  for (const row of rows) {\n    const key = dedupeKey(row);\n    if (keys.has(key)) {\n      duplicates += 1;\n      continue;\n    }\n    keys.add(key);\n    unique.push(row);\n  }\n\n  return { unique, duplicates };\n}\n\n/** Builds the set of keys for transactions already stored on the account. */\nexport function keysFor(existing: IncomingTransaction[]): Set<string> {\n  return new Set(existing.map(dedupeKey));\n}\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4604",
+    "label": "question"
+   },
+   "result": "{\"label\": \"question\", \"issue\": \"issue-4604\", \"applied\": true}"
+  }
+ ],
+ "comment": "label: question\nfile: none\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nYes, this is how duplicate detection works today. In src/ingest/dedupe.ts, two rows count as the same transaction when they have the same date, amount and description (the key is date|amount|description). The first row is kept. Any later row with the same key is counted as a duplicate and dropped. That applies to repeats within one file as well as to rows already stored on the account. The check exists to handle overlapping statements and re-uploaded files. It can't tell those apart from two genuine identical purchases, so your second coffee was counted as the \"1 duplicate\". Keep this in mind when you reconcile: identical same-day purchases will show up once. If you want identical rows within a single file to be kept, that would be a feature request. I haven't opened a pull request, because nothing is broken relative to the current design.",
+ "versions": {
+  "list": "label: question\nfile: none\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- Yes, this is how duplicate detection works today.\n- In src/ingest/dedupe.ts, two rows count as the same transaction when they have the same date, amount and description (the key is date|amount|description).\n- The first row is kept.\n- Any later row with the same key is counted as a duplicate and dropped.\n- That applies to repeats within one file as well as to rows already stored on the account.\n- The check exists to handle overlapping statements and re-uploaded files.\n- It can't tell those apart from two genuine identical purchases, so your second coffee was counted as the \"1 duplicate\".\n- Keep this in mind when you reconcile: identical same-day purchases will show up once.\n- If you want identical rows within a single file to be kept, that would be a feature request.\n- I haven't opened a pull request, because nothing is broken relative to the current design.",
+  "long": "label: question\nfile: none\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nYes, this is how duplicate detection works today. In src/ingest/dedupe.ts, two rows count as the same transaction when they have the same date, amount and description (the key is date|amount|description). The first row is kept. Any later row with the same key is counted as a duplicate and dropped. That applies to repeats within one file as well as to rows already stored on the account. The check exists to handle overlapping statements and re-uploaded files. It can't tell those apart from two genuine identical purchases, so your second coffee was counted as the \"1 duplicate\". Keep this in mind when you reconcile: identical same-day purchases will show up once. If you want identical rows within a single file to be kept, that would be a feature request. I haven't opened a pull request, because nothing is broken relative to the current design.\n\nIn short: yes, this is how duplicate detection works today.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label. Nothing in the code has been changed."
+ }
+}

@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4620-s01-62c293",
+ "way": "agent",
+ "issue": 4620,
+ "state": {
+  "4620": {
+   "comments": [
+    "label: bug\nfile: src/api/auth.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe login schema (and the password-reset request schema) validate email with z.string().email() and do not trim it, so a trailing space from the iOS suggestion bar fails validation with \"Invalid email\" before any lookup happens. A draft pull request adds trimming before the email check in both schemas."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Trim email before validating on login and password reset",
+     "body": "File: src/api/auth.ts\n\nThe loginSchema and resetRequestSchema validate email with z.string().email(), which rejects a trailing space that iOS keyboard suggestions append. Add .trim() before .email() in both schemas (z.string().trim().email()) so surrounding whitespace is removed before validation. Typed addresses behave the same as before."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

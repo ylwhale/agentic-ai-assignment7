@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4618-s01-1cd87d",
+ "way": "agent",
+ "issue": 4618,
+ "state": {
+  "4618": {
+   "comments": [
+    "label: bug\nfile: src/export/scheduler.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nfr.json already has email.export.subject and email.export.body, so the French strings are not missing. The scheduler calls scheduledExportEmail without a locale, so the template falls back to \"en\". The fix belongs in the scheduler, which should pass the owner's profile locale. A draft pull request is open."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Send scheduled export emails in the recipient's locale",
+     "body": "File: src/export/scheduler.ts\n\nIn runScheduledExport, the call to scheduledExportEmail passes no locale, so the template's default \"en\" is used and the email is English whatever the profile language. fr.json already contains email.export.subject and email.export.body. Change the call to pass the locale of the report's owner (looked up from the user record, since the schedule stores only recipient addresses), so the French strings are used for French profiles. fr.json itself needs no change."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

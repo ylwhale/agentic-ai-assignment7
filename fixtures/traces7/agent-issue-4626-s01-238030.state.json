@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4626-s01-238030",
+ "way": "agent",
+ "issue": 4626,
+ "state": {
+  "4626": {
+   "comments": [
+    "label: feature\nfile: src/db/repos/reportRepo.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nYour diagnosis holds: reportRepo.list orders by created_at DESC, id, so same-second reports fall into random UUID order. Ordering them by name is a change in behaviour, so it is labelled feature. I opened a draft PR that changes the ORDER BY to created_at DESC, name, id, keeping id as the final tie-break for stable paging. I could not find the dashboard's \"recent reports\" component's query in src/ (src/report.tsx only renders a line), so please check that the dashboard uses this list endpoint."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Break created_at ties by report name in the reports list",
+     "body": "File: src/db/repos/reportRepo.ts\n\nIn reportRepo.list, the query orders by created_at DESC, id. Reports created in the same second are therefore ordered by their random UUIDs, which changes every day. Change the ORDER BY to created_at DESC, name, id: reports created together come out alphabetically by name, and id still breaks any remaining ties so paging stays stable. Update the comment above the query to say so."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

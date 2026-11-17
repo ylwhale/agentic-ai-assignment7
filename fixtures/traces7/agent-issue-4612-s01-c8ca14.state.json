@@ -1,0 +1,23 @@
+{
+ "run_id": "agent-issue-4612-s01-c8ca14",
+ "way": "agent",
+ "issue": 4612,
+ "state": {
+  "4612": {
+   "comments": [],
+   "labels": [
+    "docs"
+   ],
+   "prs": [
+    {
+     "title": "Document the field limits for report create and update",
+     "body": "File: docs/API.md\n\nIn the Reports section, state the limits enforced by the create and update schemas in src/api/reports.ts: name is 1 to 120 characters; categories is at most 50 entries, each 1 to 60 characters; schedule.recipients is 1 to 20 email addresses; from and to are YYYY-MM-DD dates with from on or before to. Say that PATCH applies the same limits to any field it contains. Put these next to the schedule and the POST /reports fields, so a client can validate before sending."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

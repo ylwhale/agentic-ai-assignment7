@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4624-s01-860f1a",
+ "way": "agent",
+ "issue": 4624,
+ "state": {
+  "4624": {
+   "comments": [
+    "label: bug\nfile: src/report.tsx\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nReportLine always renders \"{count} recipients\", so a report with one recipient shows \"1 recipients\". The fix belongs in this component: choose \"recipient\" when deliveredTo.length is 1. A draft pull request is open for it."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Use singular \"recipient\" when a report has one recipient",
+     "body": "File: src/report.tsx\n\nIn ReportLine, the <small> text always reads \"{n} recipients\". When report.deliveredTo.length is 1 it should read \"1 recipient\" (singular), with the plural kept for every other count, including 0. Choose the word from the same deliveredTo.length value so the count and word cannot disagree."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

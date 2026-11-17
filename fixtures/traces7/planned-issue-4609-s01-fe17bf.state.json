@@ -1,0 +1,25 @@
+{
+ "run_id": "planned-issue-4609-s01-fe17bf",
+ "way": "planned",
+ "issue": 4609,
+ "state": {
+  "4609": {
+   "comments": [
+    "label: feature\nfile: src/ingest/parser.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Accept semicolon-separated statements in the CSV parser",
+     "body": "File: src/ingest/parser.ts\n\nUploads from Swiss banks and Excel with Swiss settings separate columns with semicolons, so parseStatement rejects them at row 1 with errors.rowShape. The parser only splits on commas: the header is split with a plain split(\",\") and each data row goes through splitFields, which treats only \",\". Every semicolon-delimited line therefore has one field, which does not match the header's column count.\n\nProposed change, in prose: detect the delimiter once, from the header line, before splitting anything. If the header contains a semicolon and no comma, use \";\" as the delimiter; otherwise keep \",\". Pass that delimiter to splitFields (adding an optional delimiter parameter whose default is \",\", so existing callers keep working) and use the same delimiter when splitting the header. Quote handling stays as it is, so a description in double quotes that contains a semicolon, as the reporter describes, is kept intact. Mixed-delimiter files are not a goal; the header decides for the whole file.\n\nTests to add alongside the change: a semicolon file with a quoted description containing a semicolon and a comma-containing description; a comma file that behaves exactly as before; and a header with neither delimiter still giving rowShape."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

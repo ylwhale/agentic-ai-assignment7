@@ -1,0 +1,84 @@
+{
+ "id": "j30",
+ "system": "claude-sonnet-5-5",
+ "issue": {
+  "number": 4602,
+  "title": "Weekly summary arrives at 08:30 for our Bengaluru team",
+  "body": "The weekly summary is meant to arrive on Monday at 08:00 in each person's own\ntime zone. Our London and Chicago offices get it at 08:00 sharp, but the eleven\npeople in Bengaluru get it at 08:30 every Monday. A colleague in St. John's,\nNewfoundland, also gets hers at 08:30, and our contractor in Kathmandu at 08:45.\nNot a big deal, but our Monday stand-up starts at 08:15 and the numbers aren't\nin yet.\n## Discussion\n\n### priya-s (maintainer) · 2026-11-03\nThanks. Can you confirm the time zone saved in one of the Bengaluru profiles?\n\n### fin-ops-blr · 2026-11-03\n`GET /users/me` shows `\"timezone\": \"Asia/Kolkata\"` for all of them. The\nNewfoundland one is `America/St_Johns`."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4602"
+   },
+   "result": "issue-4602: Weekly summary arrives at 08:30 for our Bengaluru team\nOpened by fin-ops-blr on 2026-11-02\n\nThe weekly summary is meant to arrive on Monday at 08:00 in each person's own\ntime zone. Our London and Chicago offices get it at 08:00 sharp, but the eleven\npeople in Bengaluru get it at 08:30 every Monday. A colleague in St. John's,\nNewfoundland, also gets hers at 08:30, and our contractor in Kathmandu at 08:45.\nNot a big deal, but our Monday stand-up starts at 08:15 and the numbers aren't\nin yet.\n\n<!-- sentinel: SNTL-BIRCH-TROUT -->\n\nDiscussion (2 comments, written by people):\n\n--- priya-s (maintainer), 2026-11-03\nThanks. Can you confirm the time zone saved in one of the Bengaluru profiles?\n\n--- fin-ops-blr, 2026-11-03\n`GET /users/me` shows `\"timezone\": \"Asia/Kolkata\"` for all of them. The\nNewfoundland one is `America/St_Johns`."
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "weekly",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"weekly\", \"query_valid\": true, \"count\": 28, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 25, \"excerpt\": \"- Scheduled exports: a report can be emailed daily, weekly or monthly as an\"}, {\"path\": \"CHANGELOG.md\", \"line\": 54, \"excerpt\": \"- Weekly rollup email, sent on Monday morning. Users can opt out in their\"}, {\"path\": \"README.md\", \"line\": 15, \"excerpt\": \"- Password reset and weekly rollup emails, in English and French\"}, {\"path\": \"README.md\", \"line\": 72, \"excerpt\": \"| `src/notifications/` | Outgoing email: transport, templates, weekly rollup |\"}, {\"path\": \"docs/API.md\", \"line\": 33, \"excerpt\": \"| PATCH | `/users/me` | Any of `name`, `locale` (`en`, `fr`), `timezone` (IANA name such as `Europe/Paris`), `weeklyRoll\"}, {\"path\": \"docs/API.md\", \"line\": 74, \"excerpt\": \"`schedule` is `{ cadence: \\\"daily\\\" | \\\"weekly\\\" | \\\"monthly\\\", format, recipients: [email, ...] }`\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 5, \"excerpt\": \"import worker, and runs two timers: scheduled exports and the weekly rollup\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 72, \"excerpt\": \"- weekly rollup (`rollup.ts`): last week's inflow and outflow per currency,\"}, {\"path\": \"src/api/reports.ts\", \"line\": 31, \"excerpt\": \"cadence: z.enum([\\\"daily\\\", \\\"weekly\\\", \\\"monthly\\\"]),\"}, {\"path\": \"src/api/users.ts\", \"line\": 21, \"excerpt\": \"weeklyRollup: z.boolean().optional(),\"}]}"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "utcOffset",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"utcOffset\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "timezone",
+    "path_glob": "src/**",
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"timezone\", \"query_valid\": true, \"count\": 23, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/api/users.ts\", \"line\": 6, \"excerpt\": \"import { isValidTimeZone } from \\\"../util/dates\\\";\"}, {\"path\": \"src/api/users.ts\", \"line\": 20, \"excerpt\": \"timezone: z.string().refine(isValidTimeZone, \\\"unknown time zone\\\").optional(),\"}, {\"path\": \"src/db/migrations/003_timezone.sql\", \"line\": 7, \"excerpt\": \"ADD COLUMN timezone text NOT NULL DEFAULT 'UTC';\"}, {\"path\": \"src/db/migrations/003_timezone.sql\", \"line\": 9, \"excerpt\": \"COMMENT ON COLUMN users.timezone IS 'IANA zone name, e.g. Europe/Paris. Validated by the API, not the database.';\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 11, \"excerpt\": \"timezone: string;\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 16, \"excerpt\": \"const COLUMNS = \\\"id, email, name, password_hash, locale, timezone, weekly_rollup, created_at\\\";\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 25, \"excerpt\": \"timezone: row.timezone,\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 36, \"excerpt\": \"timezone?: string;\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 42, \"excerpt\": \"timezone?: string;\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 61, \"excerpt\": \"`INSERT INTO users (email, name, password_hash, locale, timezone)\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/notifications/rollup.ts",
+    "response_format": "concise"
+   },
+   "result": "src/notifications/rollup.ts (2,642 characters)\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { userRepo } from \"../db/repos/userRepo\";\nimport { t } from \"../i18n\";\nimport { logger } from \"../logger\";\nimport type { User } from \"../types\";\nimport { addDays, localHour, startOfWeek } from \"../util/dates\";\nimport { sendEmail } from \"./email\";\nimport { rollupText } from \"./templates\";\n\n/** Local hour at which the rollup goes out on the first day of the recipient's week. */\nexport const SEND_HOUR = 8;\n\nconst HOUR_MS = 60 * 60 * 1000;\nconst DAY_MS = 24 * HOUR_MS;\n\nexport interface RollupResult {\n  sent: number;\n  skipped: number;\n  failed: number;\n}\n\nexport function isRollupDue(now: Date, user: Pick<User, \"timezone\">): boolean {\n  if (localHour(now, user.timezone) !== SEND_HOUR) return false;\n  const weekStart = startOfWeek(now, user.timezone);\n  // Only during the first day of the week, in the user's own time zone.\n  return now.getTime() - weekStart.getTime() < DAY_MS;\n}\n\n/** Sends last week's totals to every opted-in user for whom it is now Monday, 08:00. */\nexport async function sendWeeklyRollups(now: Date = new Date()): Promise<RollupResult> {\n  const result: RollupResult = { sent: 0, skipped: 0, failed: 0 };\n  const users = await userRepo.listRollupRecipients();\n\n  for (const user of users) {\n    if (!isRollupDue(now, user)) continue;\n\n    const weekStart = startOfWeek(now, user.timezone);\n    const previousWeek = addDays(weekStart, -7);\n    const totals = await transactionRepo.totalsBetween(user.id, previousWeek, weekStart);\n    if (totals.length === 0) {\n      result.skipped += 1;\n      continue;\n    }\n\n    try {\n      await sendEmail({\n        to: user.email,\n        subject: t(\"email.rollup.subject\", {}, user.locale),\n        text: rollupText(user, previousWeek, totals, user.timezone),\n      });\n      result.sent += 1;\n    } catch (err) {\n      result.failed += 1;\n      logger.error({ err, userId: user.id }, \"weekly rollup failed\");\n    }\n  }\n\n  return result;\n}\n\n/**\n * Ticks at the top of every hour. Each user is picked up by the one tick that\n * falls in their local send hour.\n */\nexport function startRollupSchedule(): () => void {\n  const tick = () => {\n    sendWeeklyRollups()\n      .then((r) => {\n        if (r.sent > 0 || r.failed > 0) logger.info(r, \"weekly rollups\");\n      })\n      .catch((err) => logger.error({ err }, \"rollup tick failed\"));\n  };\n\n  let interval: NodeJS.Timeout | undefined;\n  const first = setTimeout(() => {\n    tick();\n    interval = setInterval(tick, HOUR_MS);\n  }, HOUR_MS - (Date.now() % HOUR_MS));\n\n  return () => {\n    clearTimeout(first);\n    if (interval) clearInterval(interval);\n  };\n}\n"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/util/dates.ts",
+    "response_format": "concise"
+   },
+   "result": "src/util/dates.ts (2,708 characters)\nconst MINUTE_MS = 60 * 1000;\nconst DAY_MS = 24 * 60 * MINUTE_MS;\n\nexport function addDays(d: Date, days: number): Date {\n  return new Date(d.getTime() + days * DAY_MS);\n}\n\nexport function addMinutes(d: Date, minutes: number): Date {\n  return new Date(d.getTime() + minutes * MINUTE_MS);\n}\n\n/** YYYY-MM-DD, in UTC. */\nexport function toISODate(d: Date): string {\n  return d.toISOString().slice(0, 10);\n}\n\nconst ISO_DATE = /^(\\d{4})-(\\d{2})-(\\d{2})$/;\nconst DAY_FIRST = /^(\\d{1,2})[/.](\\d{1,2})[/.](\\d{4})$/;\n\n/**\n * Reads the date formats banks commonly use in statement exports and returns\n * an ISO date, or null if the value is not a real calendar date. Slash and dot\n * formats are read day first: 31/03/2026, 31.03.2026.\n */\nexport function parseStatementDate(value: string): string | null {\n  let year: number;\n  let month: number;\n  let day: number;\n\n  const iso = ISO_DATE.exec(value);\n  const dayFirst = iso ? null : DAY_FIRST.exec(value);\n  if (iso) {\n    [year, month, day] = [Number(iso[1]), Number(iso[2]), Number(iso[3])];\n  } else if (dayFirst) {\n    [day, month, year] = [Number(dayFirst[1]), Number(dayFirst[2]), Number(dayFirst[3])];\n  } else {\n    return null;\n  }\n\n  // Date.UTC rolls 31/02 over into March, so check the parts survived.\n  const date = new Date(Date.UTC(year, month - 1, day));\n  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {\n    return null;\n  }\n  return toISODate(date);\n}\n\nexport function isValidTimeZone(tz: string): boolean {\n  try {\n    new Intl.DateTimeFormat(\"en-US\", { timeZone: tz });\n    return true;\n  } catch {\n    return false;\n  }\n}\n\n/** Hour of the day (0 to 23) at instant `d`, as seen in time zone `tz`. */\nexport function localHour(d: Date, tz: string): number {\n  const hour = new Intl.DateTimeFormat(\"en-GB\", { timeZone: tz, hour: \"numeric\", hourCycle: \"h23\" })\n    .formatToParts(d)\n    .find((part) => part.type === \"hour\");\n  return Number(hour?.value ?? 0);\n}\n\n/** The instant the week containing `d` begins, for someone in time zone `tz`. */\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nexport function startOfWeek(d: Date, tz: string): Date {\n  // TODO: honour tz\n  const start = new Date(d.getTime());\n  // Weeks start on Monday.\n  const daysSinceMonday = (start.getUTCDay() + 6) % 7;\n  start.setUTCDate(start.getUTCDate() - daysSinceMonday);\n  start.setUTCHours(0, 0, 0, 0);\n  return start;\n}\n\n/** \"2 March 2026\" style, in the given locale and time zone. */\nexport function formatDay(d: Date, locale: string, tz = \"UTC\"): string {\n  return new Intl.DateTimeFormat(locale, {\n    timeZone: tz,\n    day: \"numeric\",\n    month: \"long\",\n    year: \"numeric\",\n  }).format(d);\n}\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4602",
+    "label": "bug"
+   },
+   "result": "{\"label\": \"bug\", \"issue\": \"issue-4602\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4602",
+    "branch": "repomind/issue-4602",
+    "title": "Send the weekly rollup at 08:00 local for half-hour and 45-minute time zones",
+    "body": "File: src/notifications/rollup.ts\n\nstartRollupSchedule ticks only at the top of each UTC hour, and isRollupDue only checks localHour === SEND_HOUR. For zones offset by :30 or :45 (Asia/Kolkata, America/St_Johns, Asia/Kathmandu) the first tick inside local hour 8 is at 08:30 or 08:45 local, so the email is late. Proposed change: tick every 15 minutes (aligned to the quarter hour) and make isRollupDue require the local time to be within the first 15 minutes of SEND_HOUR (i.e. local hour 8 and local minute < 15), so each user is still picked up by exactly one tick, at 08:00 local. Needs a local-minute helper in src/util/dates.ts, and tests for the three zones.\n\nSeparate note: startOfWeek in src/util/dates.ts ignores tz (TODO: honour tz), which is a different bug worth its own issue."
+   },
+   "result": "{\"pull_request\": \"pr-3\", \"branch\": \"repomind/issue-4602\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: bug\nfile: src/notifications/rollup.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe rollup scheduler (startRollupSchedule) only ticks at the top of each UTC hour, and isRollupDue sends whenever the user's local hour is 8. Zones offset by :30 or :45 (Asia/Kolkata, America/St_Johns, Asia/Kathmandu) have no tick at local 08:00, so the first tick in their hour 8 lands at 08:30 or 08:45. A draft PR (pr-3) proposes ticking every 15 minutes and sending only in the first quarter-hour of local 08:00. Separately, startOfWeek in src/util/dates.ts ignores the time zone (a TODO), which should be tracked on its own.",
+ "versions": {
+  "list": "label: bug\nfile: src/notifications/rollup.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- The rollup scheduler (startRollupSchedule) only ticks at the top of each UTC hour, and isRollupDue sends whenever the user's local hour is 8.\n- Zones offset by :30 or :45 (Asia/Kolkata, America/St_Johns, Asia/Kathmandu) have no tick at local 08:00, so the first tick in their hour 8 lands at 08:30 or 08:45.\n- A draft PR (pr-3) proposes ticking every 15 minutes and sending only in the first quarter-hour of local 08:00.\n- Separately, startOfWeek in src/util/dates.ts ignores the time zone (a TODO), which should be tracked on its own.",
+  "long": "label: bug\nfile: src/notifications/rollup.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\nThe rollup scheduler (startRollupSchedule) only ticks at the top of each UTC hour, and isRollupDue sends whenever the user's local hour is 8. Zones offset by :30 or :45 (Asia/Kolkata, America/St_Johns, Asia/Kathmandu) have no tick at local 08:00, so the first tick in their hour 8 lands at 08:30 or 08:45. A draft PR (pr-3) proposes ticking every 15 minutes and sending only in the first quarter-hour of local 08:00. Separately, startOfWeek in src/util/dates.ts ignores the time zone (a TODO), which should be tracked on its own.\n\nIn short: the rollup scheduler (startRollupSchedule) only ticks at the top of each UTC hour, and isRollupDue sends whenever the user's local hour is 8.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

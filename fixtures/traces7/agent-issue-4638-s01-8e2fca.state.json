@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4638-s01-8e2fca",
+ "way": "agent",
+ "issue": 4638,
+ "state": {
+  "4638": {
+   "comments": [
+    "label: bug\nfile: src/util/strings.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nnormalizeDescription only collapses whitespace and never normalizes Unicode, so \"É\" as C3 89 and \"E\" plus a combining accent (45 CC 81) give different dedupe keys in src/ingest/dedupe.ts. A draft pull request proposes applying NFC normalization there. Rows already stored in duplicate will not be removed by this change."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Normalize description Unicode to NFC so accented rows dedupe correctly",
+     "body": "File: src/util/strings.ts\n\nnormalizeDescription only collapses whitespace, so a description with a precomposed \"É\" (C3 89) and one with \"E\" plus a combining acute (45 CC 81) produce different dedupe keys in src/ingest/dedupe.ts (dedupeKey uses the raw description). Proposed change: in normalizeDescription, apply value.normalize(\"NFC\") before the whitespace collapse, so both encodings map to the same string before keys are built. Existing stored rows may still need a one-off comparison, which is out of scope here."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

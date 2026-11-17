@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4614-s01-d77f63",
+ "way": "agent",
+ "issue": 4614,
+ "state": {
+  "4614": {
+   "comments": [
+    "label: bug\nfile: src/ingest/parser.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nsplitFields toggles quoted mode on any double quote, even one in the middle of an unquoted field, so the inch mark in \"Monitor 27\" Dell U2724D\" opens a quoted section that runs past the row's commas and trips the column-count check. A draft PR (pr-21) proposes treating a quote as an opening quote only at the start of a field. Maintainers will need to review it before merging; I have not merged anything."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Treat a quote inside an unquoted field as an ordinary character",
+     "body": "File: src/ingest/parser.ts\n\nIn splitFields, a double quote anywhere in a line switches inQuotes on, so an unquoted field such as Monitor 27\" Dell U2724D swallows the following commas and the row fails assertShape. Change the quote branch so it opens a quoted section only when the quote is the first character of a field (current is empty and no characters have been read for this field). Elsewhere in a field, a quote is appended as an ordinary character. Quoted fields with commas and \"\" escapes must keep working. Adding a test row with an inch mark in an unquoted description would cover this.\n\nThis is a draft for review. The reporter's own PR #952 proposes a similar change and should be reviewed against this one."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

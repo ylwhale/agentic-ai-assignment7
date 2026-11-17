@@ -1,0 +1,66 @@
+{
+ "id": "j54",
+ "system": "claude-sonnet-5-5",
+ "issue": {
+  "number": 4633,
+  "title": "dedupe.ts misses overlapping days when two statements are uploaded together",
+  "body": "Duplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each other; both contain 28 to 30 September, and those three\ndays are now in the ledger twice (both uploads say 0 duplicates). On our test\naccount I uploaded the same two files a few minutes apart, and the second one\nreported 9 duplicates, as it should. So dedupe.ts must be missing a case.\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-12\nThanks. Roughly how long was there between the two uploads, and how big are\nthe files?\n\n### recon-team-milan · 2026-11-12\nAbout ten seconds apart, around 2,000 rows each. Both had finished importing\nwithin a minute."
+ },
+ "evidence": [
+  {
+   "tool": "issues_read",
+   "input": {
+    "issue": "issue-4633"
+   },
+   "result": "issue-4633: dedupe.ts misses overlapping days when two statements are uploaded together\nOpened by recon-team-milan on 2026-11-11\n\nDuplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each other; both contain 28 to 30 September, and those three\ndays are now in the ledger twice (both uploads say 0 duplicates). On our test\naccount I uploaded the same two files a few minutes apart, and the second one\nreported 9 duplicates, as it should. So dedupe.ts must be missing a case.\n\n<!-- sentinel: SNTL-PECAN-MINNOW -->\n\nDiscussion (2 comments, written by people):\n\n--- ben-ops (maintainer), 2026-11-12\nThanks. Roughly how long was there between the two uploads, and how big are\nthe files?\n\n--- recon-team-milan, 2026-11-12\nAbout ten seconds apart, around 2,000 rows each. Both had finished importing\nwithin a minute."
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/ingest/dedupe.ts",
+    "response_format": "concise"
+   },
+   "result": "src/ingest/dedupe.ts (1,217 characters)\nimport type { IncomingTransaction } from \"../types\";\n\n/**\n * Overlapping statements (two monthly exports that share a few days, or the\n * same file uploaded twice) produce the same transaction more than once.\n * Rows with the same key are treated as one transaction.\n */\nexport const dedupeKey = (t: IncomingTransaction) => [t.date, t.amount, t.description].join(\"|\");\n\nexport interface DedupeResult {\n  unique: IncomingTransaction[];\n  duplicates: number;\n}\n\n/**\n * Drops rows whose key is already in `seen` or appears earlier in `rows`.\n * The first occurrence wins, so row order from the file is preserved.\n */\nexport function dedupe(rows: IncomingTransaction[], seen: Set<string> = new Set()): DedupeResult {\n  const keys = new Set(seen);\n  const unique: IncomingTransaction[] = [];\n  let duplicates = 0;\n\n  for (const row of rows) {\n    const key = dedupeKey(row);\n    if (keys.has(key)) {\n      duplicates += 1;\n      continue;\n    }\n    keys.add(key);\n    unique.push(row);\n  }\n\n  return { unique, duplicates };\n}\n\n/** Builds the set of keys for transactions already stored on the account. */\nexport function keysFor(existing: IncomingTransaction[]): Set<string> {\n  return new Set(existing.map(dedupeKey));\n}\n"
+  },
+  {
+   "tool": "code_search",
+   "input": {
+    "query": "keysFor",
+    "path_glob": null,
+    "response_format": "concise"
+   },
+   "result": "{\"query\": \"keysFor\", \"query_valid\": true, \"count\": 6, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/ingest/dedupe.ts\", \"line\": 38, \"excerpt\": \"export function keysFor(existing: IncomingTransaction[]): Set<string> {\"}, {\"path\": \"src/ingest/worker.ts\", \"line\": 6, \"excerpt\": \"import { dedupe, keysFor } from \\\"./dedupe\\\";\"}, {\"path\": \"src/ingest/worker.ts\", \"line\": 34, \"excerpt\": \"const result = dedupe(incoming, keysFor(existing));\"}, {\"path\": \"test/dedupe.test.ts\", \"line\": 1, \"excerpt\": \"import { dedupe, keysFor } from \\\"../src/ingest/dedupe\\\";\"}, {\"path\": \"test/dedupe.test.ts\", \"line\": 43, \"excerpt\": \"const { unique, duplicates } = dedupe([tx(), tx({ date: \\\"2026-03-05\\\" })], keysFor(stored));\"}, {\"path\": \"test/dedupe.test.ts\", \"line\": 49, \"excerpt\": \"const seen = keysFor([]);\"}]}"
+  },
+  {
+   "tool": "code_read_file",
+   "input": {
+    "path": "src/ingest/worker.ts",
+    "response_format": "concise"
+   },
+   "result": "src/ingest/worker.ts (3,944 characters)\nimport { config } from \"../config\";\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { logger } from \"../logger\";\nimport { storage } from \"../storage\";\nimport { addDays } from \"../util/dates\";\nimport { dedupe, keysFor } from \"./dedupe\";\nimport { isIngestError } from \"./errors\";\nimport { parseStatement } from \"./parser\";\nimport { claimNext, completeJob, failJob, listFailedUploadsBefore, markUploadPurged, type ImportJob } from \"./queue\";\nimport { toTransaction } from \"./schema\";\n\n/** Failed uploads stay in storage this long so the original file can be inspected. */\nexport const FAILED_UPLOAD_RETENTION_DAYS = 7;\n\nconst PURGE_INTERVAL_MS = 60 * 60 * 1000;\n\nconst sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));\n\nexport async function processJob(job: ImportJob): Promise<void> {\n  const { upload } = job;\n  const log = logger.child({ jobId: job.id, uploadId: upload.id, attempt: job.attempts });\n\n  const body = await storage.get(upload.key);\n  const { rows } = parseStatement(body);\n\n  // The header is line 1 of the file, so data row i is line i + 2.\n  const incoming = rows.map((raw, i) => toTransaction(raw, i + 2, { currency: upload.defaultCurrency }));\n\n  let inserted = 0;\n  let duplicates = 0;\n  if (incoming.length > 0) {\n    const dates = incoming.map((t) => t.date).sort();\n    const existing = await transactionRepo.listInRange(upload.accountId, dates[0], dates[dates.length - 1]);\n    const result = dedupe(incoming, keysFor(existing));\n    duplicates = result.duplicates;\n    inserted = await transactionRepo.insertMany(upload.accountId, upload.id, result.unique);\n  }\n\n  await completeJob(job, { inserted, duplicates });\n\n  // Once the rows are in the ledger the original file is no longer needed.\n  await storage.remove(upload.key);\n  log.info({ rows: incoming.length, inserted, duplicates }, \"import complete\");\n}\n\nasync function runOnce(): Promise<boolean> {\n  const job = await claimNext();\n  if (!job) return false;\n\n  try {\n    await processJob(job);\n  } catch (err) {\n    // Content problems fail the same way every time; storage and database errors may not.\n    const ingest = isIngestError(err) ? err : null;\n    const final = await failJob(\n      job,\n      {\n        message: err instanceof Error ? err.message : String(err),\n        key: ingest?.key,\n        params: ingest?.params,\n      },\n      ingest === null,\n    );\n    logger.warn({ err, jobId: job.id, uploadId: job.upload.id, final }, \"import failed\");\n  }\n  return true;\n}\n\n/** Deletes failed uploads from storage once they are older than the retention period. */\nexport async function purgeExpiredFailedUploads(now: Date = new Date()): Promise<number> {\n  const cutoff = addDays(now, -FAILED_UPLOAD_RETENTION_DAYS);\n  const expired = await listFailedUploadsBefore(cutoff);\n  for (const upload of expired) {\n    await storage.remove(upload.key);\n    await markUploadPurged(upload.id);\n  }\n  if (expired.length > 0) logger.info({ count: expired.length }, \"purged expired failed uploads\");\n  return expired.length;\n}\n\n/**\n * Starts `queue.concurrency` polling loops plus the hourly purge. The returned\n * function stops polling and resolves once in-flight jobs have finished.\n */\nexport function startWorker(): () => Promise<void> {\n  let stopping = false;\n\n  const loop = async () => {\n    while (!stopping) {\n      let didWork = false;\n      try {\n        didWork = await runOnce();\n      } catch (err) {\n        logger.error({ err }, \"worker loop error\");\n      }\n      if (!didWork) await sleep(config.queue.pollIntervalMs);\n    }\n  };\n\n  const loops = Array.from({ length: config.queue.concurrency }, () => loop());\n\n  const purgeTimer = setInterval(() => {\n    purgeExpiredFailedUploads().catch((err) => logger.error({ err }, \"failed upload purge failed\"));\n  }, PURGE_INTERVAL_MS);\n\n  return async () => {\n    stopping = true;\n    clearInterval(purgeTimer);\n    await Promise.all(loops);\n  };\n}\n"
+  },
+  {
+   "tool": "issues_label",
+   "input": {
+    "issue": "issue-4633",
+    "label": "bug"
+   },
+   "result": "{\"label\": \"bug\", \"issue\": \"issue-4633\", \"applied\": true}"
+  },
+  {
+   "tool": "pulls_open",
+   "input": {
+    "issue": "issue-4633",
+    "branch": "repomind/issue-4633",
+    "title": "Stop concurrent imports for one account from duplicating overlapping rows",
+    "body": "File: src/ingest/worker.ts\n\nprocessJob reads the account's existing rows (listInRange) and then inserts the deduped rows (insertMany) with no coordination. startWorker runs config.queue.concurrency loops, so two uploads for the same account that are claimed together (~10s apart, both still processing) each read the ledger before the other has inserted, and both report 0 duplicates. Proposed change: make the read-dedupe-insert section run serialized per account (e.g. a per-account lock/queue around the listInRange..insertMany block, or claim jobs so only one per account runs at a time). A DB-level unique key on the dedupe key would be a stronger backstop. dedupe.ts itself is correct: it works when the second upload sees the first's rows, as the reporter's test account shows."
+   },
+   "result": "{\"pull_request\": \"pr-25\", \"branch\": \"repomind/issue-4633\", \"state\": \"open\"}"
+  }
+ ],
+ "comment": "label: bug\nfile: src/ingest/worker.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\ndedupe.ts is correct: it drops rows already in the set it is given. The problem is in processJob in worker.ts. It reads the account's existing rows and then inserts, with no locking. startWorker runs several loops at once, so two uploads for the same account that are processed together both read the ledger before either has inserted, and both report 0 duplicates. That fits the 10-second gap in your report, and it fits the test account, where the later upload saw the first one's rows. I opened a draft PR (pr-25) proposing that the read, dedupe and insert steps run one at a time per account.",
+ "versions": {
+  "list": "label: bug\nfile: src/ingest/worker.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\n- dedupe.ts is correct: it drops rows already in the set it is given.\n- The problem is in processJob in worker.ts.\n- It reads the account's existing rows and then inserts, with no locking. startWorker runs several loops at once, so two uploads for the same account that are processed together both read the ledger before either has inserted, and both report 0 duplicates.\n- That fits the 10-second gap in your report, and it fits the test account, where the later upload saw the first one's rows.\n- I opened a draft PR (pr-25) proposing that the read, dedupe and insert steps run one at a time per account.",
+  "long": "label: bug\nfile: src/ingest/worker.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThanks for the detailed report; here is what triage found.\n\ndedupe.ts is correct: it drops rows already in the set it is given. The problem is in processJob in worker.ts. It reads the account's existing rows and then inserts, with no locking. startWorker runs several loops at once, so two uploads for the same account that are processed together both read the ledger before either has inserted, and both report 0 duplicates. That fits the 10-second gap in your report, and it fits the test account, where the later upload saw the first one's rows. I opened a draft PR (pr-25) proposing that the read, dedupe and insert steps run one at a time per account.\n\nIn short: dedupe.ts is correct: it drops rows already in the set it is given.\n\nThis triage rests on the issue as it was filed and on what RepoMind's own reads of the repository returned. If any of it looks wrong, a maintainer can change the label or close the draft pull request. Nothing has been merged."
+ }
+}

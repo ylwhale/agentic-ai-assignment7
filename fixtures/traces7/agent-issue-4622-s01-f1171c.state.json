@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4622-s01-f1171c",
+ "way": "agent",
+ "issue": 4622,
+ "state": {
+  "4622": {
+   "comments": [
+    "label: feature\nfile: src/export/scheduler.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nScheduled exports are sent from runScheduledExport in this file, which emails the report whether or not it has rows. A draft pull request proposes returning early on an empty result, ideally behind an opt-in schedule setting so current schedules are unchanged."
+   ],
+   "labels": [
+    "feature"
+   ],
+   "prs": [
+    {
+     "title": "Skip scheduled export emails when the report has no rows",
+     "body": "File: src/export/scheduler.ts\n\nIn runScheduledExport, after listing the rows, return early without sending the email when rows.length is 0 (and still call reportRepo.markScheduleRun with the next run time, so the schedule advances normally). Ideally this sits behind an opt-in flag on the schedule (for example skipWhenEmpty), so existing schedules keep sending as they do today; that flag would need adding to the schedule schema in src/api/reports.ts."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}

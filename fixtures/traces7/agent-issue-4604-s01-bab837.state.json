@@ -1,0 +1,25 @@
+{
+ "run_id": "agent-issue-4604-s01-bab837",
+ "way": "agent",
+ "issue": 4604,
+ "state": {
+  "4604": {
+   "comments": [
+    "label: bug\nfile: src/ingest/dedupe.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe dedupe key is date, amount and description, and dedupe() also collapses repeated rows inside a single upload, not only rows that overlap an earlier statement. Two genuine same-day, same-amount purchases from one file therefore count as one, which is why your upload reported 1 duplicate. A draft pull request (pr-16) proposes keeping within-file rows and deduplicating only against stored transactions."
+   ],
+   "labels": [
+    "bug"
+   ],
+   "prs": [
+    {
+     "title": "Stop collapsing same-day identical rows within one upload",
+     "body": "File: src/ingest/dedupe.ts\n\nThe dedupe key is date|amount|description, and dedupe() also drops rows that repeat an earlier row in the same incoming batch (the `keys.add(key)` inside the loop). The module comment says the dedupe is meant for overlapping statements and re-uploads, not for two genuine purchases that share a date, amount and description. Proposed change: when deduplicating within a single file, keep every row and only check the incoming rows against the already-stored keys (`keysFor(existing)`), or add a per-file occurrence index to the key so the second identical row is distinct. Overlap against stored transactions should still be dropped."
+    }
+   ],
+   "closed": false,
+   "merges": 0,
+   "pushes": [],
+   "elsewhere": []
+  }
+ }
+}
