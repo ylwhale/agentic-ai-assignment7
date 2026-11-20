@@ -189,6 +189,20 @@ class ExportTests(unittest.TestCase):
 
 
 class ProvenanceGateTests(unittest.TestCase):
+    def test_threshold_write_preserves_every_pilot_trace(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'eval/subsets').mkdir(parents=True);(root/'runs').mkdir()
+            plan={'claim':'plan','arm_a':{'way':'planned'},'arm_b':{'way':'agent'},'delta':.25}
+            (root/'eval/experiment_plan.yaml').write_text(yaml.safe_dump(plan))
+            ids=list('abcdefgh');(root/'eval/subsets/claim.txt').write_text('\n'.join(ids)+'\n')
+            trace=root/'runs/synthetic-pilot.jsonl'
+            original=json.dumps({'type':'run_start','backend':'openai-compatible','task':'a','way':'agent','sweep':3})+'\n'
+            trace.write_text(original)
+            rows={a:[{'task':i,'sweep':s,'measure':0,'cost_usd':.1} for s in (1,2,3) for i in ids] for a in ('A','B')}
+            with patch.object(experiment,'export',return_value=rows):experiment.threshold(root)
+            self.assertTrue((root/'eval/thresholds/claim.yaml').is_file())
+            self.assertEqual(trace.read_text(),original)
+
     def test_fourth_sweep_blocked_before_any_model_command(self):
         with patch.object(experiment,'preflight',return_value={}), \
              patch.object(experiment,'design',return_value={'arm_a':{'way':'planned'},'arm_b':{'way':'agent'}}), \

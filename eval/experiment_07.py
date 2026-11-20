@@ -159,11 +159,11 @@ def run_stage(stage,root=ROOT):
 
 
 def threshold(root=ROOT):
-    path=root/'eval/thresholds/claim.yaml'
-    if path.exists():raise validation.InputError('Threshold already exists; it will not be overwritten')
+    threshold_path=root/'eval/thresholds/claim.yaml'
+    if threshold_path.exists():raise validation.InputError('Threshold already exists; it will not be overwritten')
     plan=design(root)
-    for path in (root/'runs').glob('*.jsonl'):
-        header=run_header(path) if is_trace(path) else None
+    for trace_path in (root/'runs').glob('*.jsonl'):
+        header=run_header(trace_path) if is_trace(trace_path) else None
         if header and header.get('backend') in REAL_BACKENDS and int(header.get('sweep') or 0)>=4 and header.get('task') in read_subset(root/'eval/subsets/claim.txt') and header.get('way') in {plan['arm_a']['way'],plan['arm_b']['way']}:
             raise validation.InputError('A fourth-sweep run already started, including unfinished attempts; retrospective threshold refused')
     rows=export(root)
@@ -176,7 +176,7 @@ def threshold(root=ROOT):
           'zero_variance_quantum':numbers['zero_variance_quantum'],
           'pilot_cost_per_sweep_usd':numbers['pilot_cost_per_sweep_usd'],
           'planning_limitation':numbers['limitation']}
-    atomic_write(path,yaml.safe_dump(spec,sort_keys=False))
+    atomic_write(threshold_path,yaml.safe_dump(spec,sort_keys=False))
     print('Pilot-derived threshold written. Commit and push claim.yaml before running finish; no advantage was displayed.')
 
 
