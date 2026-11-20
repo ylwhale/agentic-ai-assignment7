@@ -1,0 +1,13 @@
+{
+  "s_a": 0.19094065395649332,
+  "s_b": 0.125,
+  "effective_s_a": 0.19094065395649332,
+  "effective_s_b": 0.125,
+  "delta": 0.25,
+  "n_needed": 7,
+  "pilot_cost_per_sweep_usd": 0.06517816666666666,
+  "price_usd": 0.9124943333333333,
+  "five_sweep_total_estimate_usd": 0.6517816666666666,
+  "zero_variance_quantum": 0.125,
+  "limitation": "SD from only three sweeps is imprecise. Zero observed SD uses one task-count step (1/N) of the sweep mean for planning. Five sweeps may be underpowered."
+}

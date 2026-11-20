@@ -1,0 +1,34 @@
+claim: plan
+arm_a:
+  way: planned
+  switches: {}
+arm_b:
+  way: agent
+  switches: {}
+measure: repeats
+gain: B - A
+sweeps: 5
+k: 3
+delta: 0.25
+bar: 0.0
+group_floor: 0.0
+prediction:
+  arm: A
+  by: 0.25
+  stratum: unusual
+  why: An explicit plan constrains repeated exploratory calls, so planned is predicted
+    to make fewer repeated calls than agent, especially when unusual issues name a
+    misleading source location. A reduction of 0.25 repeated calls per task equals
+    two avoided repeated calls in an eight-task sweep. The sign B - A makes a positive
+    gain favor planned. This prediction uses the design and historical human observations,
+    not an observed pilot mean advantage.
+s_a: 0.19094065395649332
+s_b: 0.125
+n_needed: 7
+price_usd: 0.9124943333333333
+effective_s_a: 0.19094065395649332
+effective_s_b: 0.125
+zero_variance_quantum: 0.125
+pilot_cost_per_sweep_usd: 0.06517816666666666
+planning_limitation: SD from only three sweeps is imprecise. Zero observed SD uses
+  one task-count step (1/N) of the sweep mean for planning. Five sweeps may be underpowered.
