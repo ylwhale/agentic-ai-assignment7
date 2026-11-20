@@ -1,61 +1,49 @@
 # Assignment 7 — current completion state
 
-The repository has 40 independently reviewed/tagged historical traces and nine
-human-defined categories. Their document and taxonomy are preserved unchanged.
-The last new category was seen at Review #33, followed by seven observations
-without a new category: preliminary saturation, not exhaustive saturation.
+## Completed and verified
 
-The golden set now has 30 source-grounded distinct issue tasks. The original
-27 were retained and g28–g30 cover intended behavior, an existing fix and a
-closed duplicate. The official grounded check remains 16/16; trajectory metrics
-remain 10/10. Numerical functions pass the official probes; the final four
-mathematics points require actual Part C data and its stratum summaries.
+- Forty independently reviewed/tagged historical traces and nine human-defined
+  categories remain unchanged. Last new category at Review #33 followed by
+  seven observations supports preliminary, not exhaustive, saturation.
+- Thirty source-grounded distinct golden tasks: original 27 plus intended
+  behavior, an existing fix and a closed duplicate. Official golden score 16/16.
+- Exact reliability/statistics, per-sweep/per-stratum reports and five trajectory
+  metrics. Official mathematics 12/12 and trajectory metrics 10/10.
+- All 80 real Part C runs: five sweeps × eight frozen tasks × two arms. Recorded
+  usage 2,691,051 tokens and priced cost $0.643755, under the unchanged 20-million
+  assignment ceiling. All traces, call records, tracker and checkpoints retained.
+- Actual pilot SDs and cost produced threshold commit `756817f`, pushed before
+  sweep four. Subset/split `a96a722` was pushed before experiments; the design
+  and implementation were also committed/pushed first.
+- The plan/repeats claim fails: B−A = −0.475, 95% interval
+  [−0.736588, −0.213412]. The pilot estimated seven sweeps per arm; the fixed five
+  were retained and the power limitation is disclosed.
+- All 67 grounded failures have Codex-assisted trace-inspection records with
+  call ordinals, actual steps, sources, causes and hashes in `eval/failures_ai.csv`.
+  Both grids are computed from these records. These are not student-authored
+  human observations or Part D labels.
+- Read-only checkpoint diagnostic reproduced the malformed-plan argument loss;
+  it is not counted as an experiment or evidence of downstream success.
 
-The original review-helper failures were caused by copying the growing human
-ledger into tests that expected 17 entries. Tests now use a deterministic
-synthetic ledger in a temporary root, preserving the original safety checks.
-No human work was changed to fit a test.
+The checker awards 66/80 with no integrity flags: all Part A–C automated rows
+have full credit; the label-independent judge split contributes 2 points.
+The current test results and exact remaining status are in
+`reports/VERIFICATION_07.md`.
 
-The unchanged eight-task subset and label-independent 8/26/26 judge split were
-committed and pushed as `a96a722` before real experiments and the new judge code.
-Origin uses the equivalent working HTTPS URL after SSH authentication failed.
-No Git timestamps, histories, results or labels were fabricated.
+## Remaining human-dependent work
 
-The permitted programming is implemented: exact statistics and SE; complete
-experiment matrices; trace/tracker-backed exports; spread-only pilots; a genuine
-pilot-derived threshold with commit/push gates; actual failed-trace evidence;
-protected human label entry; examples-only judge prompts; a frozen and resumable
-metered judge; calibration, correction/coin guard, bootstrap, reliability and
-perturbation summaries; and reports that retain pending values when evidence is
-absent. All model calls remain under the unchanged course ceilings.
+`eval/judge/criterion.md` is an inherited assisted draft until the student writes
+or revises it and explicitly confirms authorship. The 60 separate Part D human
+labels/reasons must be entered in `eval/labels/labels.csv`. The historical 40
+reviews do not replace those labels. No assistant writes or suggests them.
 
-## Actual remaining dependencies
+After those inputs are supplied: validate them; develop the generic judge only
+on examples/tuning data; commit its configuration; freeze before held-out
+inference; run three test passes, versions and historical comments through the
+metered client; compute calibration, correction, bootstrap, reliability and
+system-specific rates; and complete the final Part D discussion.
 
-- `GEMINI_API_KEY` was not accessible during the initial audit and ping failed
-  before a model call. No real Part C run has been claimed as complete.
-- `eval/thresholds/claim.yaml` must be computed from three actual pilot sweeps,
-  then committed/pushed before sweep four. The design file is not that threshold.
-- `eval/judge/criterion.md` is an inherited assisted draft; the student must
-  personally write/revise and confirm the criterion.
-- `eval/labels/labels.csv` currently has only its header. All 60 separate
-  pass/fail labels and reasons must be entered by the student.
-- Real frozen-judge verdicts and all actual Part C first-failure analyses must be
-  produced from the resulting evidence before final reports, tag and submission.
-
-Exact credential/human-input commands and the remaining reproducible execution
-order are in [REMAINING_HUMAN_INPUT_07.md](REMAINING_HUMAN_INPUT_07.md). Runtime
-pricing and Git provenance are in
-[reports/RUNTIME_PROVENANCE_07.md](reports/RUNTIME_PROVENANCE_07.md).
-
-## Verification
-
-```bash
-make test
-make check-07
-```
-
-A current partial checker score is not a completed assignment. No final
-`lab-07` submission tag or Canvas submission is claimed until the actual
-experiments, human-only inputs, metered verdicts, reports and final checks exist.
-The staff-reviewed 20 points require a separate reading of the report even if
-the automated 80 are eventually satisfied.
+Exact commands are in [REMAINING_HUMAN_INPUT_07.md](REMAINING_HUMAN_INPUT_07.md).
+All API calls remain under course ceilings; `.env` is ignored and never committed.
+No final `lab-07` tag or Canvas completion is claimed while Part D is incomplete.
+The staff-reviewed 20 points remain separate from the automated score.

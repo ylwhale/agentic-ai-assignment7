@@ -189,6 +189,23 @@ class ExportTests(unittest.TestCase):
 
 
 class ProvenanceGateTests(unittest.TestCase):
+    def test_decode_diagnostic_does_not_rewrite_or_replay_a_trace(self):
+        from eval.diagnose_plan_07 import diagnose
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'runs').mkdir()
+            malformed=json.dumps({'issue':'issue-synthetic'}).replace('"','\\"')
+            step={'id':1,'tool':'issues_read','args_json':malformed,'depends_on':[],
+                  'expected_result':'Synthetic issue text','status':'pending'}
+            event={'type':'plan','version':1,'plan':{'meta':{'tools':['issues_read']},'steps':[step]}}
+            trace=root/'runs/synthetic.jsonl';original=json.dumps(event)+'\n';trace.write_text(original)
+            result=diagnose('synthetic',root)
+            self.assertTrue(result['diagnostic_only'])
+            self.assertTrue(result['recorded_plan_validation']['valid'])
+            self.assertEqual(result['actual_step_args_output'],{})
+            self.assertEqual(result['counterfactual_arguments'],{'issue':'issue-synthetic'})
+            self.assertEqual((result['model_calls'],result['tool_calls']),(0,0))
+            self.assertEqual(trace.read_text(),original)
+
     def test_threshold_write_preserves_every_pilot_trace(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);(root/'eval/subsets').mkdir(parents=True);(root/'runs').mkdir()
@@ -232,6 +249,10 @@ class ProvenanceGateTests(unittest.TestCase):
             self.assertEqual(validate_annotations([row],failures,root),[row])
             for bad in ([],[dict(row,arm='B')],[dict(row,first_wrong='pulls_open')],[row,row]):
                 with self.assertRaises(ValueError):validate_annotations(bad,failures,root)
+            explicit=dict(row,last_good_call='1',first_wrong_call='stop',last_good_step='0',first_wrong_step='stop')
+            self.assertEqual(validate_annotations([explicit],failures,root),[explicit])
+            with self.assertRaisesRegex(ValueError,'names/steps'):
+                validate_annotations([dict(explicit,last_good_step='9')],failures,root)
 
 
 if __name__=='__main__':unittest.main()

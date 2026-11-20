@@ -50,9 +50,10 @@ reviews and taxonomy remain unchanged.
 | Human label collection | `notes/human_judge_cli.py:35` | Explicit user input and confirmation, lock, backup, atomic replacement, no overwrite. |
 | Frozen metered judge | `eval/judge.py:198` | Examples-only prompt labels; independent criterion; frozen config for held-out calls; resumable session-backed verdicts. |
 | Judge freeze | `eval/judge.py:173` | Hash checks of code/prompt, criterion/receipt, split/labels, model settings and input outputs. |
-| Failed-run evidence | `eval/failure_review_07.py:50` | Full actual trace/end-state packets; no inferred first-failure judgment. |
+| Failed-run evidence | `eval/failure_review_07.py:64` | Full actual trace/end-state packets; no inferred first-failure judgment. |
 | Computed report | `eval/report_07.py:135` | Exact arm/per-stratum calculations from complete matrices; null/pending when evidence is absent. |
-| Report rendering | `eval/report_07.py:238` | Part A retained; no invented experiments or human criterion/labels. |
+| Report rendering | `eval/report_07.py:247` | Part A retained; no invented experiments or human criterion/labels. |
+| Plan-encoding diagnosis | `eval/diagnose_plan_07.py:18` | Read-only saved-plan/decoder proof; zero API/tool calls and no measured-run changes. |
 
 The label-independent subset/split commit `a96a722` was pushed before the new
 judge implementation. `eval/experiment_plan.yaml` fixes the design before paid
@@ -68,3 +69,11 @@ course ceilings remain 1.5 million tokens/session and 20 million/assignment.
 See `REMAINING_HUMAN_INPUT_07.md` for the honest remaining dependencies and exact
 commands. A passing automated score would still require separate staff review of
 the report, provenance, first-failure causes and independent human work.
+
+Part C has now completed all 80 real runs. Threshold `756817f` was pushed before
+sweep four. The failed repeats claim, actual costs and 67 disclosed Codex-assisted
+first-failure records are in `reports/PART_C_ANALYSIS_07.md`,
+`reports/PART_C_PROVENANCE_07.json` and `eval/failures_ai.csv`. The report builder
+validates call ordinals/steps/hashes and computes grids from those records; it does
+not present them as student-authored human labels. The Part D human criterion
+and labels remain separate and are not changed by this pipeline.

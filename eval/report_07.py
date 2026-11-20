@@ -164,7 +164,8 @@ def build():
             n=arm_numbers(these,k)
             if n:
                 stratum[s]={'runs':n['runs'],'measure':n['measure']['mean'],
-                            'score':n['score']['mean'],'pass_at_k':n['pass_at_k'],'pass_hat_k':n['pass_hat_k']}
+                            'score':n['score']['mean'],'pass_at_k':n['pass_at_k'],'pass_hat_k':n['pass_hat_k'],
+                            'measure_sd':n['measure']['sd'],'score_sd':n['score']['sd']}
         values.update({'way':spec[f'arm_{arm.lower()}']['way'],
                        'switches':spec[f'arm_{arm.lower()}'].get('switches') or {},
                        'by_stratum':stratum})
@@ -191,8 +192,11 @@ def build():
     bar,floor=float(spec['bar']),float(spec['group_floor'])
     verdict='holds' if lo>bar and all(v['difference']>=floor for v in by_stratum.values()) else 'fails' if hi<bar else 'cannot_settle'
     existing['claim'].update({'difference':diff,'interval':[lo,hi],'by_stratum':by_stratum,'verdict':verdict})
-    # Do NOT invent first-failure step labels; read only the user's verified CSV.
+    # Read explicit trace-inspection annotations. AI-assisted records retain
+    # authorship and are never represented as the student's human reviews.
     manual=ROOT/'eval/failures_manual.csv'
+    if not manual.exists():
+        manual=ROOT/'eval/failures_ai.csv'
     if manual.exists():
         with manual.open(newline='') as fh:
             firsts=[r for r in csv.DictReader(fh) if r.get('run_id')]
@@ -205,6 +209,11 @@ def build():
             grid.setdefault(arm,{}).setdefault(good,{}).setdefault(wrong,0)
             grid[arm][good][wrong]+=1
         existing['grid']=grid
+        existing['failure_analysis']={'source':str(manual.relative_to(ROOT)),
+            'reviewers':sorted({r.get('reviewer','unspecified') for r in firsts}),
+            'cause_counts':dict(Counter(r.get('cause','unspecified') for r in firsts)),
+            'failure_type_counts':dict(Counter(r.get('failure_type','unspecified') for r in firsts)),
+            'human_historical_reviews_modified':False}
     atomic_write(REPORT,json.dumps(existing,indent=2,ensure_ascii=False)+'\n')
     render_markdown(existing)
     return f'Calculated real-sweep comparison: {diff:.4f} [{lo:.4f}, {hi:.4f}]; verdict={verdict}. First-failure annotations require explicit trace inspection and disclosed authorship.'
@@ -272,7 +281,7 @@ def render_markdown(report):
     lines.extend(['','First-failure grids (last correct tool → first wrong tool, or start/stop):','',
                   '```json',json.dumps(report.get('grid',{}),indent=2),'```','',
                   f"No-tool runs: A={arms['A'].get('no_tools',0)}, B={arms['B'].get('no_tools',0)}. These counts are final only when the experiment matrix is complete.",'',
-                  'First failures require inspection of each failed run’s full trace and independent task expectation. The review record must name the actual last good and first wrong calls, explain local/upstream/structural cause, and preserve authorship. No first failure is inferred from a missing final fact alone. The final causal explanation and checkpoint replay analysis remain pending until the actual failed runs are inspected.','',
+                  (ROOT/'reports/PART_C_ANALYSIS_07.md').read_text() if (ROOT/'reports/PART_C_ANALYSIS_07.md').exists() else 'First-failure trace inspection and causal/checkpoint analysis remain pending. No first failure is inferred solely from a missing final fact.','',
                   '## Part D · Validate a judge',''])
     j=report['judge']
     try:count=len(validation.labels(ROOT,complete=False))
@@ -287,7 +296,7 @@ def render_markdown(report):
                       'Per source system:','', '```json',json.dumps(j['by_system'],indent=2),'```',''])
     lines.extend(['Correction is clipped (p+TNR−1)/(TPR+TNR−1), refused when |TPR+TNR−1|≤0.1. At least 2,000 seeded bootstrap resamples propagate calibration uncertainty. A small held-out sample, absent classes within a source-system slice, and calibration transfer to historical comments limit interpretation. Bootstrap intervals condition on the observed recorded pass rate; they do not account for task-population drift.','',
         '## AI assistance','',
-        'Codex audited and extended the Python evaluation/review tools, isolated synthetic tests from live human records, added three independently sourced golden tasks, summarized the student’s existing human taxonomy, and prepared reproducible experiment/judge stages and report calculations. Codex did not author or suggest Part D human labels or reasons, did not write the student’s criterion, and did not change the 40 human observations or taxonomy. The inherited criterion requires the student’s own revision and confirmation. Synthetic test labels and runs remain confined to temporary test roots. Human verification of the criterion, all labels, and final report interpretation remains required.',''])
+        'Codex audited and extended the Python evaluation/review tools, isolated synthetic tests from live human records, added three independently sourced golden tasks, and summarized the student’s existing human taxonomy. Codex executed the real Part C experiment and inspected its failed traces; those annotations disclose Codex authorship in eval/failures_ai.csv and are not student-authored human reviews. Codex did not author or suggest Part D human labels/reasons, did not write the student’s criterion, and did not change the 40 human observations or taxonomy. Synthetic test labels/runs remain confined to temporary roots. The checkpoint diagnostic is read-only, not a new measured arm or evidence of downstream task success. Human verification of the criterion, all labels, and final report interpretation remains required.',''])
     atomic_write(path,prefix+'\n'.join(lines))
 
 if __name__=='__main__':

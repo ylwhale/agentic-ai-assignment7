@@ -1,0 +1,19 @@
+.venv/bin/python checks/check_07.py
+Assignment 7 check · golden tasks: 30 · Part C runs: arm A 40, arm B 40 · tracker databases read: 1
+
+Grounded golden set             16 / 16
+The maths                       12 / 12
+Trajectory metrics              10 / 10
+Same tasks, bar first           10 / 10
+Claim settled                   10 / 10
+First failures                   6 / 6
+Judge validated                  2 / 16
+    - eval/labels/labels.csv is missing
+    - test_1, test_2 and test_3 each judge exactly the test set
+Read                         staff
+    - read by staff from reports/LAB_07.md
+
+Automated: 66 / 80   (plus up to 20 from staff for the report)
+  measured: the difference -0.475, 95% interval [-0.737, -0.213]; verdict by your bar: fails
+
+Integrity flags (no points; staff review): none

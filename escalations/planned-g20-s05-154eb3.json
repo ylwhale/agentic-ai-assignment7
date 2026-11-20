@@ -1,0 +1,10 @@
+{
+ "attempted": "open_pr for step 5 of the plan on issue 4605: Open a draft pull request for the fix",
+ "why_stopped": "step 2 failed 3 times",
+ "needs_from_human": "approve to try the step once more, or deny and the step is skipped",
+ "signal": "blocked_three_times",
+ "at": "2026-11-20T17:35:54.535Z",
+ "run_id": "planned-g20-s05-154eb3",
+ "issue": 4605,
+ "step": 5
+}

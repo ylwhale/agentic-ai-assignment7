@@ -1,0 +1,62 @@
+{
+  "run_id": "planned-g03-s01-e5c347",
+  "diagnostic_only": true,
+  "model_calls": 0,
+  "tool_calls": 0,
+  "recorded_plan_version": 1,
+  "recorded_plan_validation": {
+    "valid": true,
+    "failures": []
+  },
+  "recorded_plan_step": 1,
+  "recorded_tool": "issues_read",
+  "original_args_json": "{\\\"issue\\\": \\\"issue-4612\\\"}",
+  "actual_step_args_output": {},
+  "counterfactual_decode_passes": 1,
+  "counterfactual_arguments": {
+    "issue": "issue-4612"
+  },
+  "saved_checkpoints": [
+    {
+      "seq": 1,
+      "step": "3",
+      "mode": "sync",
+      "malformed_plan_steps": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "seq": 2,
+      "step": "4",
+      "mode": "sync",
+      "malformed_plan_steps": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "seq": 3,
+      "step": "6",
+      "mode": "sync",
+      "malformed_plan_steps": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "conclusion": "The recorded plan passes structural validation but its args_json cannot be parsed and step_args returns {}. Decode-only repair restores argument keys; this confirms loss at the encoding boundary, not downstream task success.",
+  "replay_limit": "Resuming an unchanged saved plan would retain malformed arguments. A future isolated replay should repair/validate the saved pending plan before any simulated tool executes and compare required-key validity with the original; do not alter these measured traces or their tracker rows."
+}

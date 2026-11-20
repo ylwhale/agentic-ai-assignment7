@@ -31,3 +31,26 @@ A generic uncommitted judge draft already existed at the start of this audit.
 Its existence has not been re-dated or hidden. The split freeze precedes this
 session's judge extensions and any label-driven development or held-out testing;
 there were no human labels or real judge verdicts at the freeze boundary.
+
+## Completed Part C runtime
+
+The ignored local `.env` became accessible and a fresh real ping succeeded before
+the pilots. No key value was printed or staged. All 80 measured runs used
+`gemini-3.5-flash-lite`, the same frozen subset, empty memory, and
+`REVIEWER=scripted:approve-all`. An execution-driver path-shadowing bug was caught
+before any pilot ran, fixed/tested, and pushed as `8d7003d`; pilot traces were
+therefore never overwritten by threshold creation.
+
+Actual pilot SDs (A 0.190940654, B 0.125) and mean arm-sweep cost ($0.065178167)
+produced threshold `756817f`, committed at 2026-11-20 11:32:46 −06:00 and pushed
+before the earliest sweep-four start, 2026-11-20 17:33:19.849 UTC. The threshold
+and frozen inputs remain unchanged. All 95 pilot measured trace/call files match
+their pre-threshold hashes; append-only setup/ledger files also retain their data.
+
+The final result contains 40 runs per arm, 2,691,051 metered experiment tokens
+and $0.643755 priced run cost. This excludes separate connectivity pings. It is
+not a claim about an account invoice. The original per-session and lab ceilings
+were never raised or bypassed. The one held terminal run is a finished measured
+failure under the course's definition; no quota/rate-limited attempts were
+substituted or silently dropped. Detailed chronology/hashes are in
+`reports/PART_C_PROVENANCE_07.json`.

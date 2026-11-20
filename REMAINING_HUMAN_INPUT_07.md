@@ -3,15 +3,13 @@
 The 40 historical reviews and nine-category taxonomy are complete and protected.
 They are not the same as the 60 separate Part D output labels.
 
-## API credential
+## API credential and completed Part C
 
-Configure `GEMINI_API_KEY` in the execution environment or the repository's
-ignored `.env`. Do not paste the value into chat. A key exported in a separate
-Terminal does not automatically enter Codex's environment; `.env` is supported
-by the experiment driver. The driver never prints or executes its contents.
-
-Once accessible, Codex can run the real pilots. No real Part C result, threshold
-spread, or final advantage has been invented while the credential is absent.
+The ignored `.env` is accessible and real ping succeeded. Both arms completed
+all five sweeps on the frozen eight tasks. Threshold commit `756817f` was pushed
+before sweep four. The measured claim fails; see `reports/PART_C_ANALYSIS_07.md`
+and `reports/PART_C_PROVENANCE_07.json`. Usage is 2,691,051/20,000,000 tokens;
+priced experiment cost is $0.643755. No credentials are printed or committed.
 
 ## Human-authored criterion and 60 labels
 
@@ -49,32 +47,24 @@ After the files are ready, tell Codex so it can validate them without changing
 your judgments. The model judge uses examples only from the examples split;
 tuning uses tuning outputs; test labels remain held out until the judge is frozen.
 
-## Remaining automated stages, in order
+## Completed experiment and remaining judge execution
 
-The subset/split freeze commit is already pushed. A generic judge draft existed before this audit; that fact is disclosed in the runtime provenance rather than retroactively re-dated. The implementation and
-pre-pilot design must also be committed/pushed before the driver starts.
+Part C is complete; do not create a replacement threshold or change the subset.
+All 67 failed runs have explicitly disclosed Codex-assisted trace analyses in
+`eval/failures_ai.csv`. The original human 40-review dataset is unchanged.
 
-```bash
-.venv/bin/python -m eval.experiment_07 preflight
-.venv/bin/python -m eval.experiment_07 pilot
-.venv/bin/python -m eval.experiment_07 threshold
-```
-
-The pilot command displays only SD and cost. The threshold command calculates
-from actual complete pilot cells and never overwrites a threshold. Then commit
-and push the actual threshold before starting the next stage:
+For audit/reproduction of the existing artifacts (no new model calls):
 
 ```bash
-git add eval/thresholds/claim.yaml eval/pilot_spread.json
-git commit -m "Precommit claim threshold after three pilot sweeps"
-git push origin main
-.venv/bin/python -m eval.experiment_07 finish
-.venv/bin/python -m eval.failure_review_07 prepare
+.venv/bin/python -m eval.failure_review_07 validate
+.venv/bin/python -m eval.report_07
+make test
+make check-07
 ```
 
-Codex must inspect every actual failed run and record trace-backed first-failure
-annotations with cause and authorship. No first-failure judgment comes from the
-preparation command. Validate annotations before rebuilding the final report.
+The generic judge draft predates the initial split in the working tree; this is
+openly disclosed in runtime provenance, not retroactively re-dated. The committed
+split precedes this session's extensions and all label-driven judge development.
 
 Once your Part D inputs are complete, judge development/evaluation proceeds:
 

@@ -7,6 +7,7 @@ last-good or first-wrong call. This does not alter historical human reviews.
 from __future__ import annotations
 import argparse
 import csv
+import hashlib
 import json
 from pathlib import Path
 
@@ -42,6 +43,19 @@ def validate_annotations(annotations,failed,root=ROOT):
         good,bad=row.get('last_good'),row.get('first_wrong')
         if good!='start' and good not in names or bad!='stop' and bad not in names:
             raise ValueError(run+': tool reference must exist, or use start/stop')
+        if row.get('last_good_call') is not None:
+            good_index=int(row['last_good_call'])
+            bad_index=len(calls)+1 if row.get('first_wrong_call')=='stop' else int(row['first_wrong_call'])
+            if good_index!=bad_index-1 or not 0<=good_index<=len(calls) or not 1<=bad_index<=len(calls)+1:
+                raise ValueError(run+': call ordinals must be adjacent and within the trace')
+            expected_good='start' if good_index==0 else calls[good_index-1]['name']
+            expected_bad='stop' if bad_index==len(calls)+1 else calls[bad_index-1]['name']
+            good_step='start' if good_index==0 else str(calls[good_index-1]['step'])
+            bad_step='stop' if bad_index==len(calls)+1 else str(calls[bad_index-1]['step'])
+            if (good,bad,str(row.get('last_good_step')),str(row.get('first_wrong_step')))!=(expected_good,expected_bad,good_step,bad_step):
+                raise ValueError(run+': call names/steps disagree with cited trace ordinals')
+        if row.get('trace_sha256') and hashlib.sha256((root/f'runs/{run}.jsonl').read_bytes()).hexdigest()!=row['trace_sha256']:
+            raise ValueError(run+': trace changed after annotation')
         if row.get('cause') and row['cause'] not in {'local','upstream','structural'}:
             raise ValueError(run+': cause must be local/upstream/structural')
     return annotations
@@ -71,11 +85,14 @@ def prepare(root=ROOT):
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command',choices=('prepare','validate'))
+    parser.add_argument('--annotations',type=Path,help='explicit reviewed CSV; otherwise manual then disclosed AI-assisted records')
     args=parser.parse_args(argv)
     if args.command=='prepare':
         print(f'{prepare()} actual failed-run packets prepared; no first-failure judgments generated.')
     else:
-        path=ROOT/'eval/failures_manual.csv'
+        path=args.annotations or ROOT/'eval/failures_manual.csv'
+        if not path.exists() and args.annotations is None:
+            path=ROOT/'eval/failures_ai.csv'
         if not path.exists():raise SystemExit('Missing explicit trace-review annotations: eval/failures_manual.csv')
         with path.open(newline='') as stream:rows=list(csv.DictReader(stream))
         validate_annotations(rows,failed_rows())

@@ -1,36 +1,36 @@
-# Engineering checkpoint verification
+# Part C checkpoint verification
 
-- `make test`: 162 tests run, 160 passed, 2 expected skips, no failures/errors.
-- Original `tests.test_eval`: all 11 tests pass unchanged.
-- New workflow tests cover exact statistics, complete/duplicate matrices,
-  the 1/N zero-variance fallback, threshold timing including unfinished fourth
-  sweeps, real/scripted separation, isolated tracker roots, human confirmation,
-  duplicate labels, held-out prompt isolation, frozen configuration changes,
-  partial-verdict resume, and valid first-failure references.
-- `make check-07`: 36/80 automated; no integrity flags. Golden set 16/16,
-  mathematics 8/12, trajectories 10/10, split contribution 2/16 in judge row.
-  The remaining score requires actual experiment and judge evidence.
-- The review document and taxonomy hashes match the beginning of this audit;
-  all 40 reviewed observations and nine human categories remain unchanged.
-- No protected course harness, fixture, tool, way or checker was edited.
-- Staged credential-pattern scan found no credentials or staged `.env` file.
-- Engineering/source whitespace check passes. The full staged whitespace check
-  reports pre-existing CRLF CSV and generated evidence-excerpt formatting in
-  archival data. Those bytes were preserved; no checker or test was relaxed.
-  The exact paths/counts are recorded in `STAGING_AUDIT_07.json`.
+- `make test`: **164 tests run, 162 passed, 2 expected skips**, no failures/errors.
+- Original `tests.test_eval`: all 11 tests still pass unchanged.
+- `make check-07`: **66/80 automated, no integrity flags**. Full credit for
+  golden grounding (16), mathematics (12), metrics (10), task/threshold ordering
+  (10), the real claim result (10), and all first failures/grids (6). The judge
+  split contributes 2; the remaining 14 depend on Part D human input/real verdicts.
+- Eight tasks × five sweeps × two arms: exactly 80 real finished result cells,
+  no duplicates. All measured models are `gemini-3.5-flash-lite`.
+- All 67 failed-run records validate tool names, adjacent call ordinals, actual
+  steps, arms and trace hashes. They disclose Codex authorship and are not counted
+  as the student's human historical reviews or Part D labels.
+- Threshold `756817f` was committed/pushed before sweep four and remains unchanged.
+  All 95 pilot measured trace/call files retain their pre-threshold hashes.
+- Experiment usage is 2,691,051/20,000,000 tokens; priced run cost $0.643755.
+  No over-budget override or model/arm/subset change was made.
+- The 40-review document, human taxonomy, task subset and design retain the hashes
+  captured at the start of this execution. No human observation was overwritten.
+- Tracker and checkpoint SQLite databases pass read-only `PRAGMA integrity_check`.
+- The plan-decoding diagnostic used zero model/tool calls and changed no measured
+  trace or tracker record. Its counterfactual is not a new experiment result.
+- The full checker output is preserved in `CHECK_07_PART_C.txt`; exact run/cost/
+  timing metadata is in `PART_C_PROVENANCE_07.json`.
 
-## Not yet verified or completed
+## Remaining work
 
-The current execution environment still lacks `GEMINI_API_KEY`; initial real ping
-failed before a model call. There are zero real Part C runs, no pilot-derived
-threshold, zero human Part D labels, no confirmed human criterion, and no real
-frozen-judge validation. No result, threshold spread, human judgment, final
-submission tag or Canvas submission was invented. The generic inherited judge
-draft predates the freeze in the working tree; this is disclosed in runtime
-provenance, not hidden by Git history.
+The human-authored Part D criterion/confirmation and 60 human labels/reasons
+remain separate dependencies. No assistant supplies or suggests these labels.
+Real development/test/perturbation/historical judge verdicts have not been
+claimed as complete. No final lab-07 submission tag or Canvas submission has
+been made. The staff-reviewed 20 points require a separate final report audit.
 
-The staff-reviewed 20 points remain separate. Part A's taxonomy, selection and
-preliminary saturation are documented. Final experimental interpretation,
-first-failure causes/checkpoint replay and criterion/reliability discussion must
-be audited against the actual completed evidence before claiming submission
-readiness.
+The generic judge draft existed before the initial split in the working tree;
+this is disclosed rather than retroactively re-dated. Current code enforces
+examples-only prompt labels and a frozen configuration before held-out testing.
