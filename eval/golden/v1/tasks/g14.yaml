@@ -1,0 +1,26 @@
+id: g14
+kind: single
+issues:
+- 4616
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/config.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4616: Fixed in #975: src/config.ts now refuses to
+  start when APP_CONFIG names a file that does not exist.'
+runs:
+- agent-issue-4616-s01-18dc8e
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

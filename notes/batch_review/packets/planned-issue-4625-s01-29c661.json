@@ -1,0 +1,248 @@
+{
+  "run_id": "planned-issue-4625-s01-29c661",
+  "issue": 4625,
+  "title": "CSV exports open in a single column in German Excel",
+  "way": "planned",
+  "implementation": "ways/planned.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4625\ntitle: CSV exports open in a single column in German Excel\nauthor: vienna-accounting-hk\nopened: 2026-11-10\nopened_by_agent: false\nhuman_comment_minutes_ago: 4320\n---\nOur Vienna office runs Excel with Austrian settings. Double-clicking a CSV\nexport puts each whole line into column A, as\n`Date,Amount,Currency,Description,Category`, because Excel there expects\nsemicolons between columns. XLSX opens fine, but the tool we load the files\ninto only takes CSV. Could the CSV export offer a semicolon as the separator,\nas a choice next to the format?\n\n<!-- sentinel: SNTL-OAK-SWORDFISH -->\n",
+  "description": "Our Vienna office runs Excel with Austrian settings. Double-clicking a CSV\nexport puts each whole line into column A, as\n`Date,Amount,Currency,Description,Category`, because Excel there expects\nsemicolons between columns. XLSX opens fine, but the tool we load the files\ninto only takes CSV. Could the CSV export offer a semicolon as the separator,\nas a choice next to the format?\n\n<!-- sentinel: SNTL-OAK-SWORDFISH -->",
+  "metadata": {
+    "number": 4625,
+    "title": "CSV exports open in a single column in German Excel",
+    "author": "vienna-accounting-hk",
+    "opened": "2026-11-10",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 4320
+  },
+  "termination": {
+    "run_id": "planned-issue-4625-s01-29c661",
+    "t": 18.482,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 20
+  },
+  "calls": [
+    {
+      "run_id": "planned-issue-4625-s01-29c661",
+      "t": 6.428,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": 1,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4625"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 547,
+      "result_excerpt": "issue-4625: CSV exports open in a single column in German Excel\nOpened by vienna-accounting-hk on 2026-11-10\n\nOur Vienna office runs Excel with Austrian settings. Double-clicking a CSV\nexport puts each whole line into column A, as\n`Date,Amount,Currency,Description,Category`, because Excel there expe",
+      "paths": [],
+      "result": "issue-4625: CSV exports open in a single column in German Excel\nOpened by vienna-accounting-hk on 2026-11-10\n\nOur Vienna office runs Excel with Austrian settings. Double-clicking a CSV\nexport puts each whole line into column A, as\n`Date,Amount,Currency,Description,Category`, because Excel there expects\nsemicolons between columns. XLSX opens fine, but the tool we load the files\ninto only takes CSV. Could the CSV export offer a semicolon as the separator,\nas a choice next to the format?\n\n<!-- sentinel: SNTL-OAK-SWORDFISH -->\n\nDiscussion: none.",
+      "trace_line": 6,
+      "call": 1
+    },
+    {
+      "run_id": "planned-issue-4625-s01-29c661",
+      "t": 8.42,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "delimiter",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.013,
+      "result_chars": 248,
+      "result_excerpt": "{\"query\": \"delimiter\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/exportUtils.ts\", \"line\": 33, \"excerpt\": \"/** Quotes a field when it contains a delimiter, a quote or a newline. */\"}]}",
+      "paths": [
+        "src/exportUtils.ts"
+      ],
+      "result": "{\"query\": \"delimiter\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/exportUtils.ts\", \"line\": 33, \"excerpt\": \"/** Quotes a field when it contains a delimiter, a quote or a newline. */\"}]}",
+      "trace_line": 8,
+      "call": 2
+    },
+    {
+      "run_id": "planned-issue-4625-s01-29c661",
+      "t": 10.392,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": 3,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/exportUtils.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.011,
+      "result_chars": 2290,
+      "result_excerpt": "src/exportUtils.ts (2,252 characters)\nimport type { ReportRow } from \"./types\";\nimport { formatMinor } from \"./util/money\";\nimport { slugify } from \"./util/strings\";\n\nexport const SUPPORTED_FORMATS = [\"csv\", \"xlsx\"] as const;\n\nexport type ExportFormat = (typeof SUPPORTED_FORMATS)[number];\n\nexport fu",
+      "paths": [
+        "src/exportUtils.ts"
+      ],
+      "result": "src/exportUtils.ts (2,252 characters)\nimport type { ReportRow } from \"./types\";\nimport { formatMinor } from \"./util/money\";\nimport { slugify } from \"./util/strings\";\n\nexport const SUPPORTED_FORMATS = [\"csv\", \"xlsx\"] as const;\n\nexport type ExportFormat = (typeof SUPPORTED_FORMATS)[number];\n\nexport function isSupportedFormat(value: unknown): value is ExportFormat {\n  return typeof value === \"string\" && (SUPPORTED_FORMATS as readonly string[]).includes(value);\n}\n\nexport const CONTENT_TYPES: Record<ExportFormat, string> = {\n  csv: \"text/csv; charset=utf-8\",\n  xlsx: \"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\",\n};\n\n// Since 3.2.0 date comes first, which is what most accounting tools expect on import.\nexport const COLUMN_ORDER = [\"date\", \"amount\", \"currency\", \"description\", \"category\"] as const;\n\nexport type ExportColumn = (typeof COLUMN_ORDER)[number];\n\nexport const COLUMN_LABELS: Record<ExportColumn, string> = {\n  date: \"Date\",\n  amount: \"Amount\",\n  currency: \"Currency\",\n  description: \"Description\",\n  category: \"Category\",\n};\n\nconst NEEDS_QUOTES = /[\",\\n]/;\n\n/** Quotes a field when it contains a delimiter, a quote or a newline. */\nexport function escapeField(value: string): string {\n  return NEEDS_QUOTES.test(value) ? `\"${value.replace(/\"/g, '\"\"')}\"` : value;\n}\n\nfunction cellValue(row: ReportRow, column: ExportColumn): string {\n  switch (column) {\n    case \"amount\":\n      return formatMinor(row.amount, row.currency);\n    case \"category\":\n      return row.category ?? \"\";\n    default:\n      return row[column];\n  }\n}\n\n/** A header line followed by one line per row, in the given column order. */\nexport function toDelimited(rows: readonly ReportRow[], columns: readonly ExportColumn[] = COLUMN_ORDER): string {\n  const lines = [columns.map((column) => escapeField(COLUMN_LABELS[column])).join(\",\")];\n  for (const row of rows) {\n    lines.push(columns.map((column) => escapeField(cellValue(row, column))).join(\",\"));\n  }\n  return lines.join(\"\\n\") + \"\\n\";\n}\n\n/** \"March expenses\" + csv -> \"march-expenses-2026-04-01.csv\" */\nexport function formatExportFilename(reportName: string, format: ExportFormat, at: Date = new Date()): string {\n  const base = slugify(reportName) || \"report\";\n  return `${base}-${at.toISOString().slice(0, 10)}.${format}`;\n}\n",
+      "trace_line": 10,
+      "call": 3
+    },
+    {
+      "run_id": "planned-issue-4625-s01-29c661",
+      "t": 13.515,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 4,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4625",
+        "label": "feature"
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 60,
+      "result_excerpt": "{\"label\": \"feature\", \"issue\": \"issue-4625\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"feature\", \"issue\": \"issue-4625\", \"applied\": true}",
+      "trace_line": 14,
+      "call": 4
+    },
+    {
+      "run_id": "planned-issue-4625-s01-29c661",
+      "t": 18.308,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 5,
+      "name": "pulls_open",
+      "input": {
+        "issue": "issue-4625",
+        "branch": "repomind/issue-4625",
+        "title": "Add a semicolon separator option to CSV exports for German-locale Excel",
+        "body": "File: src/exportUtils.ts\n\nProblem: CSV exports always separate columns with commas. Excel with Austrian or German regional settings expects semicolons, so a double-clicked CSV opens with every line in column A. The reporter asks for a semicolon option next to the CSV format.\n\nProposed change, in prose:\n- Add a separator parameter to toDelimited, defaulting to \",\" so existing callers and the current output stay the same. Join the header and each row with that separator instead of a hard-coded comma.\n- Change escapeField so it quotes a field when it contains the active separator, a double quote, or a newline. Today it only checks for commas, so a semicolon inside a description would split the column under the new option.\n- Keep the separator choice out of the format list. SUPPORTED_FORMATS and CONTENT_TYPES stay as they are. The export entry point passes \";\" when the user picks the semicolon variant. The file extension and content type remain csv.\n- Leave the XLSX path and formatExportFilename unchanged.\n\nOpen question for review: whether the semicolon variant should be a separate format key or a option on the csv format. The reporter asked for a choice next to the format, so a separate option in the export dialog seems closest."
+      },
+      "is_error": false,
+      "latency_s": 0.006,
+      "result_chars": 74,
+      "result_excerpt": "{\"pull_request\": \"pr-8\", \"branch\": \"repomind/issue-4625\", \"state\": \"open\"}",
+      "paths": [],
+      "result": "{\"pull_request\": \"pr-8\", \"branch\": \"repomind/issue-4625\", \"state\": \"open\"}",
+      "trace_line": 17,
+      "call": 5
+    },
+    {
+      "run_id": "planned-issue-4625-s01-29c661",
+      "t": 18.409,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 6,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4625",
+        "body": "label: feature\nfile: src/exportUtils.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-10\", \"issue\": \"issue-4625\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-10\", \"issue\": \"issue-4625\"}",
+      "trace_line": 19,
+      "call": 6
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: feature\nfile: src/exportUtils.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [
+      "feature"
+    ],
+    "prs": [
+      {
+        "title": "Add a semicolon separator option to CSV exports for German-locale Excel",
+        "body": "File: src/exportUtils.ts\n\nProblem: CSV exports always separate columns with commas. Excel with Austrian or German regional settings expects semicolons, so a double-clicked CSV opens with every line in column A. The reporter asks for a semicolon option next to the CSV format.\n\nProposed change, in prose:\n- Add a separator parameter to toDelimited, defaulting to \",\" so existing callers and the current output stay the same. Join the header and each row with that separator instead of a hard-coded comma.\n- Change escapeField so it quotes a field when it contains the active separator, a double quote, or a newline. Today it only checks for commas, so a semicolon inside a description would split the column under the new option.\n- Keep the separator choice out of the format list. SUPPORTED_FORMATS and CONTENT_TYPES stay as they are. The export entry point passes \";\" when the user picks the semicolon variant. The file extension and content type remain csv.\n- Leave the XLSX path and formatExportFilename unchanged.\n\nOpen question for review: whether the semicolon variant should be a separate format key or a option on the csv format. The reporter asked for a choice next to the format, so a separate option in the export dialog seems closest."
+      }
+    ],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4625": {
+      "comments": [
+        "label: feature\nfile: src/exportUtils.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [
+        "feature"
+      ],
+      "prs": [
+        {
+          "title": "Add a semicolon separator option to CSV exports for German-locale Excel",
+          "body": "File: src/exportUtils.ts\n\nProblem: CSV exports always separate columns with commas. Excel with Austrian or German regional settings expects semicolons, so a double-clicked CSV opens with every line in column A. The reporter asks for a semicolon option next to the CSV format.\n\nProposed change, in prose:\n- Add a separator parameter to toDelimited, defaulting to \",\" so existing callers and the current output stay the same. Join the header and each row with that separator instead of a hard-coded comma.\n- Change escapeField so it quotes a field when it contains the active separator, a double quote, or a newline. Today it only checks for commas, so a semicolon inside a description would split the column under the new option.\n- Keep the separator choice out of the format list. SUPPORTED_FORMATS and CONTENT_TYPES stay as they are. The export entry point passes \";\" when the user picks the semicolon variant. The file extension and content type remain csv.\n- Leave the XLSX path and formatExportFilename unchanged.\n\nOpen question for review: whether the semicolon variant should be a separate format key or a option on the csv format. The reporter asked for a choice next to the format, so a separate option in the export dialog seems closest."
+        }
+      ],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4625,
+    "closed": "2026-11-20",
+    "resolution": "Done in #980: the CSV export can use a semicolon separator; the option lives in toDelimited in src/exportUtils.ts."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/src/exportUtils.ts",
+      "sha256": "ae2b9a3209ff78e6847f57b15e5d152da6729df87e926fe9ce4ca97014f62a79",
+      "line_count": 62,
+      "excerpt": "27:   description: \"Description\",\n28:   category: \"Category\",\n29: };\n30: \n31: const NEEDS_QUOTES = /[\",\\n]/;\n32: \n33: /** Quotes a field when it contains a delimiter, a quote or a newline. */\n34: export function escapeField(value: string): string {\n35:   return NEEDS_QUOTES.test(value) ? `\"${value.replace(/\"/g, '\"\"')}\"` : value;\n36: }\n37: \n38: function cellValue(row: ReportRow, column: ExportColumn): string {\n39:   switch (column) {\n40:     case \"amount\":\n41:       return formatMinor(row.amount, row.currency);\n42:     case \"category\":\n43:       return row.category ?? \"\";"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "planned-issue-4625-s01-29c661",
+      "t": 6.406,
+      "type": "validation",
+      "version": 1,
+      "attempt": 1,
+      "valid": true,
+      "failures": [],
+      "trace_line": 4
+    },
+    {
+      "run_id": "planned-issue-4625-s01-29c661",
+      "t": 18.482,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 20
+    }
+  ],
+  "trace_file": "fixtures/traces7/planned-issue-4625-s01-29c661.jsonl",
+  "state_file": "fixtures/traces7/planned-issue-4625-s01-29c661.state.json",
+  "issue_file": "fixtures/issues/pool/4625.md",
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4625-s01-29c661.jsonl": "2a961d9c4d9605a6d636c3b9e577e2793852a103ee57f17a08cc1595d142f1c7",
+    "fixtures/traces7/planned-issue-4625-s01-29c661.state.json": "1f67f9483ba0b36dbec5b253330198c34eeab5637ab16a7a9b46a185c1f84890",
+    "fixtures/issues/pool/4625.md": "22d5e51b208c80cf8823cc6ec752ba5c6ff50b13a332a46515afb2323e074247",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge."
+  ],
+  "features": [
+    "area:src/exportUtils.ts",
+    "comment:present",
+    "pr:present",
+    "recorded-label:feature",
+    "termination:completed",
+    "way:planned"
+  ]
+}

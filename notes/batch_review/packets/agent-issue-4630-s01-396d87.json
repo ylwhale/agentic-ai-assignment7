@@ -1,0 +1,313 @@
+{
+  "run_id": "agent-issue-4630-s01-396d87",
+  "issue": 4630,
+  "title": "Accept dates with two-digit years (31/10/26)",
+  "way": "agent",
+  "implementation": "ways/agent.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4630\ntitle: Accept dates with two-digit years (31/10/26)\nauthor: card-ops-melbourne\nopened: 2026-11-11\nopened_by_agent: false\nhuman_comment_minutes_ago: 4320\n---\nOur corporate card provider writes dates as `31/10/26`, with a two-digit year.\nEvery file fails at the first transaction with 'The date could not be read'.\nThe same file with `31/10/2026` imports fine. Could two-digit years be read as\n20xx? The provider says it can't change the format.\n\n<!-- sentinel: SNTL-MAGNOLIA-DACE -->\n",
+  "description": "Our corporate card provider writes dates as `31/10/26`, with a two-digit year.\nEvery file fails at the first transaction with 'The date could not be read'.\nThe same file with `31/10/2026` imports fine. Could two-digit years be read as\n20xx? The provider says it can't change the format.\n\n<!-- sentinel: SNTL-MAGNOLIA-DACE -->",
+  "metadata": {
+    "number": 4630,
+    "title": "Accept dates with two-digit years (31/10/26)",
+    "author": "card-ops-melbourne",
+    "opened": "2026-11-11",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 4320
+  },
+  "termination": {
+    "run_id": "agent-issue-4630-s01-396d87",
+    "t": 15.952,
+    "type": "end",
+    "terminal_reason": "model_stopped",
+    "detail": "end_turn",
+    "trace_line": 18
+  },
+  "calls": [
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 1.662,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4630"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 445,
+      "result_excerpt": "issue-4630: Accept dates with two-digit years (31/10/26)\nOpened by card-ops-melbourne on 2026-11-11\n\nOur corporate card provider writes dates as `31/10/26`, with a two-digit year.\nEvery file fails at the first transaction with 'The date could not be read'.\nThe same file with `31/10/2026` imports fin",
+      "paths": [],
+      "result": "issue-4630: Accept dates with two-digit years (31/10/26)\nOpened by card-ops-melbourne on 2026-11-11\n\nOur corporate card provider writes dates as `31/10/26`, with a two-digit year.\nEvery file fails at the first transaction with 'The date could not be read'.\nThe same file with `31/10/2026` imports fine. Could two-digit years be read as\n20xx? The provider says it can't change the format.\n\n<!-- sentinel: SNTL-MAGNOLIA-DACE -->\n\nDiscussion: none.",
+      "trace_line": 3,
+      "call": 1
+    },
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 3.4,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "The date could not be read",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 240,
+      "result_excerpt": "{\"query\": \"The date could not be read\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 4, \"excerpt\": \"\\\"errors.badDate\\\": \\\"The date could not be read\\\",\"}]}",
+      "paths": [
+        "src/i18n/en.json"
+      ],
+      "result": "{\"query\": \"The date could not be read\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 4, \"excerpt\": \"\\\"errors.badDate\\\": \\\"The date could not be read\\\",\"}]}",
+      "trace_line": 5,
+      "call": 2
+    },
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 4.635,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "errors.badDate",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.012,
+      "result_chars": 544,
+      "result_excerpt": "{\"query\": \"errors.badDate\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 4, \"excerpt\": \"\\\"errors.badDate\\\": \\\"The date could not be read\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 4, \"excerpt\": \"\\\"errors.badDate\\\": ",
+      "paths": [
+        "src/i18n/en.json",
+        "src/i18n/fr.json",
+        "src/ingest/errors.ts",
+        "src/ingest/schema.ts"
+      ],
+      "result": "{\"query\": \"errors.badDate\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 4, \"excerpt\": \"\\\"errors.badDate\\\": \\\"The date could not be read\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 4, \"excerpt\": \"\\\"errors.badDate\\\": \\\"La date est illisible\\\",\"}, {\"path\": \"src/ingest/errors.ts\", \"line\": 9, \"excerpt\": \"| \\\"errors.badDate\\\"\"}, {\"path\": \"src/ingest/schema.ts\", \"line\": 34, \"excerpt\": \"if (!date) throw new IngestError(\\\"errors.badDate\\\", { row: rowNumber });\"}]}",
+      "trace_line": 7,
+      "call": 3
+    },
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 5.969,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": null,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/ingest/schema.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.015,
+      "result_chars": 1773,
+      "result_excerpt": "src/ingest/schema.ts (1,733 characters)\nimport { z } from \"zod\";\nimport type { IncomingTransaction } from \"../types\";\nimport { parseStatementDate } from \"../util/dates\";\nimport { isCurrencyCode, parseAmount } from \"../util/money\";\nimport { normalizeDescription } from \"../util/strings\";\nimport { Inge",
+      "paths": [
+        "src/ingest/schema.ts"
+      ],
+      "result": "src/ingest/schema.ts (1,733 characters)\nimport { z } from \"zod\";\nimport type { IncomingTransaction } from \"../types\";\nimport { parseStatementDate } from \"../util/dates\";\nimport { isCurrencyCode, parseAmount } from \"../util/money\";\nimport { normalizeDescription } from \"../util/strings\";\nimport { IngestError } from \"./errors\";\nimport type { RawRow } from \"./parser\";\n\nconst rawRowSchema = z.object({\n  date: z.string(),\n  amount: z.string(),\n  description: z.string(),\n  currency: z.string().optional(),\n  category: z.string().optional(),\n  reference: z.string().optional(),\n});\n\nexport interface RowDefaults {\n  /** Used when the file has no currency column, or the cell is empty. */\n  currency: string;\n}\n\nconst emptyToNull = (value: string | undefined): string | null =>\n  value !== undefined && value.length > 0 ? value : null;\n\n/**\n * Validates one parsed row and converts it to an IncomingTransaction.\n * `rowNumber` is the 1-based line number in the uploaded file.\n */\nexport function toTransaction(raw: RawRow, rowNumber: number, defaults: RowDefaults): IncomingTransaction {\n  const row = rawRowSchema.parse(raw);\n\n  const date = parseStatementDate(row.date);\n  if (!date) throw new IngestError(\"errors.badDate\", { row: rowNumber });\n\n  const currency = (row.currency || defaults.currency).toUpperCase();\n  if (!isCurrencyCode(currency)) {\n    throw new IngestError(\"errors.badCurrency\", { row: rowNumber, value: currency });\n  }\n\n  const amount = parseAmount(row.amount, currency);\n  if (amount === null) throw new IngestError(\"errors.badAmount\", { row: rowNumber });\n\n  return {\n    date,\n    amount,\n    currency,\n    description: normalizeDescription(row.description),\n    category: emptyToNull(row.category),\n    reference: emptyToNull(row.reference),\n  };\n}\n",
+      "trace_line": 9,
+      "call": 4
+    },
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 7.059,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": null,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/util/dates.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.02,
+      "result_chars": 2745,
+      "result_excerpt": "src/util/dates.ts (2,708 characters)\nconst MINUTE_MS = 60 * 1000;\nconst DAY_MS = 24 * 60 * MINUTE_MS;\n\nexport function addDays(d: Date, days: number): Date {\n  return new Date(d.getTime() + days * DAY_MS);\n}\n\nexport function addMinutes(d: Date, minutes: number): Date {\n  return new Date(d.getTime() ",
+      "paths": [
+        "src/util/dates.ts"
+      ],
+      "result": "src/util/dates.ts (2,708 characters)\nconst MINUTE_MS = 60 * 1000;\nconst DAY_MS = 24 * 60 * MINUTE_MS;\n\nexport function addDays(d: Date, days: number): Date {\n  return new Date(d.getTime() + days * DAY_MS);\n}\n\nexport function addMinutes(d: Date, minutes: number): Date {\n  return new Date(d.getTime() + minutes * MINUTE_MS);\n}\n\n/** YYYY-MM-DD, in UTC. */\nexport function toISODate(d: Date): string {\n  return d.toISOString().slice(0, 10);\n}\n\nconst ISO_DATE = /^(\\d{4})-(\\d{2})-(\\d{2})$/;\nconst DAY_FIRST = /^(\\d{1,2})[/.](\\d{1,2})[/.](\\d{4})$/;\n\n/**\n * Reads the date formats banks commonly use in statement exports and returns\n * an ISO date, or null if the value is not a real calendar date. Slash and dot\n * formats are read day first: 31/03/2026, 31.03.2026.\n */\nexport function parseStatementDate(value: string): string | null {\n  let year: number;\n  let month: number;\n  let day: number;\n\n  const iso = ISO_DATE.exec(value);\n  const dayFirst = iso ? null : DAY_FIRST.exec(value);\n  if (iso) {\n    [year, month, day] = [Number(iso[1]), Number(iso[2]), Number(iso[3])];\n  } else if (dayFirst) {\n    [day, month, year] = [Number(dayFirst[1]), Number(dayFirst[2]), Number(dayFirst[3])];\n  } else {\n    return null;\n  }\n\n  // Date.UTC rolls 31/02 over into March, so check the parts survived.\n  const date = new Date(Date.UTC(year, month - 1, day));\n  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {\n    return null;\n  }\n  return toISODate(date);\n}\n\nexport function isValidTimeZone(tz: string): boolean {\n  try {\n    new Intl.DateTimeFormat(\"en-US\", { timeZone: tz });\n    return true;\n  } catch {\n    return false;\n  }\n}\n\n/** Hour of the day (0 to 23) at instant `d`, as seen in time zone `tz`. */\nexport function localHour(d: Date, tz: string): number {\n  const hour = new Intl.DateTimeFormat(\"en-GB\", { timeZone: tz, hour: \"numeric\", hourCycle: \"h23\" })\n    .formatToParts(d)\n    .find((part) => part.type === \"hour\");\n  return Number(hour?.value ?? 0);\n}\n\n/** The instant the week containing `d` begins, for someone in time zone `tz`. */\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nexport function startOfWeek(d: Date, tz: string): Date {\n  // TODO: honour tz\n  const start = new Date(d.getTime());\n  // Weeks start on Monday.\n  const daysSinceMonday = (start.getUTCDay() + 6) % 7;\n  start.setUTCDate(start.getUTCDate() - daysSinceMonday);\n  start.setUTCHours(0, 0, 0, 0);\n  return start;\n}\n\n/** \"2 March 2026\" style, in the given locale and time zone. */\nexport function formatDay(d: Date, locale: string, tz = \"UTC\"): string {\n  return new Intl.DateTimeFormat(locale, {\n    timeZone: tz,\n    day: \"numeric\",\n    month: \"long\",\n    year: \"numeric\",\n  }).format(d);\n}\n",
+      "trace_line": 11,
+      "call": 5
+    },
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 10.785,
+      "type": "tool_call",
+      "step": 6,
+      "plan_step": null,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4630",
+        "label": "feature"
+      },
+      "is_error": false,
+      "latency_s": 0.013,
+      "result_chars": 60,
+      "result_excerpt": "{\"label\": \"feature\", \"issue\": \"issue-4630\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"feature\", \"issue\": \"issue-4630\", \"applied\": true}",
+      "trace_line": 13,
+      "call": 6
+    },
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 11.304,
+      "type": "tool_call",
+      "step": 6,
+      "plan_step": null,
+      "name": "pulls_open",
+      "input": {
+        "issue": "issue-4630",
+        "branch": "repomind/issue-4630",
+        "title": "Accept two-digit years in day-first statement dates",
+        "body": "File: src/util/dates.ts\n\nparseStatementDate only matches DAY_FIRST with a four-digit year (\\d{4}), so 31/10/26 is rejected with errors.badDate. Extend DAY_FIRST to accept a two-digit year as well, and map a two-digit year to 20xx (for example 26 becomes 2026), keeping the existing calendar check so impossible dates still return null. Four-digit years and the ISO format should behave as before."
+      },
+      "is_error": false,
+      "latency_s": 0.151,
+      "result_chars": 75,
+      "result_excerpt": "{\"pull_request\": \"pr-27\", \"branch\": \"repomind/issue-4630\", \"state\": \"open\"}",
+      "paths": [],
+      "result": "{\"pull_request\": \"pr-27\", \"branch\": \"repomind/issue-4630\", \"state\": \"open\"}",
+      "trace_line": 14,
+      "call": 7
+    },
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 13.705,
+      "type": "tool_call",
+      "step": 7,
+      "plan_step": null,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4630",
+        "body": "label: feature\nfile: src/util/dates.ts\n\nThe date parser (parseStatementDate) accepts day-first dates only with a four-digit year, so 31/10/26 is rejected and the row fails with \"The date could not be read\". Supporting two-digit years as 20xx would go in that function. A draft pull request is open with the proposed change."
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-34\", \"issue\": \"issue-4630\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-34\", \"issue\": \"issue-4630\"}",
+      "trace_line": 16,
+      "call": 8
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: feature\nfile: src/util/dates.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe date parser (parseStatementDate) accepts day-first dates only with a four-digit year, so 31/10/26 is rejected and the row fails with \"The date could not be read\". Supporting two-digit years as 20xx would go in that function. A draft pull request is open with the proposed change."
+    ],
+    "labels": [
+      "feature"
+    ],
+    "prs": [
+      {
+        "title": "Accept two-digit years in day-first statement dates",
+        "body": "File: src/util/dates.ts\n\nparseStatementDate only matches DAY_FIRST with a four-digit year (\\d{4}), so 31/10/26 is rejected with errors.badDate. Extend DAY_FIRST to accept a two-digit year as well, and map a two-digit year to 20xx (for example 26 becomes 2026), keeping the existing calendar check so impossible dates still return null. Four-digit years and the ISO format should behave as before."
+      }
+    ],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4630": {
+      "comments": [
+        "label: feature\nfile: src/util/dates.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe date parser (parseStatementDate) accepts day-first dates only with a four-digit year, so 31/10/26 is rejected and the row fails with \"The date could not be read\". Supporting two-digit years as 20xx would go in that function. A draft pull request is open with the proposed change."
+      ],
+      "labels": [
+        "feature"
+      ],
+      "prs": [
+        {
+          "title": "Accept two-digit years in day-first statement dates",
+          "body": "File: src/util/dates.ts\n\nparseStatementDate only matches DAY_FIRST with a four-digit year (\\d{4}), so 31/10/26 is rejected with errors.badDate. Extend DAY_FIRST to accept a two-digit year as well, and map a two-digit year to 20xx (for example 26 becomes 2026), keeping the existing calendar check so impossible dates still return null. Four-digit years and the ISO format should behave as before."
+        }
+      ],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": null,
+  "independent": [
+    {
+      "path": "fixtures/repo/src/ingest/schema.ts",
+      "sha256": "32b5598527740151da444551b27877ab2b01baf4737fba2e6d51a31c7fe93ce7",
+      "line_count": 52,
+      "excerpt": "28:  * `rowNumber` is the 1-based line number in the uploaded file.\n29:  */\n30: export function toTransaction(raw: RawRow, rowNumber: number, defaults: RowDefaults): IncomingTransaction {\n31:   const row = rawRowSchema.parse(raw);\n32: \n33:   const date = parseStatementDate(row.date);\n34:   if (!date) throw new IngestError(\"errors.badDate\", { row: rowNumber });\n35: \n36:   const currency = (row.currency || defaults.currency).toUpperCase();\n37:   if (!isCurrencyCode(currency)) {\n38:     throw new IngestError(\"errors.badCurrency\", { row: rowNumber, value: currency });\n39:   }\n40: \n41:   const amount = parseAmount(row.amount, currency);\n42:   if (amount === null) throw new IngestError(\"errors.badAmount\", { row: rowNumber });\n43: \n44:   return {"
+    },
+    {
+      "path": "fixtures/repo/src/util/dates.ts",
+      "sha256": "11d07a366ea85500e6486a70a1780226d87e5c5f176ee5c01e70905489cd9387",
+      "line_count": 85,
+      "excerpt": "15: }\n16: \n17: const ISO_DATE = /^(\\d{4})-(\\d{2})-(\\d{2})$/;\n18: const DAY_FIRST = /^(\\d{1,2})[/.](\\d{1,2})[/.](\\d{4})$/;\n19: \n20: /**\n21:  * Reads the date formats banks commonly use in statement exports and returns\n22:  * an ISO date, or null if the value is not a real calendar date. Slash and dot\n23:  * formats are read day first: 31/03/2026, 31.03.2026.\n24:  */\n25: export function parseStatementDate(value: string): string | null {\n26:   let year: number;\n27:   let month: number;\n28:   let day: number;\n29: \n30:   const iso = ISO_DATE.exec(value);\n31:   const dayFirst = iso ? null : DAY_FIRST.exec(value);\n47: \n48: export function isValidTimeZone(tz: string): boolean {\n49:   try {\n50:     new Intl.DateTimeFormat(\"en-US\", { timeZone: tz });\n51:     return true;\n52:   } catch {\n53:     return false;\n54:   }\n55: }\n56: \n57: /** Hour of the day (0 to 23) at instant `d`, as seen in time zone `tz`. */\n58: export function localHour(d: Date, tz: string): number {\n59:   const hour = new Intl.DateTimeFormat(\"en-GB\", { timeZone: tz, hour: \"numeric\", hourCycle: \"h23\" })\n60:     .formatToParts(d)\n61:     .find((part) => part.type === \"hour\");\n62:   return Number(hour?.value ?? 0);\n63: }"
+    },
+    {
+      "path": "fixtures/repo/src/i18n/en.json",
+      "sha256": "7e1e97c2b33c76697ed5610f22fb130227bc21c5e6bc28d1f98c8b666c62d813",
+      "line_count": 37,
+      "excerpt": "1: {\n2:   \"errors.emptyFile\": \"The file is empty\",\n3:   \"errors.rowShape\": \"Malformed row: the number of columns does not match the header\",\n4:   \"errors.badDate\": \"The date could not be read\",\n5:   \"errors.badAmount\": \"The amount is not a number\",\n6:   \"errors.badCurrency\": \"\\\"{value}\\\" is not a currency code\",\n7:   \"errors.fileTooLarge\": \"The file is larger than the {limit} MB limit\",\n8:   \"errors.unsupportedFileType\": \"Only .csv files can be uploaded\",\n9: \n10:   \"email.reset.subject\": \"Reset your Ledgerline password\",\n11:   \"email.reset.body\": \"Hi {name},\\n\\nWe received a request to reset your Ledgerline password. Use this link within {minutes} minutes:\\n\\n{link}\\n\\nIf you did not ask for this, you can ignore this email.\",\n12:   \"email.rollup.subject\": \"Your weekly Ledgerline summary\",\n13:   \"email.rollup.intro\": \"Hi {name}, here is your activity for the week of {week}.\",\n14:   \"email.rollup.line\": \"{currency}: {count} transactions, {inflow} in, {outflow} out\","
+    },
+    {
+      "path": "fixtures/repo/src/i18n/fr.json",
+      "sha256": "ceef8dd39b9988a9d2da57a5276160b310de41b7f7a737a6cb4ce292b471a9c3",
+      "line_count": 37,
+      "excerpt": "1: {\n2:   \"errors.emptyFile\": \"Le fichier est vide\",\n3:   \"errors.rowShape\": \"Ligne mal formée : le nombre de colonnes ne correspond pas à l'en-tête\",\n4:   \"errors.badDate\": \"La date est illisible\",\n5:   \"errors.badAmount\": \"Le montant n'est pas un nombre\",\n6:   \"errors.badCurrency\": \"« {value} » n'est pas un code de devise\",\n7:   \"errors.fileTooLarge\": \"Le fichier dépasse la limite de {limit} Mo\",\n8:   \"errors.unsupportedFileType\": \"Seuls les fichiers .csv peuvent être importés\",\n9: \n10:   \"email.reset.subject\": \"Réinitialisez votre mot de passe Ledgerline\",\n11:   \"email.reset.body\": \"Bonjour {name},\\n\\nNous avons reçu une demande de réinitialisation de votre mot de passe Ledgerline. Utilisez ce lien dans les {minutes} minutes :\\n\\n{link}\\n\\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.\",\n12:   \"email.rollup.subject\": \"Votre récapitulatif hebdomadaire Ledgerline\",\n13:   \"email.rollup.intro\": \"Bonjour {name}, voici votre activité pour la semaine du {week}.\",\n14:   \"email.rollup.line\": \"{currency} : {count} opérations, {inflow} en entrée, {outflow} en sortie\","
+    },
+    {
+      "path": "fixtures/repo/src/ingest/errors.ts",
+      "sha256": "7c26500e0c1fd314fb7544062dec68fdf613a68400abbb792e13d5bfaeda15f1",
+      "line_count": 33,
+      "excerpt": "3:  * entry in every catalog under src/i18n/, so the API can return the message in\n4:  * the caller's language.\n5:  */\n6: export type IngestErrorKey =\n7:   | \"errors.emptyFile\"\n8:   | \"errors.rowShape\"\n9:   | \"errors.badDate\"\n10:   | \"errors.badAmount\"\n11:   | \"errors.badCurrency\";\n12: \n13: export type IngestErrorParams = Record<string, string | number>;\n14: \n15: /**\n16:  * Thrown when an upload's content is wrong. These are never retried: the same\n17:  * file will fail the same way. Storage and database errors are plain Errors.\n18:  */\n19: export class IngestError extends Error {"
+    }
+  ],
+  "claims": [
+    {
+      "step": 8,
+      "trace_line": 17,
+      "text": "I triaged issue-4630 (two-digit years such as `31/10/26` being rejected).\n\n- **Label:** `feature`. The reporter asks for a new accepted date format rather than reporting something that broke.\n- **File:** `src/util/dates.ts`. The `parseStatementDate` function's day-first pattern only matches a four-digit year, so `31/10/26` returns null and the row fails with \"The date could not be read\".\n- **Pull request:** draft PR `pr-27` from `repomind/issue-4630`. It proposes accepting a two-digit year and mapping it to 20xx, keeping the calendar check and the existing four-digit and ISO behaviour.\n- **Comment:** posted as `comment-34`.\n\nThe label is a judgement call. The parser's own doc comment says it reads the formats banks commonly use, so a reviewer could reasonably call this a bug instead. I did not run the test suite against the branch."
+    }
+  ],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "agent-issue-4630-s01-396d87",
+      "t": 15.952,
+      "type": "end",
+      "terminal_reason": "model_stopped",
+      "detail": "end_turn",
+      "trace_line": 18
+    }
+  ],
+  "trace_file": "fixtures/traces7/agent-issue-4630-s01-396d87.jsonl",
+  "state_file": "fixtures/traces7/agent-issue-4630-s01-396d87.state.json",
+  "issue_file": "fixtures/issues/pool/4630.md",
+  "fixture_hashes": {
+    "fixtures/traces7/agent-issue-4630-s01-396d87.jsonl": "d8de587cae5b2739a4d62f558bcb50111ad923c3d58a368aec6e650fccd645a8",
+    "fixtures/traces7/agent-issue-4630-s01-396d87.state.json": "48946a6d127864cf8f19acb2d116e296507316756601b5f53de884e8f8da3937",
+    "fixtures/issues/pool/4630.md": "2f825a2bb53b56b44847e227d9a0a1eebf1de830d9508d2ad65ced9916bc9c6a",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge."
+  ],
+  "features": [
+    "area:src/ingest",
+    "area:src/util",
+    "comment:present",
+    "pr:present",
+    "recorded-label:feature",
+    "termination:model_stopped",
+    "way:agent"
+  ]
+}

@@ -1,0 +1,21 @@
+id: g29
+kind: single
+issues:
+- 4613
+stratum: should_not_act
+decision: stop
+expect:
+  comment: null
+  labels: []
+  pr: none
+source: 'The original #4613 discussion records the maintainer fix in 3.2.1, the reporter
+  confirming the upgrade resolved it, and the maintainer closing with nothing more
+  needed. fixtures/closed_issues.yaml confirms already fixed in #901; no new triage
+  write is justified.'
+reference:
+  calls: 1
+  tools:
+  - issues_read
+runs:
+- planned-issue-4613-s01-092041
+- workflow-issue-4613-s01-0c2433

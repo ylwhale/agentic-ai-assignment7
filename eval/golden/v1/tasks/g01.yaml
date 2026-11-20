@@ -1,0 +1,28 @@
+id: g01
+kind: single
+issues:
+- 4601
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/ingest/parser.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4601: Fixed in #961: the first line of a statement
+  is now split with splitFields in src/ingest/parser.ts, so quoted column names are
+  read the same way as quoted fields.'
+runs:
+- agent-issue-4601-s01-425ff8
+- planned-issue-4601-s01-117542
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

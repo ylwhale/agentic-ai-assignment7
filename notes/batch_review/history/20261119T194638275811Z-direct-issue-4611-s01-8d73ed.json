@@ -1,0 +1,52 @@
+{
+  "at": "2026-11-19T19:46:38.275578+00:00",
+  "run_id": "direct-issue-4611-s01-8d73ed",
+  "status": "committed",
+  "confirmation": "explicit",
+  "record": {
+    "run_id": "direct-issue-4611-s01-8d73ed",
+    "issue": "4611",
+    "title": "Amounts without a leading zero (.75) are rejected",
+    "way": "direct",
+    "termination": "completed — written by the runner",
+    "tool_count": "2",
+    "last_observed_tool": "issues_comment",
+    "last_observed_step": "1",
+    "labels": "[]",
+    "comment_count": "1",
+    "pr_count": "0",
+    "merges": "0",
+    "pushes": "[]",
+    "elsewhere": "[]",
+    "mechanical_flags": "Comment says label 'bug'; actual recorded labels are []. A comment does not apply a label.; Comment names src/ingest/schema.ts, but recorded state has no open PR. Check the complete tools and intended decision.",
+    "maintainer_resolution": "No matching maintainer resolution",
+    "evidence_file": "notes/batch_review/packets/direct-issue-4611-s01-8d73ed.md",
+    "machine_candidate_expected": "",
+    "machine_candidate_last_observed": "",
+    "machine_candidate_first_failure": "",
+    "machine_candidate_assessment": "",
+    "machine_draft_observation": "",
+    "expected_decision": "act",
+    "actual_decision": "The direct implementation read issue #4611 and posted a generic triage comment identifying it as a bug in `src/ingest/schema.ts`. However, it did not apply a bug label, inspect the source code, or open a draft PR. The recorded end state confirms one comment, no labels, and no PRs. The independent source in `src/util/money.ts` shows that the amount-parsing regular expression rejects decimal values without a leading zero.",
+    "last_correct_call": "issues_read at step 0 [c1]",
+    "first_incorrect_call": "issues_comment at step 1 [c2]",
+    "observation": "The direct implementation correctly read issue #4611 at step 0 (c1), but then posted only a generic triage comment at step 1 (c2). It identified `src/ingest/schema.ts` as the relevant file without inspecting the source code, applying a bug label, or opening a PR. The recorded end state confirms one comment, no labels, and no PRs. Independent inspection of `src/util/money.ts` shows that the amount-parsing regular expression requires a digit before the decimal point, explaining why values such as `.50` and `-.75` are rejected. I consider this run unsuccessful because it failed to complete the required bug triage.",
+    "assessment": "failed",
+    "source_checked": "fixtures/repo/src/util/money.ts;fixtures/repo/docs/ARCHITECTURE.md",
+    "verified": "yes",
+    "confirmation": "Explicit human confirmation in review workflow"
+  },
+  "backup": "notes/batch_review/backups/20261119T194638274742Z-trace-review.md",
+  "before_sha256": "29fd3c8459ce2c887ab388c75a18b7dbc1899d4d3d9d6e65f836dfbd86618453",
+  "after_sha256": "b8429439f1ac049441a1c1b584549c2b84155b41b8103742176dbc991f3a353f",
+  "reviews": {
+    "direct-issue-4611-s01-8d73ed": "a14908ecf8fcc50ed1ad2cb9e0178885ac2a2ff2c5d51cf6d426e192aafc5ed5"
+  },
+  "fixture_hashes": {
+    "fixtures/traces7/direct-issue-4611-s01-8d73ed.jsonl": "647e1c9708c7239f418d10e75af7282bf8a0840d77cadd0a2f117b6f3af0e753",
+    "fixtures/traces7/direct-issue-4611-s01-8d73ed.state.json": "7171902039b059b084d85d0eae0b6057f00949813bedb4321b95de14d08a8d43",
+    "fixtures/issues/pool/4611.md": "e566a8587fbf679a5fc5432db18a1cac5d11165a81260cec2b7064c65f95de6e",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": []
+}

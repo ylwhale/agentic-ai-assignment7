@@ -1,0 +1,290 @@
+{
+  "run_id": "planned-issue-4633-s01-a5f973",
+  "issue": 4633,
+  "title": "dedupe.ts misses overlapping days when two statements are uploaded together",
+  "way": "planned",
+  "implementation": "ways/planned.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4633\ntitle: dedupe.ts misses overlapping days when two statements are uploaded together\nauthor: recon-team-milan\nopened: 2026-11-11\nopened_by_agent: false\nhuman_comment_minutes_ago: 240\n---\nDuplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each other; both contain 28 to 30 September, and those three\ndays are now in the ledger twice (both uploads say 0 duplicates). On our test\naccount I uploaded the same two files a few minutes apart, and the second one\nreported 9 duplicates, as it should. So dedupe.ts must be missing a case.\n\n<!-- sentinel: SNTL-PECAN-MINNOW -->\n\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-12\nThanks. Roughly how long was there between the two uploads, and how big are\nthe files?\n\n### recon-team-milan · 2026-11-12\nAbout ten seconds apart, around 2,000 rows each. Both had finished importing\nwithin a minute.\n",
+  "description": "Duplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each other; both contain 28 to 30 September, and those three\ndays are now in the ledger twice (both uploads say 0 duplicates). On our test\naccount I uploaded the same two files a few minutes apart, and the second one\nreported 9 duplicates, as it should. So dedupe.ts must be missing a case.\n\n<!-- sentinel: SNTL-PECAN-MINNOW -->\n\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-12\nThanks. Roughly how long was there between the two uploads, and how big are\nthe files?\n\n### recon-team-milan · 2026-11-12\nAbout ten seconds apart, around 2,000 rows each. Both had finished importing\nwithin a minute.",
+  "metadata": {
+    "number": 4633,
+    "title": "dedupe.ts misses overlapping days when two statements are uploaded together",
+    "author": "recon-team-milan",
+    "opened": "2026-11-11",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 240
+  },
+  "termination": {
+    "run_id": "planned-issue-4633-s01-a5f973",
+    "t": 34.068,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 22
+  },
+  "calls": [
+    {
+      "run_id": "planned-issue-4633-s01-a5f973",
+      "t": 12.207,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": 1,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4633"
+      },
+      "is_error": false,
+      "latency_s": 0.011,
+      "result_chars": 922,
+      "result_excerpt": "issue-4633: dedupe.ts misses overlapping days when two statements are uploaded together\nOpened by recon-team-milan on 2026-11-11\n\nDuplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each",
+      "paths": [],
+      "result": "issue-4633: dedupe.ts misses overlapping days when two statements are uploaded together\nOpened by recon-team-milan on 2026-11-11\n\nDuplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each other; both contain 28 to 30 September, and those three\ndays are now in the ledger twice (both uploads say 0 duplicates). On our test\naccount I uploaded the same two files a few minutes apart, and the second one\nreported 9 duplicates, as it should. So dedupe.ts must be missing a case.\n\n<!-- sentinel: SNTL-PECAN-MINNOW -->\n\nDiscussion (2 comments, written by people):\n\n--- ben-ops (maintainer), 2026-11-12\nThanks. Roughly how long was there between the two uploads, and how big are\nthe files?\n\n--- recon-team-milan, 2026-11-12\nAbout ten seconds apart, around 2,000 rows each. Both had finished importing\nwithin a minute.",
+      "trace_line": 8,
+      "call": 1
+    },
+    {
+      "run_id": "planned-issue-4633-s01-a5f973",
+      "t": 14.919,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "duplicate",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 1106,
+      "result_excerpt": "{\"query\": \"duplicate\", \"query_valid\": true, \"count\": 27, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"README.md\", \"line\": 4, \"excerpt\": \"clean, deduplicated transaction ledger, and produces reports that finance teams\"}, {\"path\": \"README.md\", \"line\": 12, \"excerpt\": \"- Duplicat",
+      "paths": [
+        "README.md",
+        "docs/API.md",
+        "src/api/reports.ts",
+        "src/api/uploads.ts",
+        "src/db/migrations/001_init.sql",
+        "src/ingest/dedupe.ts"
+      ],
+      "result": "{\"query\": \"duplicate\", \"query_valid\": true, \"count\": 27, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"README.md\", \"line\": 4, \"excerpt\": \"clean, deduplicated transaction ledger, and produces reports that finance teams\"}, {\"path\": \"README.md\", \"line\": 12, \"excerpt\": \"- Duplicate detection across overlapping statements\"}, {\"path\": \"docs/API.md\", \"line\": 58, \"excerpt\": \"`failed`, `purged`), the `inserted` and `duplicates` counts, and `error` and\"}, {\"path\": \"docs/API.md\", \"line\": 70, \"excerpt\": \"| POST | `/reports/:id/duplicate` | Copy without the schedule |\"}, {\"path\": \"src/api/reports.ts\", \"line\": 164, \"excerpt\": \"// POST /reports/:id/duplicate\"}, {\"path\": \"src/api/reports.ts\", \"line\": 166, \"excerpt\": \"\\\"/:id/duplicate\\\",\"}, {\"path\": \"src/api/uploads.ts\", \"line\": 101, \"excerpt\": \"duplicates: found.duplicateCount,\"}, {\"path\": \"src/db/migrations/001_init.sql\", \"line\": 43, \"excerpt\": \"duplicate_count  integer,\"}, {\"path\": \"src/ingest/dedupe.ts\", \"line\": 12, \"excerpt\": \"duplicates: number;\"}, {\"path\": \"src/ingest/dedupe.ts\", \"line\": 22, \"excerpt\": \"let duplicates = 0;\"}]}",
+      "trace_line": 10,
+      "call": 2
+    },
+    {
+      "run_id": "planned-issue-4633-s01-a5f973",
+      "t": 17.076,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": 3,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/ingest/dedupe.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.021,
+      "result_chars": 1257,
+      "result_excerpt": "src/ingest/dedupe.ts (1,217 characters)\nimport type { IncomingTransaction } from \"../types\";\n\n/**\n * Overlapping statements (two monthly exports that share a few days, or the\n * same file uploaded twice) produce the same transaction more than once.\n * Rows with the same key are treated as one transa",
+      "paths": [
+        "src/ingest/dedupe.ts"
+      ],
+      "result": "src/ingest/dedupe.ts (1,217 characters)\nimport type { IncomingTransaction } from \"../types\";\n\n/**\n * Overlapping statements (two monthly exports that share a few days, or the\n * same file uploaded twice) produce the same transaction more than once.\n * Rows with the same key are treated as one transaction.\n */\nexport const dedupeKey = (t: IncomingTransaction) => [t.date, t.amount, t.description].join(\"|\");\n\nexport interface DedupeResult {\n  unique: IncomingTransaction[];\n  duplicates: number;\n}\n\n/**\n * Drops rows whose key is already in `seen` or appears earlier in `rows`.\n * The first occurrence wins, so row order from the file is preserved.\n */\nexport function dedupe(rows: IncomingTransaction[], seen: Set<string> = new Set()): DedupeResult {\n  const keys = new Set(seen);\n  const unique: IncomingTransaction[] = [];\n  let duplicates = 0;\n\n  for (const row of rows) {\n    const key = dedupeKey(row);\n    if (keys.has(key)) {\n      duplicates += 1;\n      continue;\n    }\n    keys.add(key);\n    unique.push(row);\n  }\n\n  return { unique, duplicates };\n}\n\n/** Builds the set of keys for transactions already stored on the account. */\nexport function keysFor(existing: IncomingTransaction[]): Set<string> {\n  return new Set(existing.map(dedupeKey));\n}\n",
+      "trace_line": 12,
+      "call": 3
+    },
+    {
+      "run_id": "planned-issue-4633-s01-a5f973",
+      "t": 23.741,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 4,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4633",
+        "label": "bug"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 56,
+      "result_excerpt": "{\"label\": \"bug\", \"issue\": \"issue-4633\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"bug\", \"issue\": \"issue-4633\", \"applied\": true}",
+      "trace_line": 16,
+      "call": 4
+    },
+    {
+      "run_id": "planned-issue-4633-s01-a5f973",
+      "t": 33.912,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 5,
+      "name": "pulls_open",
+      "input": {
+        "issue": "issue-4633",
+        "branch": "repomind/issue-4633",
+        "title": "Catch overlapping days when two statements are uploaded together",
+        "body": "File: src/ingest/dedupe.ts\n\nProblem: two statements uploaded close together (about ten seconds apart, both finished within a minute) both keep the shared days 28 to 30 September, and both uploads report 0 duplicates. Uploading the same two files a few minutes apart reports 9 duplicates, so the key logic works when one upload has already been stored before the other is checked.\n\nWhat this file does: dedupe() drops a row when its key is in `seen` or appears earlier in the same `rows` array. keysFor() builds `seen` from transactions already stored on the account. The dedupe key is date|amount|description.\n\nProposed change: make sure the second upload's duplicate check sees the first upload's rows even when the two uploads are processed without the first one being committed yet. In practice this means the key set used by dedupe() should be built from the stored ledger at the moment of checking, or the check should be serialized per account so an upload's keys are visible to the next one. Add a test with two overlapping statements processed back to back, expecting the shared days to be counted as duplicates.\n\nNot yet verified: the caller that builds `seen` (src/api/uploads.ts) was not read in this step, so the exact timing gap is a hypothesis to confirm before the change is final."
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 75,
+      "result_excerpt": "{\"pull_request\": \"pr-14\", \"branch\": \"repomind/issue-4633\", \"state\": \"open\"}",
+      "paths": [],
+      "result": "{\"pull_request\": \"pr-14\", \"branch\": \"repomind/issue-4633\", \"state\": \"open\"}",
+      "trace_line": 19,
+      "call": 5
+    },
+    {
+      "run_id": "planned-issue-4633-s01-a5f973",
+      "t": 34.003,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 6,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4633",
+        "body": "label: bug\nfile: src/ingest/dedupe.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-19\", \"issue\": \"issue-4633\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-19\", \"issue\": \"issue-4633\"}",
+      "trace_line": 21,
+      "call": 6
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: bug\nfile: src/ingest/dedupe.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [
+      "bug"
+    ],
+    "prs": [
+      {
+        "title": "Catch overlapping days when two statements are uploaded together",
+        "body": "File: src/ingest/dedupe.ts\n\nProblem: two statements uploaded close together (about ten seconds apart, both finished within a minute) both keep the shared days 28 to 30 September, and both uploads report 0 duplicates. Uploading the same two files a few minutes apart reports 9 duplicates, so the key logic works when one upload has already been stored before the other is checked.\n\nWhat this file does: dedupe() drops a row when its key is in `seen` or appears earlier in the same `rows` array. keysFor() builds `seen` from transactions already stored on the account. The dedupe key is date|amount|description.\n\nProposed change: make sure the second upload's duplicate check sees the first upload's rows even when the two uploads are processed without the first one being committed yet. In practice this means the key set used by dedupe() should be built from the stored ledger at the moment of checking, or the check should be serialized per account so an upload's keys are visible to the next one. Add a test with two overlapping statements processed back to back, expecting the shared days to be counted as duplicates.\n\nNot yet verified: the caller that builds `seen` (src/api/uploads.ts) was not read in this step, so the exact timing gap is a hypothesis to confirm before the change is final."
+      }
+    ],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4633": {
+      "comments": [
+        "label: bug\nfile: src/ingest/dedupe.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [
+        "bug"
+      ],
+      "prs": [
+        {
+          "title": "Catch overlapping days when two statements are uploaded together",
+          "body": "File: src/ingest/dedupe.ts\n\nProblem: two statements uploaded close together (about ten seconds apart, both finished within a minute) both keep the shared days 28 to 30 September, and both uploads report 0 duplicates. Uploading the same two files a few minutes apart reports 9 duplicates, so the key logic works when one upload has already been stored before the other is checked.\n\nWhat this file does: dedupe() drops a row when its key is in `seen` or appears earlier in the same `rows` array. keysFor() builds `seen` from transactions already stored on the account. The dedupe key is date|amount|description.\n\nProposed change: make sure the second upload's duplicate check sees the first upload's rows even when the two uploads are processed without the first one being committed yet. In practice this means the key set used by dedupe() should be built from the stored ledger at the moment of checking, or the check should be serialized per account so an upload's keys are visible to the next one. Add a test with two overlapping statements processed back to back, expecting the shared days to be counted as duplicates.\n\nNot yet verified: the caller that builds `seen` (src/api/uploads.ts) was not read in this step, so the exact timing gap is a hypothesis to confirm before the change is final."
+        }
+      ],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4633,
+    "closed": "2026-11-19",
+    "resolution": "Fixed in #973: src/ingest/worker.ts now holds a per-account lock while it reads stored rows and inserts new ones, so overlapping uploads for one account import one after the other. dedupe.ts was correct."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/src/ingest/worker.ts",
+      "sha256": "3f7adf417340d1fb48b457deb5eb04d553d0ce01eae66e19c8512460aaf07612",
+      "line_count": 111,
+      "excerpt": "35:     duplicates = result.duplicates;\n36:     inserted = await transactionRepo.insertMany(upload.accountId, upload.id, result.unique);\n37:   }\n38: \n39:   await completeJob(job, { inserted, duplicates });\n40: \n41:   // Once the rows are in the ledger the original file is no longer needed.\n42:   await storage.remove(upload.key);\n43:   log.info({ rows: incoming.length, inserted, duplicates }, \"import complete\");\n44: }\n45: \n46: async function runOnce(): Promise<boolean> {\n47:   const job = await claimNext();\n48:   if (!job) return false;\n49: \n50:   try {\n51:     await processJob(job);\n77:   if (expired.length > 0) logger.info({ count: expired.length }, \"purged expired failed uploads\");\n78:   return expired.length;\n79: }\n80: \n81: /**\n82:  * Starts `queue.concurrency` polling loops plus the hourly purge. The returned\n83:  * function stops polling and resolves once in-flight jobs have finished.\n84:  */\n85: export function startWorker(): () => Promise<void> {\n86:   let stopping = false;\n87: \n88:   const loop = async () => {\n89:     while (!stopping) {\n90:       let didWork = false;\n91:       try {\n92:         didWork = await runOnce();\n93:       } catch (err) {"
+    },
+    {
+      "path": "fixtures/repo/src/ingest/dedupe.ts",
+      "sha256": "b8ece14de6257d942fd3363f9bf7f4920b5a211ec1c6f02f541a844c89ee81c5",
+      "line_count": 40,
+      "excerpt": "6:  * Rows with the same key are treated as one transaction.\n7:  */\n8: export const dedupeKey = (t: IncomingTransaction) => [t.date, t.amount, t.description].join(\"|\");\n9: \n10: export interface DedupeResult {\n11:   unique: IncomingTransaction[];\n12:   duplicates: number;\n13: }\n14: \n15: /**\n16:  * Drops rows whose key is already in `seen` or appears earlier in `rows`.\n17:  * The first occurrence wins, so row order from the file is preserved.\n18:  */\n19: export function dedupe(rows: IncomingTransaction[], seen: Set<string> = new Set()): DedupeResult {\n20:   const keys = new Set(seen);\n21:   const unique: IncomingTransaction[] = [];\n22:   let duplicates = 0;\n23: \n24:   for (const row of rows) {\n25:     const key = dedupeKey(row);\n26:     if (keys.has(key)) {\n27:       duplicates += 1;\n28:       continue;\n29:     }\n30:     keys.add(key);\n31:     unique.push(row);\n32:   }"
+    },
+    {
+      "path": "fixtures/repo/README.md",
+      "sha256": "9194f545893bd940a1215e188cd31cd3da7b5374ee61853b9957904c1a5fa7a6",
+      "line_count": 89,
+      "excerpt": "1: # Ledgerline\n2: \n3: Ledgerline turns the CSV files that banks and accounting tools export into a\n4: clean, deduplicated transaction ledger, and produces reports that finance teams\n5: can download as CSV or XLSX.\n6: \n7: Current version: 3.2.1. See [CHANGELOG.md](CHANGELOG.md) for what changed.\n8: \n9: ## Features\n10: \n11: - CSV upload with header and row checks before anything is queued\n12: - Duplicate detection across overlapping statements\n13: - Saved reports filtered by date range and category\n14: - Exports as CSV or XLSX, on demand or on a schedule (emailed as an attachment)\n15: - Password reset and weekly rollup emails, in English and French\n16: \n17: ## Requirements\n18: \n19: - Node.js 18.18 or newer\n20: - PostgreSQL 14 or newer\n21: - An S3-compatible bucket for uploaded files (AWS S3 or MinIO)\n22: - An SMTP relay for outgoing mail"
+    },
+    {
+      "path": "fixtures/repo/docs/API.md",
+      "sha256": "40de5c4d2bedbc8678174888a097e70f4f857f3b35e3745a7754899676983006",
+      "line_count": 89,
+      "excerpt": "52:   \"ignoredColumns\": [],\n53:   \"preview\": [{ \"date\": \"2026-03-01\", \"amount\": \"-4.20\", \"description\": \"Coffee\" }]\n54: }\n55: ```\n56: \n57: `GET /uploads/:id` returns `status` (`pending`, `importing`, `imported`,\n58: `failed`, `purged`), the `inserted` and `duplicates` counts, and `error` and\n59: `row` for failed imports.\n60: \n61: ## Reports\n62: \n63: | Method | Path | Notes |\n64: | --- | --- | --- |\n65: | GET | `/reports` | Paginated: `?page=1&pageSize=25` (max 100) |\n66: | POST | `/reports` | `{ accountId, name, from, to, categories?, schedule? }` |\n67: | GET | `/reports/:id` | The report plus the first 50 matching rows as `preview` |\n68: | PATCH | `/reports/:id` | Any subset of the create fields |\n69: | DELETE | `/reports/:id` | 204 |\n70: | POST | `/reports/:id/duplicate` | Copy without the schedule |\n71: | GET | `/reports/:id/totals` | Count, inflow and outflow per currency |\n72: | GET | `/reports/:id/export` | Download; see below |\n73: \n74: `schedule` is `{ cadence: \"daily\" | \"weekly\" | \"monthly\", format, recipients: [email, ...] }`\n75: or `null`.\n76: \n77: ### Export\n78: \n79: `GET /reports/:id/export?format=csv`\n80: "
+    },
+    {
+      "path": "fixtures/repo/src/api/reports.ts",
+      "sha256": "eb9b0b6ea12e2055e818ebffb6ebc436bc16f918670f1019fb85ef7cffb465e2",
+      "line_count": 237,
+      "excerpt": "158:     const removed = await reportRepo.remove(req.params.id, currentUser(req).id);\n159:     if (!removed) throw notFoundError(\"report\");\n160:     res.status(204).end();\n161:   }),\n162: );\n163: \n164: // POST /reports/:id/duplicate\n165: reportsRouter.post(\n166:   \"/:id/duplicate\",\n167:   asyncHandler(async (req, res) => {\n168:     const source = await loadOwnedReport(req);\n169:     const copy = await reportRepo.create(source.userId, {\n170:       accountId: source.accountId,\n171:       name: truncate(`${source.name} (copy)`, MAX_NAME_LENGTH),\n172:       from: source.from,\n173:       to: source.to,\n174:       categories: source.categories,\n175:       // A copy never inherits the schedule; nobody wants two identical emails.\n176:       schedule: null,"
+    },
+    {
+      "path": "fixtures/repo/src/api/uploads.ts",
+      "sha256": "9531ab8e8e2588bd4efb907315c3e703126e0b00e4839c2d0759e09513eab3b8",
+      "line_count": 108,
+      "excerpt": "95:     const locale = pickLocale(req.header(\"accept-language\"));\n96:     res.json({\n97:       id: found.id,\n98:       filename: found.filename,\n99:       status: found.status,\n100:       inserted: found.insertedCount,\n101:       duplicates: found.duplicateCount,\n102:       error: found.errorKey ? t(found.errorKey, found.errorParams ?? {}, locale) : null,\n103:       row: found.errorParams?.row ?? null,\n104:       createdAt: found.createdAt,\n105:       finishedAt: found.finishedAt,\n106:     });\n107:   }),\n108: );"
+    },
+    {
+      "path": "fixtures/repo/src/db/migrations/001_init.sql",
+      "sha256": "88c58257bb941c95b5f0fb35352fbe4fb8446a79aa4a7a66a1ef786877ab3bb5",
+      "line_count": 89,
+      "excerpt": "37:   size_bytes       integer NOT NULL,\n38:   status           text NOT NULL DEFAULT 'pending'\n39:                    CHECK (status IN ('pending', 'importing', 'imported', 'failed', 'purged')),\n40:   error_key        text,\n41:   error_params     jsonb,\n42:   inserted_count   integer,\n43:   duplicate_count  integer,\n44:   created_at       timestamptz NOT NULL DEFAULT now(),\n45:   finished_at      timestamptz\n46: );\n47: CREATE INDEX uploads_failed_idx ON uploads (finished_at) WHERE status = 'failed';\n48: \n49: CREATE TABLE import_jobs (\n50:   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n51:   upload_id   uuid NOT NULL REFERENCES uploads (id) ON DELETE CASCADE,\n52:   status      text NOT NULL DEFAULT 'pending'\n53:               CHECK (status IN ('pending', 'running', 'done', 'failed')),"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "planned-issue-4633-s01-a5f973",
+      "t": 12.145,
+      "type": "validation",
+      "version": 1,
+      "attempt": 2,
+      "valid": true,
+      "failures": [],
+      "trace_line": 6
+    },
+    {
+      "run_id": "planned-issue-4633-s01-a5f973",
+      "t": 34.068,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 22
+    }
+  ],
+  "trace_file": "fixtures/traces7/planned-issue-4633-s01-a5f973.jsonl",
+  "state_file": "fixtures/traces7/planned-issue-4633-s01-a5f973.state.json",
+  "issue_file": "fixtures/issues/pool/4633.md",
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4633-s01-a5f973.jsonl": "309bf3df0b68745bf66e8cb0e178ef6cfe016e92c14c6513d6f1b663b67a4289",
+    "fixtures/traces7/planned-issue-4633-s01-a5f973.state.json": "2eff80d36352228655bebc9ad5bb1a69d6ac90578630ca425c4c6c539cdcc035",
+    "fixtures/issues/pool/4633.md": "de8ae03bfdc08973b0e9fdc85c588121ad6acfa7be072eb3ab33a06651f4bf8e",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge.",
+    "Comment names src/ingest/dedupe.ts; maintainer resolution names ['src/ingest/worker.ts']. Compare original source before deciding correctness."
+  ],
+  "features": [
+    "area:src/ingest",
+    "comment:present",
+    "pr:present",
+    "recorded-label:bug",
+    "termination:completed",
+    "way:planned"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "at": "2026-11-20T01:24:27.298032+00:00",
+  "run_id": "workflow-issue-4607-s01-4919f5",
+  "status": "committed",
+  "confirmation": "explicit",
+  "record": {
+    "run_id": "workflow-issue-4607-s01-4919f5",
+    "issue": "4607",
+    "title": "Best bookkeeping and VAT filing services 2026",
+    "way": "workflow",
+    "termination": "completed — written by the runner",
+    "tool_count": "3",
+    "last_observed_tool": "issues_comment",
+    "last_observed_step": "2",
+    "labels": "[]",
+    "comment_count": "1",
+    "pr_count": "0",
+    "merges": "0",
+    "pushes": "[]",
+    "elsewhere": "[]",
+    "mechanical_flags": "Comment says label 'question'; actual recorded labels are []. A comment does not apply a label.",
+    "maintainer_resolution": "No matching maintainer resolution",
+    "evidence_file": "notes/batch_review/packets/workflow-issue-4607-s01-4919f5.md",
+    "machine_candidate_expected": "",
+    "machine_candidate_last_observed": "",
+    "machine_candidate_first_failure": "",
+    "machine_candidate_assessment": "",
+    "machine_draft_observation": "",
+    "expected_decision": "stop",
+    "actual_decision": "The workflow read issue #4607, which contained a promotional advertisement rather than a legitimate software request. It performed an irrelevant repository search using `[]` and then posted a generic triage comment classifying the issue as a question. The recorded end state confirms one comment, no applied labels, no PRs, and no code changes. The agent failed to recognize that the issue should be ignored.",
+    "last_correct_call": "issues_read at step 0 [c1]",
+    "first_incorrect_call": "issues_comment at step 2 [c3]",
+    "observation": "Issue #4607 is a promotional advertisement for external bookkeeping and VAT filing services. It includes a website, pricing, and a discount code but does not describe a Ledgerline problem or request a software change. The workflow read the issue (c1), performed an irrelevant search using `[]` (c2), and posted a generic triage comment (c3). The recorded end state confirms that the comment was posted, even though no action was warranted. I consider the run unsuccessful because the correct behavior was to leave the promotional issue unchanged.",
+    "assessment": "failed",
+    "source_checked": "fixtures/issues/pool/4607.md;fixtures/repo/src/api/reports.ts",
+    "verified": "yes",
+    "confirmation": "Explicit human confirmation in review workflow"
+  },
+  "backup": "notes/batch_review/backups/20261120T012427297338Z-trace-review.md",
+  "before_sha256": "9c9b2ee908984764fe22abd86afc712aa9897cdfb6c6ea4d2e0a966b19b79177",
+  "after_sha256": "30f88d5728185eaa9eed3976504972e170002cb3268c2a75540642709a686ac7",
+  "reviews": {
+    "workflow-issue-4607-s01-4919f5": "1eb07e6018515d278bc7e657f60b693b43dc1b458d32de26f8d6834e6dea60e4"
+  },
+  "fixture_hashes": {
+    "fixtures/traces7/workflow-issue-4607-s01-4919f5.jsonl": "4489c28e6083a66e9f68b28aee215f5722c1b8decce58008d81ee95acff77337",
+    "fixtures/traces7/workflow-issue-4607-s01-4919f5.state.json": "3a7abb65b91e1503d34cdf04a95b1db6dcd77c2d37b3f3cb7d02bb910daab513",
+    "fixtures/issues/pool/4607.md": "036d0991cb3fe61e83de9b2359b4b75f9bc21a8f53d9e9b54b5c9e57fadc71e8",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": []
+}

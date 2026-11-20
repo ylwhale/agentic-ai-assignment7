@@ -1,0 +1,26 @@
+id: g02
+kind: single
+issues:
+- 4608
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: feature
+    file: src/components/UploadForm.tsx
+  labels:
+  - feature
+  pr: draft
+source: 'Maintainer history for #4608: Done in #972: the upload form in src/components/UploadForm.tsx
+  now accepts a CSV dropped onto it.'
+runs:
+- agent-issue-4608-s01-0a3a05
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

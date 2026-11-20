@@ -1,0 +1,152 @@
+{
+  "run_id": "direct-issue-4636-s01-548b9b",
+  "issue": 4636,
+  "title": "Every file from our credit union fails at row 1",
+  "way": "direct",
+  "implementation": "ways/direct.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4636\ntitle: Every file from our credit union fails at row 1\nauthor: cu-member-services\nopened: 2026-11-12\nopened_by_agent: false\nhuman_comment_minutes_ago: 95\n---\nAll statements from our credit union are rejected at row 1 with \"Malformed row:\nthe number of columns does not match the header\". The first line of each file\nis `\"date\",\"amount\",\"description\"`. Files from our other bank import without\ntrouble.\n\n<!-- sentinel: SNTL-PLUM-BURBOT -->\n\n## Discussion\n\n### lena-k (maintainer) · 2026-11-12\nThanks. This is the same problem as #4601: column names in double quotes on\nthe first line. Closing as a duplicate; please follow #4601 for the fix.\n",
+  "description": "All statements from our credit union are rejected at row 1 with \"Malformed row:\nthe number of columns does not match the header\". The first line of each file\nis `\"date\",\"amount\",\"description\"`. Files from our other bank import without\ntrouble.\n\n<!-- sentinel: SNTL-PLUM-BURBOT -->\n\n## Discussion\n\n### lena-k (maintainer) · 2026-11-12\nThanks. This is the same problem as #4601: column names in double quotes on\nthe first line. Closing as a duplicate; please follow #4601 for the fix.",
+  "metadata": {
+    "number": 4636,
+    "title": "Every file from our credit union fails at row 1",
+    "author": "cu-member-services",
+    "opened": "2026-11-12",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 95
+  },
+  "termination": {
+    "run_id": "direct-issue-4636-s01-548b9b",
+    "t": 2.61,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 5
+  },
+  "calls": [
+    {
+      "run_id": "direct-issue-4636-s01-548b9b",
+      "t": 0.011,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": null,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4636"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 615,
+      "result_excerpt": "issue-4636: Every file from our credit union fails at row 1\nOpened by cu-member-services on 2026-11-12\n\nAll statements from our credit union are rejected at row 1 with \"Malformed row:\nthe number of columns does not match the header\". The first line of each file\nis `\"date\",\"amount\",\"description\"`. Fi",
+      "paths": [],
+      "result": "issue-4636: Every file from our credit union fails at row 1\nOpened by cu-member-services on 2026-11-12\n\nAll statements from our credit union are rejected at row 1 with \"Malformed row:\nthe number of columns does not match the header\". The first line of each file\nis `\"date\",\"amount\",\"description\"`. Files from our other bank import without\ntrouble.\n\n<!-- sentinel: SNTL-PLUM-BURBOT -->\n\nDiscussion (1 comments, written by people):\n\n--- lena-k (maintainer), 2026-11-12\nThanks. This is the same problem as #4601: column names in double quotes on\nthe first line. Closing as a duplicate; please follow #4601 for the fix.",
+      "trace_line": 2,
+      "call": 1
+    },
+    {
+      "run_id": "direct-issue-4636-s01-548b9b",
+      "t": 2.61,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4636",
+        "body": "label: bug\nfile: src/ingest/parser.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-45\", \"issue\": \"issue-4636\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-45\", \"issue\": \"issue-4636\"}",
+      "trace_line": 4,
+      "call": 2
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: bug\nfile: src/ingest/parser.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [],
+    "prs": [],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4636": {
+      "comments": [
+        "label: bug\nfile: src/ingest/parser.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [],
+      "prs": [],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4636,
+    "closed": "2026-11-12",
+    "resolution": "Duplicate of #4601, tracked there."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/src/ingest/parser.ts",
+      "sha256": "4e757bbc4e7420f3a1534d44c3b33735aaef8089f9c449572dc8f2cf8d981a66",
+      "line_count": 95,
+      "excerpt": "1: import { IngestError } from \"./errors\";\n2: \n3: /** Columns every statement must have. Header names are matched case-insensitively. */\n4: export const REQUIRED_COLUMNS = [\"date\", \"amount\", \"description\"];\n5: \n6: /** Recognised when present. Any other column is carried through and ignored. */\n7: export const OPTIONAL_COLUMNS = [\"currency\", \"category\", \"reference\"];\n8: \n9: export type RawRow = Record<string, string>;\n10: \n11: export interface ParsedStatement {\n12:   header: string[];\n13:   rows: RawRow[];\n19: }\n20: \n21: const QUOTE = '\"';\n22: const BOM = \"﻿\";\n23: \n24: /**\n25:  * Splits one CSV line into fields. Handles double-quoted fields that contain\n26:  * commas, and \"\" as an escaped quote inside a quoted field.\n27:  */\n28: export function splitFields(line: string): string[] {\n29:   const fields: string[] = [];\n30:   let current = \"\";\n31:   let inQuotes = false;\n32: \n33:   for (let i = 0; i < line.length; i++) {\n34:     const ch = line[i];\n35:     if (inQuotes) {"
+    }
+  ],
+  "claims": [
+    {
+      "step": 1,
+      "trace_line": 3,
+      "text": "label: bug\nfile: src/ingest/parser.ts"
+    }
+  ],
+  "related_maintainer": [
+    {
+      "issue": 4601,
+      "closed": "2026-11-13",
+      "resolution": "Fixed in #961: the first line of a statement is now split with splitFields in src/ingest/parser.ts, so quoted column names are read the same way as quoted fields."
+    }
+  ],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "direct-issue-4636-s01-548b9b",
+      "t": 2.61,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 5
+    }
+  ],
+  "trace_file": "fixtures/traces7/direct-issue-4636-s01-548b9b.jsonl",
+  "state_file": "fixtures/traces7/direct-issue-4636-s01-548b9b.state.json",
+  "issue_file": "fixtures/issues/pool/4636.md",
+  "fixture_hashes": {
+    "fixtures/traces7/direct-issue-4636-s01-548b9b.jsonl": "72556ef1541a2b8cc76d777ad9c4de8b3ec4786181c5215504d810c293cb889c",
+    "fixtures/traces7/direct-issue-4636-s01-548b9b.state.json": "8cb1ff6aca16c0a752c31973afde6a6949bec3797fd945d124219a08efd37b84",
+    "fixtures/issues/pool/4636.md": "62699cee23238b3d7264d7e94376470246d0b1b1c774aaf17f63b0ce2917b891",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Comment says label 'bug'; actual recorded labels are []. A comment does not apply a label.",
+    "Comment names src/ingest/parser.ts, but recorded state has no open PR. Check the complete tools and intended decision."
+  ],
+  "features": [
+    "area:src/ingest",
+    "comment:present",
+    "compare:comment-label-vs-state",
+    "history:duplicate",
+    "history:no-change-language",
+    "pr:absent",
+    "termination:completed",
+    "way:direct"
+  ]
+}

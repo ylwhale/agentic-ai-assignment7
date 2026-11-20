@@ -1,0 +1,28 @@
+id: g13
+kind: single
+issues:
+- 4610
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/api/reports.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4610: Fixed in #964: report dates in src/api/reports.ts
+  are now checked as real calendar dates, so 2027-02-29 gets a 400 naming the field
+  instead of a 500. reportRepo.ts was fine.'
+runs:
+- agent-issue-4610-s01-61a545
+- agent-issue-4610-s01-cbaa5f
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

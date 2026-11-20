@@ -1,0 +1,38 @@
+{
+  "workflow-issue-4607-s01-4919f5": {
+    "categories": [
+      "spam-misclassification"
+    ],
+    "observation_sha256": "3c13424ad8e590e4e050a66ef8ae14d1783b30fa3431d479b7445e45065c8503",
+    "human_confirmed": true
+  },
+  "planned-issue-4637-s01-64ee8c": {
+    "categories": [],
+    "observation_sha256": "ddd2f49a341afbd46c0f3af8d3e72b4f43631ae8db20df76f23a57119615fbd0",
+    "human_confirmed": true
+  },
+  "agent-issue-4612-s01-c8ca14": {
+    "categories": [
+      "premature-termination"
+    ],
+    "observation_sha256": "5890881042a72c4e3c9793e6a29fc3ec975dc48431607bb88f64fd600c4dc438",
+    "human_confirmed": true
+  },
+  "agent-issue-4612-s01-b5d2e1": {
+    "categories": [],
+    "observation_sha256": "5a384406d3ad29b3f63008d39d52110741e526c885fa5003c0c0214b3ae1a30a",
+    "human_confirmed": true
+  },
+  "agent-issue-4601-s01-425ff8": {
+    "categories": [
+      "premature-termination"
+    ],
+    "observation_sha256": "245c09c3114b1dff21ffea6361e90b534f7a5ae0f51c9a3e5d2b1729fbca74fa",
+    "human_confirmed": true
+  },
+  "agent-issue-4602-s01-e6b5b0": {
+    "categories": [],
+    "observation_sha256": "0632d900496e7402b68aa7e7489aaca012b8baed273c52f028873099b808a350",
+    "human_confirmed": true
+  }
+}

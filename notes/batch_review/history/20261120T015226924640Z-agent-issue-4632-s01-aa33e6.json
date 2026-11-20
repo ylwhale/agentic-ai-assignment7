@@ -1,0 +1,52 @@
+{
+  "at": "2026-11-20T01:52:26.924296+00:00",
+  "run_id": "agent-issue-4632-s01-aa33e6",
+  "status": "committed",
+  "confirmation": "explicit",
+  "record": {
+    "run_id": "agent-issue-4632-s01-aa33e6",
+    "issue": "4632",
+    "title": "Docs don't say the weekly summary is skipped in quiet weeks",
+    "way": "agent",
+    "termination": "model_stopped — end_turn",
+    "tool_count": "9",
+    "last_observed_tool": "issues_comment",
+    "last_observed_step": "7",
+    "labels": "[\"docs\"]",
+    "comment_count": "1",
+    "pr_count": "1",
+    "merges": "0",
+    "pushes": "[]",
+    "elsewhere": "[]",
+    "mechanical_flags": "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge.",
+    "maintainer_resolution": "Docs updated in #971: docs/ARCHITECTURE.md now says a week with no transactions gets no summary.",
+    "evidence_file": "notes/batch_review/packets/agent-issue-4632-s01-aa33e6.md",
+    "machine_candidate_expected": "",
+    "machine_candidate_last_observed": "",
+    "machine_candidate_first_failure": "",
+    "machine_candidate_assessment": "",
+    "machine_draft_observation": "",
+    "expected_decision": "act",
+    "actual_decision": "The agent read issue #4632 and searched the repository for weekly summary documentation. It inspected `docs/ARCHITECTURE.md` and `src/notifications/rollup.ts`, identifying that the documentation omitted the existing behavior of skipping weekly emails when no transactions occurred. It applied the `docs` label (c7), opened PR #29 (c8) proposing the documentation clarification, and posted an explanatory comment (c9). The recorded end state confirms one label, one open PR, and one comment, with no merges or pushes.",
+    "last_correct_call": "issues_comment at step 7 [c9]",
+    "first_incorrect_call": "none",
+    "observation": "Issue #4632 describes a genuine documentation gap confirmed by the maintainer. The Notifications section of `docs/ARCHITECTURE.md` states that weekly rollup emails are sent on Mondays at 08:00 but does not explain that emails are skipped during weeks without transactions. The agent investigated the documentation and the rollup implementation, applied the appropriate `docs` label (c7), opened PR #29 with a relevant proposed clarification (c8), and posted an informative comment (c9). The recorded end state confirms these actions. I found no incorrect tool calls and consider the triage successful.",
+    "assessment": "successful",
+    "source_checked": "fixtures/closed_issues.yaml issue #4632;fixtures/repo/docs/ARCHITECTURE.md;fixtures/repo/src/notifications/rollup.ts",
+    "verified": "yes",
+    "confirmation": "Explicit human confirmation in review workflow"
+  },
+  "backup": "notes/batch_review/backups/20261120T015226923496Z-trace-review.md",
+  "before_sha256": "b7d151032e161c9d9698096fa6ba328364337d74c100635c937cd84f49c18301",
+  "after_sha256": "0d09dd35091c91c899c1b5d9140759b6326a105458be02b781b239f9f09911a5",
+  "reviews": {
+    "agent-issue-4632-s01-aa33e6": "27f5db63037ddbaaafc2a1b91b47be253af6e1716d35679b853904269f666597"
+  },
+  "fixture_hashes": {
+    "fixtures/traces7/agent-issue-4632-s01-aa33e6.jsonl": "03adf16415c5616b431509bbf62f62b445e53ff42cffeba7494cf1f74b41d5e4",
+    "fixtures/traces7/agent-issue-4632-s01-aa33e6.state.json": "6d6ae9bf37d8d34b7e49643293cb06eff3a2bd75a7df8f963c1a1e9982247f1f",
+    "fixtures/issues/pool/4632.md": "61350cc132a7af261a21667c2251e78a251f37ec29dd125aa080d981dfb34c59",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": []
+}

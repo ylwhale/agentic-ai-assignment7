@@ -1,0 +1,28 @@
+id: g15
+kind: single
+issues:
+- 4618
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/export/scheduler.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4618: Fixed in #967: src/export/scheduler.ts passes
+  the report owner''s locale to the scheduled export email, so French owners get it
+  in French. fr.json already had the strings.'
+runs:
+- agent-issue-4618-s01-1cd87d
+- agent-issue-4618-s01-f00cae
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

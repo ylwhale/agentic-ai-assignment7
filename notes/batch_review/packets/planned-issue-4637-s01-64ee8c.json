@@ -1,0 +1,279 @@
+{
+  "run_id": "planned-issue-4637-s01-64ee8c",
+  "issue": 4637,
+  "title": "Show negative amounts in red in XLSX exports",
+  "way": "planned",
+  "implementation": "ways/planned.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4637\ntitle: Show negative amounts in red in XLSX exports\nauthor: controlling-lyon\nopened: 2026-11-12\nopened_by_agent: false\nhuman_comment_minutes_ago: 5760\n---\nWhen we open an XLSX export, the first thing our controllers do is reformat the\nAmount column so that negative amounts are red, the way every other workbook in\nthe office looks. Could the XLSX export do that itself? We don't need anything\nsimilar in the CSV export.\n\n<!-- sentinel: SNTL-QUINCE-ZANDER -->\n",
+  "description": "When we open an XLSX export, the first thing our controllers do is reformat the\nAmount column so that negative amounts are red, the way every other workbook in\nthe office looks. Could the XLSX export do that itself? We don't need anything\nsimilar in the CSV export.\n\n<!-- sentinel: SNTL-QUINCE-ZANDER -->",
+  "metadata": {
+    "number": 4637,
+    "title": "Show negative amounts in red in XLSX exports",
+    "author": "controlling-lyon",
+    "opened": "2026-11-12",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 5760
+  },
+  "termination": {
+    "run_id": "planned-issue-4637-s01-64ee8c",
+    "t": 19.286,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 20
+  },
+  "calls": [
+    {
+      "run_id": "planned-issue-4637-s01-64ee8c",
+      "t": 6.151,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": 1,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4637"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 422,
+      "result_excerpt": "issue-4637: Show negative amounts in red in XLSX exports\nOpened by controlling-lyon on 2026-11-12\n\nWhen we open an XLSX export, the first thing our controllers do is reformat the\nAmount column so that negative amounts are red, the way every other workbook in\nthe office looks. Could the XLSX export d",
+      "paths": [],
+      "result": "issue-4637: Show negative amounts in red in XLSX exports\nOpened by controlling-lyon on 2026-11-12\n\nWhen we open an XLSX export, the first thing our controllers do is reformat the\nAmount column so that negative amounts are red, the way every other workbook in\nthe office looks. Could the XLSX export do that itself? We don't need anything\nsimilar in the CSV export.\n\n<!-- sentinel: SNTL-QUINCE-ZANDER -->\n\nDiscussion: none.",
+      "trace_line": 6,
+      "call": 1
+    },
+    {
+      "run_id": "planned-issue-4637-s01-64ee8c",
+      "t": 8.476,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "xlsx",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 1285,
+      "result_excerpt": "{\"query\": \"xlsx\", \"query_valid\": true, \"count\": 21, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 21, \"excerpt\": \"- New export module under src/export/ (CSV and XLSX writers, scheduled exports).\"}, {\"path\": \"CHANGELOG.md\", \"line\": 31, \"excerpt\": \"- Amoun",
+      "paths": [
+        "CHANGELOG.md",
+        "README.md",
+        "docs/API.md",
+        "docs/ARCHITECTURE.md",
+        "src/api/reports.ts"
+      ],
+      "result": "{\"query\": \"xlsx\", \"query_valid\": true, \"count\": 21, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 21, \"excerpt\": \"- New export module under src/export/ (CSV and XLSX writers, scheduled exports).\"}, {\"path\": \"CHANGELOG.md\", \"line\": 31, \"excerpt\": \"- Amounts in XLSX exports are written as numbers, formatted with the\"}, {\"path\": \"README.md\", \"line\": 5, \"excerpt\": \"can download as CSV or XLSX.\"}, {\"path\": \"README.md\", \"line\": 14, \"excerpt\": \"- Exports as CSV or XLSX, on demand or on a schedule (emailed as an attachment)\"}, {\"path\": \"README.md\", \"line\": 71, \"excerpt\": \"| `src/export/` | CSV and XLSX writers, scheduled exports |\"}, {\"path\": \"docs/API.md\", \"line\": 84, \"excerpt\": \"| `xlsx` | `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` |\"}, {\"path\": \"docs/API.md\", \"line\": 86, \"excerpt\": \"Any other value returns 400 with `{ \\\"error\\\": \\\"unsupported format\\\", \\\"supported\\\": [\\\"csv\\\", \\\"xlsx\\\"] }`.\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 56, \"excerpt\": \"and hands them to a writer in `src/export/` (`csv.ts` or `xlsx.ts`). Format\"}, {\"path\": \"src/api/reports.ts\", \"line\": 7, \"excerpt\": \"import { writeXlsx } from \\\"../export/xlsx\\\";\"}, {\"path\": \"src/api/reports.ts\", \"line\": 95, \"excerpt\": \"case \\\"xlsx\\\":\"}]}",
+      "trace_line": 8,
+      "call": 2
+    },
+    {
+      "run_id": "planned-issue-4637-s01-64ee8c",
+      "t": 10.754,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": 3,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/export/xlsx.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.017,
+      "result_chars": 1760,
+      "result_excerpt": "src/export/xlsx.ts (1,722 characters)\nimport ExcelJS from \"exceljs\";\nimport { COLUMN_LABELS, COLUMN_ORDER, CONTENT_TYPES, type ExportColumn } from \"../exportUtils\";\nimport type { ReportRow } from \"../types\";\nimport { minorDigits, toMajor } from \"../util/money\";\nimport type { ExportFile } from \"./csv",
+      "paths": [
+        "src/export/xlsx.ts"
+      ],
+      "result": "src/export/xlsx.ts (1,722 characters)\nimport ExcelJS from \"exceljs\";\nimport { COLUMN_LABELS, COLUMN_ORDER, CONTENT_TYPES, type ExportColumn } from \"../exportUtils\";\nimport type { ReportRow } from \"../types\";\nimport { minorDigits, toMajor } from \"../util/money\";\nimport type { ExportFile } from \"./csv\";\n\nconst COLUMN_WIDTHS: Record<ExportColumn, number> = {\n  date: 12,\n  amount: 14,\n  currency: 10,\n  description: 48,\n  category: 20,\n};\n\nfunction amountFormat(currency: string): string {\n  return minorDigits(currency) === 0 ? \"#,##0\" : \"#,##0.00\";\n}\n\nexport async function writeXlsx(rows: readonly ReportRow[], sheetName = \"Transactions\"): Promise<ExportFile> {\n  const workbook = new ExcelJS.Workbook();\n  workbook.creator = \"Ledgerline\";\n  workbook.created = new Date();\n\n  const sheet = workbook.addWorksheet(sheetName, {\n    views: [{ state: \"frozen\", ySplit: 1 }],\n  });\n  sheet.columns = COLUMN_ORDER.map((key) => ({\n    header: COLUMN_LABELS[key],\n    key,\n    width: COLUMN_WIDTHS[key],\n  }));\n  sheet.getRow(1).font = { bold: true };\n\n  for (const row of rows) {\n    const added = sheet.addRow({\n      // Midnight UTC so the cell shows the same calendar date everywhere.\n      date: new Date(`${row.date}T00:00:00Z`),\n      amount: toMajor(row.amount, row.currency),\n      currency: row.currency,\n      description: row.description,\n      category: row.category ?? \"\",\n    });\n    added.getCell(\"amount\").numFmt = amountFormat(row.currency);\n  }\n\n  sheet.getColumn(\"date\").numFmt = \"yyyy-mm-dd\";\n  sheet.autoFilter = {\n    from: { row: 1, column: 1 },\n    to: { row: 1, column: COLUMN_ORDER.length },\n  };\n\n  const buffer = await workbook.xlsx.writeBuffer();\n  return { body: Buffer.from(buffer as ArrayBuffer), contentType: CONTENT_TYPES.xlsx };\n}\n",
+      "trace_line": 10,
+      "call": 3
+    },
+    {
+      "run_id": "planned-issue-4637-s01-64ee8c",
+      "t": 14.326,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 4,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4637",
+        "label": "feature"
+      },
+      "is_error": false,
+      "latency_s": 0.044,
+      "result_chars": 60,
+      "result_excerpt": "{\"label\": \"feature\", \"issue\": \"issue-4637\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"feature\", \"issue\": \"issue-4637\", \"applied\": true}",
+      "trace_line": 14,
+      "call": 4
+    },
+    {
+      "run_id": "planned-issue-4637-s01-64ee8c",
+      "t": 19.131,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 5,
+      "name": "pulls_open",
+      "input": {
+        "issue": "issue-4637",
+        "branch": "repomind/issue-4637",
+        "title": "Show negative amounts in red in XLSX exports",
+        "body": "File: src/export/xlsx.ts\n\nNegative amounts in the Amount column of the XLSX export should display in red, so controllers no longer need to reformat the sheet by hand. CSV output is not affected.\n\nProposed change: in amountFormat(), add a negative section with the [Red] colour code to the number formats the function returns. For currencies with zero minor digits, use \"#,##0;[Red]-#,##0\" instead of \"#,##0\". For all other currencies, use \"#,##0.00;[Red]-#,##0.00\" instead of \"#,##0.00\". The positive section stays as it is, so positive amounts and the cell values themselves are unchanged. The format is applied per cell in writeXlsx() through added.getCell(\"amount\").numFmt, so no other call site needs to change.\n\nNot yet verified: that the spreadsheet application used by the controllers renders the [Red] section as expected, and that existing tests which assert the exact numFmt string are updated to match."
+      },
+      "is_error": false,
+      "latency_s": 0.005,
+      "result_chars": 75,
+      "result_excerpt": "{\"pull_request\": \"pr-12\", \"branch\": \"repomind/issue-4637\", \"state\": \"open\"}",
+      "paths": [],
+      "result": "{\"pull_request\": \"pr-12\", \"branch\": \"repomind/issue-4637\", \"state\": \"open\"}",
+      "trace_line": 17,
+      "call": 5
+    },
+    {
+      "run_id": "planned-issue-4637-s01-64ee8c",
+      "t": 19.219,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 6,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4637",
+        "body": "label: feature\nfile: src/export/xlsx.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-17\", \"issue\": \"issue-4637\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-17\", \"issue\": \"issue-4637\"}",
+      "trace_line": 19,
+      "call": 6
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: feature\nfile: src/export/xlsx.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [
+      "feature"
+    ],
+    "prs": [
+      {
+        "title": "Show negative amounts in red in XLSX exports",
+        "body": "File: src/export/xlsx.ts\n\nNegative amounts in the Amount column of the XLSX export should display in red, so controllers no longer need to reformat the sheet by hand. CSV output is not affected.\n\nProposed change: in amountFormat(), add a negative section with the [Red] colour code to the number formats the function returns. For currencies with zero minor digits, use \"#,##0;[Red]-#,##0\" instead of \"#,##0\". For all other currencies, use \"#,##0.00;[Red]-#,##0.00\" instead of \"#,##0.00\". The positive section stays as it is, so positive amounts and the cell values themselves are unchanged. The format is applied per cell in writeXlsx() through added.getCell(\"amount\").numFmt, so no other call site needs to change.\n\nNot yet verified: that the spreadsheet application used by the controllers renders the [Red] section as expected, and that existing tests which assert the exact numFmt string are updated to match."
+      }
+    ],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4637": {
+      "comments": [
+        "label: feature\nfile: src/export/xlsx.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [
+        "feature"
+      ],
+      "prs": [
+        {
+          "title": "Show negative amounts in red in XLSX exports",
+          "body": "File: src/export/xlsx.ts\n\nNegative amounts in the Amount column of the XLSX export should display in red, so controllers no longer need to reformat the sheet by hand. CSV output is not affected.\n\nProposed change: in amountFormat(), add a negative section with the [Red] colour code to the number formats the function returns. For currencies with zero minor digits, use \"#,##0;[Red]-#,##0\" instead of \"#,##0\". For all other currencies, use \"#,##0.00;[Red]-#,##0.00\" instead of \"#,##0.00\". The positive section stays as it is, so positive amounts and the cell values themselves are unchanged. The format is applied per cell in writeXlsx() through added.getCell(\"amount\").numFmt, so no other call site needs to change.\n\nNot yet verified: that the spreadsheet application used by the controllers renders the [Red] section as expected, and that existing tests which assert the exact numFmt string are updated to match."
+        }
+      ],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": null,
+  "independent": [
+    {
+      "path": "fixtures/repo/src/export/xlsx.ts",
+      "sha256": "367666f072ce5846bf5b6cf5d52fc7cc9a662005ed2eab9e00f48c83b5005472",
+      "line_count": 54,
+      "excerpt": "1: import ExcelJS from \"exceljs\";\n2: import { COLUMN_LABELS, COLUMN_ORDER, CONTENT_TYPES, type ExportColumn } from \"../exportUtils\";\n3: import type { ReportRow } from \"../types\";\n4: import { minorDigits, toMajor } from \"../util/money\";\n5: import type { ExportFile } from \"./csv\";\n6: \n7: const COLUMN_WIDTHS: Record<ExportColumn, number> = {\n8:   date: 12,\n9:   amount: 14,\n10:   currency: 10,\n11:   description: 48,\n12:   category: 20,\n13: };\n14: \n15: function amountFormat(currency: string): string {\n16:   return minorDigits(currency) === 0 ? \"#,##0\" : \"#,##0.00\";\n17: }\n32:   sheet.getRow(1).font = { bold: true };\n33: \n34:   for (const row of rows) {\n35:     const added = sheet.addRow({\n36:       // Midnight UTC so the cell shows the same calendar date everywhere.\n37:       date: new Date(`${row.date}T00:00:00Z`),\n38:       amount: toMajor(row.amount, row.currency),\n39:       currency: row.currency,\n40:       description: row.description,\n41:       category: row.category ?? \"\",\n42:     });\n43:     added.getCell(\"amount\").numFmt = amountFormat(row.currency);\n44:   }\n45: \n46:   sheet.getColumn(\"date\").numFmt = \"yyyy-mm-dd\";\n47:   sheet.autoFilter = {\n48:     from: { row: 1, column: 1 },"
+    },
+    {
+      "path": "fixtures/repo/CHANGELOG.md",
+      "sha256": "df607cdc821d175d4139fc2d923da1b657fbf7f6343a282f1eea992db9c9c084",
+      "line_count": 69,
+      "excerpt": "15:   queue depth.\n16: \n17: ## 3.2.0 (2026-07-28)\n18: \n19: ### Added\n20: \n21: - New export module under src/export/ (CSV and XLSX writers, scheduled exports).\n22: - Transactions now carry a currency. Existing rows take the account's default\n23:   currency (migration 002).\n24: - Users can set a time zone in their profile (migration 003).\n25: - Scheduled exports: a report can be emailed daily, weekly or monthly as an\n26:   attachment.\n27: \n28: ### Changed\n29: \n30: - Export column order changed: date is now the first column.\n31: - Amounts in XLSX exports are written as numbers, formatted with the\n32:   currency's number of decimals.\n33: \n34: ## 3.1.2 (2026-06-10)\n35: \n36: ### Fixed\n37: \n38: - Password reset tokens can only be used once.\n39: - Dates written as 31.03.2026 are accepted in uploads.\n40: \n41: ## 3.1.1 (2026-05-02)"
+    },
+    {
+      "path": "fixtures/repo/README.md",
+      "sha256": "9194f545893bd940a1215e188cd31cd3da7b5374ee61853b9957904c1a5fa7a6",
+      "line_count": 89,
+      "excerpt": "1: # Ledgerline\n2: \n3: Ledgerline turns the CSV files that banks and accounting tools export into a\n4: clean, deduplicated transaction ledger, and produces reports that finance teams\n5: can download as CSV or XLSX.\n6: \n7: Current version: 3.2.1. See [CHANGELOG.md](CHANGELOG.md) for what changed.\n8: \n9: ## Features\n10: \n11: - CSV upload with header and row checks before anything is queued\n12: - Duplicate detection across overlapping statements\n13: - Saved reports filtered by date range and category\n14: - Exports as CSV or XLSX, on demand or on a schedule (emailed as an attachment)\n15: - Password reset and weekly rollup emails, in English and French\n16: \n17: ## Requirements\n18: \n19: - Node.js 18.18 or newer\n20: - PostgreSQL 14 or newer\n21: - An S3-compatible bucket for uploaded files (AWS S3 or MinIO)\n22: - An SMTP relay for outgoing mail\n23: \n24: ## Running locally\n65: ## Project layout\n66: \n67: | Path | What lives there |\n68: | --- | --- |\n69: | `src/api/` | Express routers, request validation, error mapping |\n70: | `src/ingest/` | Upload parsing, row validation, deduplication, the import queue and worker |\n71: | `src/export/` | CSV and XLSX writers, scheduled exports |\n72: | `src/notifications/` | Outgoing email: transport, templates, weekly rollup |\n73: | `src/db/` | Connection pool, repositories, SQL migrations |\n74: | `src/i18n/` | Message catalogs (`en.json`, `fr.json`) and the `t()` helper |\n75: | `src/components/` | React components used by the web client |\n76: | `docs/` | Architecture, configuration and API reference |\n77: \n78: More detail on how the pieces fit together is in\n79: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), and the HTTP endpoints are listed\n80: in [docs/API.md](docs/API.md).\n81: "
+    },
+    {
+      "path": "fixtures/repo/docs/API.md",
+      "sha256": "40de5c4d2bedbc8678174888a097e70f4f857f3b35e3745a7754899676983006",
+      "line_count": 89,
+      "excerpt": "78: \n79: `GET /reports/:id/export?format=csv`\n80: \n81: | `format` | Content-Type |\n82: | --- | --- |\n83: | `csv` (default) | `text/csv; charset=utf-8` |\n84: | `xlsx` | `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` |\n85: \n86: Any other value returns 400 with `{ \"error\": \"unsupported format\", \"supported\": [\"csv\", \"xlsx\"] }`.\n87: Columns are `Date, Amount, Currency, Description, Category`, one row per\n88: transaction, ordered by date. Reports over 100,000 rows return 400; narrow the\n89: date range."
+    },
+    {
+      "path": "fixtures/repo/docs/ARCHITECTURE.md",
+      "sha256": "6ef605c7e7f77092a56cc9c49cae39c02e861877d4a9416bfc0d82e745845d6e",
+      "line_count": 95,
+      "excerpt": "50: hourly purge.\n51: \n52: ## Reports and exports\n53: \n54: A report is a saved filter: account, date range, optional categories, and an\n55: optional schedule. `GET /reports/:id/export` loads the matching transactions\n56: and hands them to a writer in `src/export/` (`csv.ts` or `xlsx.ts`). Format\n57: names, column order and filename rules shared by both writers live in\n58: `src/exportUtils.ts`.\n59: \n60: Scheduled exports (`src/export/scheduler.ts`) check every five minutes for\n61: reports whose `next_run_at` has passed, email the file as an attachment, and\n62: set the next run.\n63: \n64: ## Notifications\n65: \n66: All mail goes through `src/notifications/email.ts` (nodemailer over SMTP, with"
+    },
+    {
+      "path": "fixtures/repo/src/api/reports.ts",
+      "sha256": "eb9b0b6ea12e2055e818ebffb6ebc436bc16f918670f1019fb85ef7cffb465e2",
+      "line_count": 237,
+      "excerpt": "1: import { Router, type Request } from \"express\";\n2: import { z } from \"zod\";\n3: import { reportRepo } from \"../db/repos/reportRepo\";\n4: import { transactionRepo } from \"../db/repos/transactionRepo\";\n5: import { writeCsv, type ExportFile } from \"../export/csv\";\n6: import { nextRunAt } from \"../export/scheduler\";\n7: import { writeXlsx } from \"../export/xlsx\";\n8: import {\n9:   formatExportFilename,\n10:   isSupportedFormat,\n11:   SUPPORTED_FORMATS,\n12:   type ExportFormat,\n13: } from \"../exportUtils\";\n14: import { logger } from \"../logger\";\n15: import type { CurrencyTotals, Report, ReportRow, ReportSchedule } from \"../types\";\n16: import { parsePage, toPage } from \"../util/pagination\";\n17: import { truncate } from \"../util/strings\";\n89: }\n90: \n91: export async function renderExport(format: ExportFormat, rows: ReportRow[]): Promise<ExportFile> {\n92:   switch (format) {\n93:     case \"csv\":\n94:       return writeCsv(rows);\n95:     case \"xlsx\":\n96:       return writeXlsx(rows);\n97:   }\n98: }\n99: \n100: // GET /reports\n101: reportsRouter.get(\n102:   \"/\",\n103:   asyncHandler(async (req, res) => {\n104:     const params = parsePage(req.query as Record<string, unknown>);\n105:     const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "planned-issue-4637-s01-64ee8c",
+      "t": 6.129,
+      "type": "validation",
+      "version": 1,
+      "attempt": 1,
+      "valid": true,
+      "failures": [],
+      "trace_line": 4
+    },
+    {
+      "run_id": "planned-issue-4637-s01-64ee8c",
+      "t": 19.286,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 20
+    }
+  ],
+  "trace_file": "fixtures/traces7/planned-issue-4637-s01-64ee8c.jsonl",
+  "state_file": "fixtures/traces7/planned-issue-4637-s01-64ee8c.state.json",
+  "issue_file": "fixtures/issues/pool/4637.md",
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4637-s01-64ee8c.jsonl": "8afc2cc2eda34302775ac5313431d1a5766a8538ec6343aa3cc76eb400f4af96",
+    "fixtures/traces7/planned-issue-4637-s01-64ee8c.state.json": "04873acfd3016f83cec87972752d426578ded0ce9c4138a453b5be865a0285d1",
+    "fixtures/issues/pool/4637.md": "0f054443a6bd6a650a002a824b1c8fb7958482692632261d2bda2d093253b38d",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge."
+  ],
+  "features": [
+    "area:CHANGELOG.md",
+    "area:src/export",
+    "comment:present",
+    "pr:present",
+    "recorded-label:feature",
+    "termination:completed",
+    "way:planned"
+  ]
+}

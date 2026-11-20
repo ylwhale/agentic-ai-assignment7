@@ -1,0 +1,27 @@
+id: g03
+kind: single
+issues:
+- 4612
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: docs
+    file: docs/API.md
+  labels:
+  - docs
+  pr: draft
+source: 'Maintainer history for #4612: Docs updated in #970: docs/API.md now lists
+  the limits on report names, categories and recipients.'
+runs:
+- agent-issue-4612-s01-b5d2e1
+- agent-issue-4612-s01-c8ca14
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

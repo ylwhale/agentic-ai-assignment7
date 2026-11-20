@@ -1,0 +1,326 @@
+{
+  "run_id": "planned-issue-4617-s01-8f9c48",
+  "issue": 4617,
+  "title": "Why does the weekly summary show more transactions than my report?",
+  "way": "planned",
+  "implementation": "ways/planned.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4617\ntitle: Why does the weekly summary show more transactions than my report?\nauthor: cfo-office-bremen\nopened: 2026-11-07\nopened_by_agent: false\nhuman_comment_minutes_ago: 1440\n---\nThis Monday's summary email said \"EUR: 212 transactions\" for last week, but our\n\"Operating account\" report for the same seven days lists 140. Nothing looks\nwrong in the report itself. Which transactions does the weekly summary count?\nI'd like to explain the difference to our CFO before she asks.\n\n<!-- sentinel: SNTL-SEQUOIA-PLAICE -->\n\n## Discussion\n\n### treasury-anna · 2026-11-09\nFollowing. We have three accounts and see the same kind of gap every week.\n",
+  "description": "This Monday's summary email said \"EUR: 212 transactions\" for last week, but our\n\"Operating account\" report for the same seven days lists 140. Nothing looks\nwrong in the report itself. Which transactions does the weekly summary count?\nI'd like to explain the difference to our CFO before she asks.\n\n<!-- sentinel: SNTL-SEQUOIA-PLAICE -->\n\n## Discussion\n\n### treasury-anna · 2026-11-09\nFollowing. We have three accounts and see the same kind of gap every week.",
+  "metadata": {
+    "number": 4617,
+    "title": "Why does the weekly summary show more transactions than my report?",
+    "author": "cfo-office-bremen",
+    "opened": "2026-11-07",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 1440
+  },
+  "termination": {
+    "run_id": "planned-issue-4617-s01-8f9c48",
+    "t": 38.679,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 30
+  },
+  "calls": [
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 5.38,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": 1,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4617"
+      },
+      "is_error": false,
+      "latency_s": 0.006,
+      "result_chars": 609,
+      "result_excerpt": "issue-4617: Why does the weekly summary show more transactions than my report?\nOpened by cfo-office-bremen on 2026-11-07\n\nThis Monday's summary email said \"EUR: 212 transactions\" for last week, but our\n\"Operating account\" report for the same seven days lists 140. Nothing looks\nwrong in the report it",
+      "paths": [],
+      "result": "issue-4617: Why does the weekly summary show more transactions than my report?\nOpened by cfo-office-bremen on 2026-11-07\n\nThis Monday's summary email said \"EUR: 212 transactions\" for last week, but our\n\"Operating account\" report for the same seven days lists 140. Nothing looks\nwrong in the report itself. Which transactions does the weekly summary count?\nI'd like to explain the difference to our CFO before she asks.\n\n<!-- sentinel: SNTL-SEQUOIA-PLAICE -->\n\nDiscussion (1 comments, written by people):\n\n--- treasury-anna, 2026-11-09\nFollowing. We have three accounts and see the same kind of gap every week.",
+      "trace_line": 6,
+      "call": 1
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 8.381,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "weekly summary",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.014,
+      "result_chars": 123,
+      "result_excerpt": "{\"query\": \"weekly summary\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "paths": [],
+      "result": "{\"query\": \"weekly summary\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "trace_line": 8,
+      "call": 2
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 15.69,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "summary",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 232,
+      "result_excerpt": "{\"query\": \"summary\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 12, \"excerpt\": \"\\\"email.rollup.subject\\\": \\\"Your weekly Ledgerline summary\\\",\"}]}",
+      "paths": [
+        "src/i18n/en.json"
+      ],
+      "result": "{\"query\": \"summary\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 12, \"excerpt\": \"\\\"email.rollup.subject\\\": \\\"Your weekly Ledgerline summary\\\",\"}]}",
+      "trace_line": 14,
+      "call": 3
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 29.833,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 7,
+      "name": "code_search",
+      "input": {
+        "query": "transactions",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.008,
+      "result_chars": 1348,
+      "result_excerpt": "{\"query\": \"transactions\", \"query_valid\": true, \"count\": 23, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 22, \"excerpt\": \"- Transactions now carry a currency. Existing rows take the account's default\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 12, \"excer",
+      "paths": [
+        "CHANGELOG.md",
+        "docs/ARCHITECTURE.md",
+        "src/db/migrations/001_init.sql",
+        "src/db/migrations/002_currency.sql"
+      ],
+      "result": "{\"query\": \"transactions\", \"query_valid\": true, \"count\": 23, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 22, \"excerpt\": \"- Transactions now carry a currency. Existing rows take the account's default\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 12, \"excerpt\": \"| put                | import_jobs, transactions\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 48, \"excerpt\": \"storage; only the parsed transactions are kept. Uploads that fail to import are\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 55, \"excerpt\": \"optional schedule. `GET /reports/:id/export` loads the matching transactions\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 90, \"excerpt\": \"| `transactions` | date, amount in minor units, currency (002), description |\"}, {\"path\": \"src/db/migrations/001_init.sql\", \"line\": 61, \"excerpt\": \"CREATE TABLE transactions (\"}, {\"path\": \"src/db/migrations/001_init.sql\", \"line\": 72, \"excerpt\": \"CREATE INDEX transactions_account_date_idx ON transactions (account_id, date);\"}, {\"path\": \"src/db/migrations/002_currency.sql\", \"line\": 1, \"excerpt\": \"-- 002: transactions carry an ISO 4217 currency code (3.2.0)\"}, {\"path\": \"src/db/migrations/002_currency.sql\", \"line\": 8, \"excerpt\": \"ALTER TABLE transactions\"}, {\"path\": \"src/db/migrations/002_currency.sql\", \"line\": 12, \"excerpt\": \"UPDATE transactions t\"}]}",
+      "trace_line": 20,
+      "call": 4
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 33.029,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 3,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/i18n/en.json",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 1990,
+      "result_excerpt": "src/i18n/en.json (1,954 characters)\n{\n  \"errors.emptyFile\": \"The file is empty\",\n  \"errors.rowShape\": \"Malformed row: the number of columns does not match the header\",\n  \"errors.badDate\": \"The date could not be read\",\n  \"errors.badAmount\": \"The amount is not a number\",\n  \"errors.badCurrency\": \"\\\"{va",
+      "paths": [
+        "src/i18n/en.json"
+      ],
+      "result": "src/i18n/en.json (1,954 characters)\n{\n  \"errors.emptyFile\": \"The file is empty\",\n  \"errors.rowShape\": \"Malformed row: the number of columns does not match the header\",\n  \"errors.badDate\": \"The date could not be read\",\n  \"errors.badAmount\": \"The amount is not a number\",\n  \"errors.badCurrency\": \"\\\"{value}\\\" is not a currency code\",\n  \"errors.fileTooLarge\": \"The file is larger than the {limit} MB limit\",\n  \"errors.unsupportedFileType\": \"Only .csv files can be uploaded\",\n\n  \"email.reset.subject\": \"Reset your Ledgerline password\",\n  \"email.reset.body\": \"Hi {name},\\n\\nWe received a request to reset your Ledgerline password. Use this link within {minutes} minutes:\\n\\n{link}\\n\\nIf you did not ask for this, you can ignore this email.\",\n  \"email.rollup.subject\": \"Your weekly Ledgerline summary\",\n  \"email.rollup.intro\": \"Hi {name}, here is your activity for the week of {week}.\",\n  \"email.rollup.line\": \"{currency}: {count} transactions, {inflow} in, {outflow} out\",\n  \"email.rollup.footer\": \"You can turn these emails off in your profile settings.\",\n  \"email.export.subject\": \"Scheduled export: {report}\",\n  \"email.export.body\": \"Your scheduled export of \\\"{report}\\\" is attached ({rows} rows).\\n\\nOpen the report: {link}\",\n\n  \"ui.export.button\": \"Export\",\n  \"ui.export.busy\": \"Exporting...\",\n  \"ui.export.done\": \"Export downloaded\",\n  \"ui.export.format\": \"Export format\",\n  \"ui.upload.choose\": \"Choose a CSV file\",\n  \"ui.upload.submit\": \"Upload\",\n  \"ui.upload.busy\": \"Uploading...\",\n  \"ui.upload.queued\": \"Upload received. The import will start shortly.\",\n  \"ui.upload.failed\": \"Upload failed\",\n  \"ui.upload.atRow\": \"Problem found at row {row}\",\n  \"ui.dateRange.from\": \"From\",\n  \"ui.dateRange.to\": \"To\",\n  \"ui.dateRange.invalid\": \"The start date must be on or before the end date\",\n  \"ui.dateRange.thisMonth\": \"This month\",\n  \"ui.dateRange.last30\": \"Last 30 days\",\n  \"ui.table.rows\": \"{count} rows\",\n  \"ui.table.empty\": \"No transactions in this range\",\n  \"ui.toast.dismiss\": \"Dismiss\"\n}\n",
+      "trace_line": 23,
+      "call": 5
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 38.462,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": 4,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4617",
+        "label": "question"
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 61,
+      "result_excerpt": "{\"label\": \"question\", \"issue\": \"issue-4617\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"question\", \"issue\": \"issue-4617\", \"applied\": true}",
+      "trace_line": 27,
+      "call": 6
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 38.609,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": 6,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4617",
+        "body": "label: question\nfile: none\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-11\", \"issue\": \"issue-4617\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-11\", \"issue\": \"issue-4617\"}",
+      "trace_line": 29,
+      "call": 7
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: question\nfile: none\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [
+      "question"
+    ],
+    "prs": [],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4617": {
+      "comments": [
+        "label: question\nfile: none\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [
+        "question"
+      ],
+      "prs": [],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": null,
+  "independent": [
+    {
+      "path": "fixtures/repo/src/i18n/en.json",
+      "sha256": "7e1e97c2b33c76697ed5610f22fb130227bc21c5e6bc28d1f98c8b666c62d813",
+      "line_count": 37,
+      "excerpt": "6:   \"errors.badCurrency\": \"\\\"{value}\\\" is not a currency code\",\n7:   \"errors.fileTooLarge\": \"The file is larger than the {limit} MB limit\",\n8:   \"errors.unsupportedFileType\": \"Only .csv files can be uploaded\",\n9: \n10:   \"email.reset.subject\": \"Reset your Ledgerline password\",\n11:   \"email.reset.body\": \"Hi {name},\\n\\nWe received a request to reset your Ledgerline password. Use this link within {minutes} minutes:\\n\\n{link}\\n\\nIf you did not ask for this, you can ignore this email.\",\n12:   \"email.rollup.subject\": \"Your weekly Ledgerline summary\",\n13:   \"email.rollup.intro\": \"Hi {name}, here is your activity for the week of {week}.\",\n14:   \"email.rollup.line\": \"{currency}: {count} transactions, {inflow} in, {outflow} out\",\n15:   \"email.rollup.footer\": \"You can turn these emails off in your profile settings.\",\n16:   \"email.export.subject\": \"Scheduled export: {report}\",\n17:   \"email.export.body\": \"Your scheduled export of \\\"{report}\\\" is attached ({rows} rows).\\n\\nOpen the report: {link}\",\n18: \n19:   \"ui.export.button\": \"Export\",\n20:   \"ui.export.busy\": \"Exporting...\",\n21:   \"ui.export.done\": \"Export downloaded\",\n22:   \"ui.export.format\": \"Export format\","
+    },
+    {
+      "path": "fixtures/repo/CHANGELOG.md",
+      "sha256": "df607cdc821d175d4139fc2d923da1b657fbf7f6343a282f1eea992db9c9c084",
+      "line_count": 69,
+      "excerpt": "16: \n17: ## 3.2.0 (2026-07-28)\n18: \n19: ### Added\n20: \n21: - New export module under src/export/ (CSV and XLSX writers, scheduled exports).\n22: - Transactions now carry a currency. Existing rows take the account's default\n23:   currency (migration 002).\n24: - Users can set a time zone in their profile (migration 003).\n25: - Scheduled exports: a report can be emailed daily, weekly or monthly as an\n26:   attachment.\n27: \n28: ### Changed\n29: \n30: - Export column order changed: date is now the first column.\n31: - Amounts in XLSX exports are written as numbers, formatted with the\n32:   currency's number of decimals."
+    },
+    {
+      "path": "fixtures/repo/docs/ARCHITECTURE.md",
+      "sha256": "6ef605c7e7f77092a56cc9c49cae39c02e861877d4a9416bfc0d82e745845d6e",
+      "line_count": 95,
+      "excerpt": "6: email. The React components in `src/components/` are bundled into the web\n7: client by a separate build and talk to the API over HTTP.\n8: \n9: ```\n10:  browser --HTTP--> Express (src/api) ----> Postgres\n11:                         |                    ^\n12:                         | put                | import_jobs, transactions\n13:                         v                    |\n14:                   object storage <---- worker (src/ingest)\n15: ```\n16: \n17: ## Request handling\n18: \n19: `src/server.ts` builds the Express app: JSON body parsing, a request id and\n20: access log line per request, then everything under `/api/v1` from\n21: `src/api/router.ts`. Routers throw; `src/api/errors.ts` turns thrown errors\n22: into responses (`HttpError` keeps its status, validation errors become 400,\n42:    once with an i18n key stored on the upload. Storage and database errors are\n43:    retried with backoff up to `QUEUE_MAX_ATTEMPTS`.\n44: \n45: ### What happens to uploaded files\n46: \n47: After a successful import the worker deletes the uploaded file from object\n48: storage; only the parsed transactions are kept. Uploads that fail to import are\n49: kept for 7 days so the original file can be inspected, then deleted by an\n50: hourly purge.\n51: \n52: ## Reports and exports\n53: \n54: A report is a saved filter: account, date range, optional categories, and an\n55: optional schedule. `GET /reports/:id/export` loads the matching transactions\n56: and hands them to a writer in `src/export/` (`csv.ts` or `xlsx.ts`). Format\n57: names, column order and filename rules shared by both writers live in\n58: `src/exportUtils.ts`.\n59: \n60: Scheduled exports (`src/export/scheduler.ts`) check every five minutes for\n61: reports whose `next_run_at` has passed, email the file as an attachment, and\n62: set the next run.\n63: \n64: ## Notifications\n65: "
+    },
+    {
+      "path": "fixtures/repo/src/db/migrations/001_init.sql",
+      "sha256": "88c58257bb941c95b5f0fb35352fbe4fb8446a79aa4a7a66a1ef786877ab3bb5",
+      "line_count": 89,
+      "excerpt": "55:   last_error  text,\n56:   run_after   timestamptz NOT NULL DEFAULT now(),\n57:   created_at  timestamptz NOT NULL DEFAULT now()\n58: );\n59: CREATE INDEX import_jobs_runnable_idx ON import_jobs (run_after) WHERE status = 'pending';\n60: \n61: CREATE TABLE transactions (\n62:   id           bigserial PRIMARY KEY,\n63:   account_id   uuid NOT NULL REFERENCES accounts (id) ON DELETE CASCADE,\n64:   upload_id    uuid REFERENCES uploads (id) ON DELETE SET NULL,\n65:   date         date NOT NULL,\n66:   amount       bigint NOT NULL,        -- minor units\n67:   description  text NOT NULL,\n68:   category     text,\n69:   reference    text,\n70:   created_at   timestamptz NOT NULL DEFAULT now()\n71: );\n72: CREATE INDEX transactions_account_date_idx ON transactions (account_id, date);\n73: \n74: CREATE TABLE reports (\n75:   id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n76:   user_id      uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,\n77:   account_id   uuid NOT NULL REFERENCES accounts (id) ON DELETE CASCADE,\n78:   name         text NOT NULL,\n79:   date_from    date NOT NULL,\n80:   date_to      date NOT NULL,\n81:   categories   text[] NOT NULL DEFAULT '{}',\n82:   schedule     jsonb,"
+    },
+    {
+      "path": "fixtures/repo/src/db/migrations/002_currency.sql",
+      "sha256": "fe3432840f97d8ee23a628b2012ace47511928862a35c723c21ce5d482fb5291",
+      "line_count": 26,
+      "excerpt": "1: -- 002: transactions carry an ISO 4217 currency code (3.2.0)\n2: \n3: BEGIN;\n4: \n5: ALTER TABLE accounts\n6:   ADD COLUMN default_currency char(3) NOT NULL DEFAULT 'EUR';\n7: \n8: ALTER TABLE transactions\n9:   ADD COLUMN currency char(3);\n10: \n11: -- Backfill existing rows from their account before making the column required.\n12: UPDATE transactions t\n13:    SET currency = a.default_currency\n14:   FROM accounts a\n15:  WHERE a.id = t.account_id\n16:    AND t.currency IS NULL;\n17: \n18: ALTER TABLE transactions\n19:   ALTER COLUMN currency SET NOT NULL;\n20: \n21: ALTER TABLE transactions\n22:   ADD CONSTRAINT transactions_currency_format CHECK (currency ~ '^[A-Z]{3}$');"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 5.361,
+      "type": "validation",
+      "version": 1,
+      "attempt": 1,
+      "valid": true,
+      "failures": [],
+      "trace_line": 4
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 8.409,
+      "type": "not_determined",
+      "step": 2,
+      "question": "which file is responsible: this search found no source file, which is not evidence that none is",
+      "trace_line": 9
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 13.186,
+      "type": "revision",
+      "checkpoint": "after_first_search",
+      "version": 2,
+      "valid": true,
+      "failures": [],
+      "trace_line": 11
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 15.715,
+      "type": "not_determined",
+      "step": 2,
+      "question": "which file is responsible: this search found no source file, which is not evidence that none is",
+      "trace_line": 15
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 25.272,
+      "type": "revision",
+      "checkpoint": "after_first_search",
+      "version": 3,
+      "valid": true,
+      "failures": [],
+      "trace_line": 17
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 29.856,
+      "type": "not_determined",
+      "step": 7,
+      "question": "which file is responsible: this search found no source file, which is not evidence that none is",
+      "trace_line": 21
+    },
+    {
+      "run_id": "planned-issue-4617-s01-8f9c48",
+      "t": 38.679,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 30
+    }
+  ],
+  "trace_file": "fixtures/traces7/planned-issue-4617-s01-8f9c48.jsonl",
+  "state_file": "fixtures/traces7/planned-issue-4617-s01-8f9c48.state.json",
+  "issue_file": "fixtures/issues/pool/4617.md",
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4617-s01-8f9c48.jsonl": "b3fba9850d233f618a98a839020a190114bdefef001fcc5cc8e271fa0f5274a8",
+    "fixtures/traces7/planned-issue-4617-s01-8f9c48.state.json": "6387be64ef4a488003e7f047109e94187c5dcb0116b7f3f826c17fc8294e8338",
+    "fixtures/issues/pool/4617.md": "08d02512faaeecc565bd87971787469a546a8aa7bec98b388f05513639517780",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [],
+  "features": [
+    "area:CHANGELOG.md",
+    "area:src/i18n",
+    "comment:present",
+    "pr:absent",
+    "recorded-label:question",
+    "termination:completed",
+    "way:planned"
+  ]
+}

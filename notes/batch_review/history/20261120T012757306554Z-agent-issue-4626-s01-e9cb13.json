@@ -1,0 +1,52 @@
+{
+  "at": "2026-11-20T01:27:57.306367+00:00",
+  "run_id": "agent-issue-4626-s01-e9cb13",
+  "status": "committed",
+  "confirmation": "explicit",
+  "record": {
+    "run_id": "agent-issue-4626-s01-e9cb13",
+    "issue": "4626",
+    "title": "Reports generated together are listed in a different order every day",
+    "way": "agent",
+    "termination": "turn_limit — 4 model calls",
+    "tool_count": "7",
+    "last_observed_tool": "code_search",
+    "last_observed_step": "4",
+    "labels": "[]",
+    "comment_count": "0",
+    "pr_count": "0",
+    "merges": "0",
+    "pushes": "[]",
+    "elsewhere": "[]",
+    "mechanical_flags": "Recorded state has 0 comments; termination alone does not establish completion.",
+    "maintainer_resolution": "No matching maintainer resolution",
+    "evidence_file": "notes/batch_review/packets/agent-issue-4626-s01-e9cb13.md",
+    "machine_candidate_expected": "",
+    "machine_candidate_last_observed": "",
+    "machine_candidate_first_failure": "",
+    "machine_candidate_assessment": "",
+    "machine_draft_observation": "",
+    "expected_decision": "act",
+    "actual_decision": "The agent read issue #4626 and searched the repository for report ordering and dashboard-related code. It inspected `src/db/repos/reportRepo.ts` and `src/report.tsx`, then searched for their usage. Although the reporter clarified that the problem concerned the dashboard's recent-reports list rather than the saved-reports API, the agent did not complete the triage or propose a solution. The run ended after reaching its four-model-call limit, with no comments, labels, PRs, or code changes.",
+    "last_correct_call": "code_search at step 4 [c7]",
+    "first_incorrect_call": "stopped too early",
+    "observation": "The agent correctly read issue #4626 and investigated report ordering using seven read-only tool calls. The issue discussion clarified that the problem was in the dashboard's recent-reports list, not the paginated saved-reports list. The source shows that `reportRepo.list()` orders reports by creation time and id, while `src/report.tsx` renders individual dashboard report entries. However, the agent reached its model-call limit without applying a label, posting a comment, or opening a PR. The recorded end state confirms no changes. I consider the run unsuccessful because it stopped before completing the legitimate feature triage.",
+    "assessment": "failed",
+    "source_checked": "fixtures/repo/src/report.tsx;fixtures/repo/src/db/repos/reportRepo.ts",
+    "verified": "yes",
+    "confirmation": "Explicit human confirmation in review workflow"
+  },
+  "backup": "notes/batch_review/backups/20261120T012757305783Z-trace-review.md",
+  "before_sha256": "30f88d5728185eaa9eed3976504972e170002cb3268c2a75540642709a686ac7",
+  "after_sha256": "f31999e5689b7a3f02fdaa0382b2d54bf5a59902bd274053e0fa252de1c50cdc",
+  "reviews": {
+    "agent-issue-4626-s01-e9cb13": "f1af1e805b9b0ae405301770c2071c13bb95aa39256ec6877369f036bd89bc9c"
+  },
+  "fixture_hashes": {
+    "fixtures/traces7/agent-issue-4626-s01-e9cb13.jsonl": "f3f401231f1e985bbb5e3ae509908440a4ef963f32d1bb2d2b5d7f1863b1e682",
+    "fixtures/traces7/agent-issue-4626-s01-e9cb13.state.json": "7db2983c6848237c1817855b296f2d66e529d5d81398ba4551c5e4ce934c8392",
+    "fixtures/issues/pool/4626.md": "30ca9a5971fbc13cad4c47fdcfe718cca104c2a56a9bddcdae1006221a5079b4",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": []
+}

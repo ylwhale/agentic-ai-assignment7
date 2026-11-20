@@ -1,0 +1,27 @@
+id: g05
+kind: single
+issues:
+- 4620
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/api/auth.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4620: Fixed in #963: the login and password reset
+  schemas in src/api/auth.ts trim the email before checking it.'
+runs:
+- agent-issue-4620-s01-62c293
+- direct-issue-4620-s01-cc942a
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

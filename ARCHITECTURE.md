@@ -30,3 +30,41 @@ The table below is RepoMind as Assignment 5 leaves it: its working solution.
 | Evaluation | The grounded check reads the tracker, never the agent | `eval/check_triage.py:7` | partial: offline only |
 
 **Empty layers: 0 of 7**, and three are partial.
+
+## Assignment 7 evaluation extension (AI-assisted)
+
+The course harness, RepoMind ways, tools, prompts/agent.md, checks and fixtures
+remain unchanged. Thirty distinct source-grounded golden tasks live under
+`eval/golden/v1/tasks/`; the manifest names every task. The 40 original human
+reviews and taxonomy remain unchanged.
+
+| Responsibility | Implementation | Evidence and boundary |
+|---|---|---|
+| End-state grounding | `eval/grounded.py:14` | Tracker state only; comment/label/PR facts and prohibited actions, never model claims. |
+| Trajectory metrics | `eval/metrics.py:39` | Canonical repeated calls, distinct-tool precision/recall, orphan reads, reference-call difference, trace cost/duration. |
+| Exact reliability statistics | `eval/stats.py:31` | Combinatorial pass@k and pass^k; sample SD, SE, confidence interval and sweep planning. |
+| Result export | `eval/results_07.py:83` | Unique real task/sweep rows; tracker root is explicit; scripted evidence goes to separate files. |
+| Experimental stage gates | `eval/experiment_07.py:131` | Committed/pushed subset; actual pilots show only SD/cost; threshold push before fourth sweep; no budget override. |
+| Pilot planning | `eval/experiment_07.py:65` | Raw SD preserved; zero variance uses one sweep-mean step, 1/N; no pilot advantage output. |
+| Human-input validation | `eval/validation_07.py:25` | Exact IDs and reasons, duplicate rejection; no inferred labels; subset-filtered access. |
+| Human label collection | `notes/human_judge_cli.py:35` | Explicit user input and confirmation, lock, backup, atomic replacement, no overwrite. |
+| Frozen metered judge | `eval/judge.py:198` | Examples-only prompt labels; independent criterion; frozen config for held-out calls; resumable session-backed verdicts. |
+| Judge freeze | `eval/judge.py:173` | Hash checks of code/prompt, criterion/receipt, split/labels, model settings and input outputs. |
+| Failed-run evidence | `eval/failure_review_07.py:50` | Full actual trace/end-state packets; no inferred first-failure judgment. |
+| Computed report | `eval/report_07.py:135` | Exact arm/per-stratum calculations from complete matrices; null/pending when evidence is absent. |
+| Report rendering | `eval/report_07.py:238` | Part A retained; no invented experiments or human criterion/labels. |
+
+The label-independent subset/split commit `a96a722` was pushed before the new
+judge implementation. `eval/experiment_plan.yaml` fixes the design before paid
+pilots. The actual `eval/thresholds/claim.yaml` is created only after three real
+sweeps and committed/pushed before sweep four. `eval/judge/frozen.json` is created
+only after human inputs and development, then committed before held-out testing.
+
+All paid calls use `harness.client.ModelClient`; Part D additionally uses
+`harness.meter.judge_session` and its real ledger/session traces. The correction
+refuses |TPR+TNR−1|≤0.1 and uses at least 2,000 bootstrap samples. The configured
+course ceilings remain 1.5 million tokens/session and 20 million/assignment.
+
+See `REMAINING_HUMAN_INPUT_07.md` for the honest remaining dependencies and exact
+commands. A passing automated score would still require separate staff review of
+the report, provenance, first-failure causes and independent human work.

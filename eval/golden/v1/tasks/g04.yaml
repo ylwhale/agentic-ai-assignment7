@@ -1,0 +1,26 @@
+id: g04
+kind: single
+issues:
+- 4619
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: feature
+    file: src/util/pagination.ts
+  labels:
+  - feature
+  pr: draft
+source: 'Maintainer history for #4619: Done in #978: paginated responses built in
+  src/util/pagination.ts now include pageCount.'
+runs:
+- planned-issue-4619-s01-b076e6
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

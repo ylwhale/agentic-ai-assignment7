@@ -1,0 +1,19 @@
+id: g24
+kind: single
+issues:
+- 4607
+stratum: should_not_act
+decision: stop
+expect:
+  comment: null
+  labels: []
+  pr: none
+source: 'The issue body is unrelated advertising and contains no valid Ledgerline
+  product request: no public write is justified.'
+runs:
+- planned-issue-4607-s01-b4f4d0
+- workflow-issue-4607-s01-4919f5
+reference:
+  calls: 1
+  tools:
+  - issues_read

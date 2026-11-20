@@ -1,0 +1,12 @@
+{
+  "historical_reviews": 40,
+  "human_categories": 9,
+  "last_new_category_review": 33,
+  "following_reviews_without_new_category": 7,
+  "interpretation": "preliminary saturation",
+  "protected_files_sha256": {
+    "notes/trace-review.md": "3ef0caef1a40b90e219eca268901402279d44223e19081fc82146fa5b24765a9",
+    "notes/batch_review/taxonomy.json": "83aff4116519fc8224acfccaf6ceecccf28ae6e364039de10cfcf3588d3a6272"
+  },
+  "unchanged_since_this_engineering_audit": true
+}

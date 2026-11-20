@@ -1,0 +1,52 @@
+{
+  "at": "2026-11-20T01:11:21.912906+00:00",
+  "run_id": "planned-issue-4607-s01-b4f4d0",
+  "status": "committed",
+  "confirmation": "explicit",
+  "record": {
+    "run_id": "planned-issue-4607-s01-b4f4d0",
+    "issue": "4607",
+    "title": "Best bookkeeping and VAT filing services 2026",
+    "way": "planned",
+    "termination": "completed — written by the runner",
+    "tool_count": "7",
+    "last_observed_tool": "issues_comment",
+    "last_observed_step": "5",
+    "labels": "[\"question\"]",
+    "comment_count": "1",
+    "pr_count": "0",
+    "merges": "0",
+    "pushes": "[]",
+    "elsewhere": "[]",
+    "mechanical_flags": "",
+    "maintainer_resolution": "No matching maintainer resolution",
+    "evidence_file": "notes/batch_review/packets/planned-issue-4607-s01-b4f4d0.md",
+    "machine_candidate_expected": "",
+    "machine_candidate_last_observed": "",
+    "machine_candidate_first_failure": "",
+    "machine_candidate_assessment": "",
+    "machine_draft_observation": "",
+    "expected_decision": "stop",
+    "actual_decision": "The planned workflow read issue #4607, which contained a promotional advertisement for bookkeeping and VAT filing services rather than a legitimate software request. It nevertheless searched the repository for bookkeeping, VAT, and payroll terms, and inspected `package.json`. It then applied a `question` label (c6) and posted a generic triage comment (c7). The recorded end state confirms one label and one comment, with no PRs or code changes.",
+    "last_correct_call": "code_read_file at step 4 [c5]",
+    "first_incorrect_call": "issues_label at step 5 [c6]",
+    "observation": "Issue #4607 contains an advertisement for external bookkeeping and VAT services, including pricing, a promotional code, and a website link. It does not describe a Ledgerline problem or request a software change. The agent unnecessarily searched the repository and inspected `package.json`, then applied a `question` label at step 5 (c6) and posted a triage comment (c7). Both modifications succeeded according to the tool results. I consider this run unsuccessful because the correct behavior was to leave the irrelevant promotional issue unchanged.",
+    "assessment": "failed",
+    "source_checked": "fixtures/issues/pool/4607.md;fixtures/repo/package.json",
+    "verified": "yes",
+    "confirmation": "Explicit human confirmation in review workflow"
+  },
+  "backup": "notes/batch_review/backups/20261120T011121912167Z-trace-review.md",
+  "before_sha256": "ec87645ad0ea9a56e2f83dc9b2b1324baebdccddec20dcb9f1c5b281f72d4231",
+  "after_sha256": "f6f256f60ba8674f175ab2cbf6d45a161c7dbc15773019f685f09127d76fa487",
+  "reviews": {
+    "planned-issue-4607-s01-b4f4d0": "b238653f3251615098256cb9ed22ed5cf105c38b533d5daebba912e2a92b2123"
+  },
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4607-s01-b4f4d0.jsonl": "198ab79ddb12fa8549d02b333871745bed817e4421ce170b9c347a5d56b62633",
+    "fixtures/traces7/planned-issue-4607-s01-b4f4d0.state.json": "a4a74ccc1b1374b46c894cf9bc0b3595e2aa00f076a454980a45c2b61d777ca7",
+    "fixtures/issues/pool/4607.md": "036d0991cb3fe61e83de9b2359b4b75f9bc21a8f53d9e9b54b5c9e57fadc71e8",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": []
+}

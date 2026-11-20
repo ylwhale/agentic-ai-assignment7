@@ -1,0 +1,28 @@
+id: g17
+kind: single
+issues:
+- 4633
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/ingest/worker.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4633: Fixed in #973: src/ingest/worker.ts now holds
+  a per-account lock while it reads stored rows and inserts new ones, so overlapping
+  uploads for one account import one after the other. dedupe.ts was correct.'
+runs:
+- agent-issue-4633-s01-76d741
+- planned-issue-4633-s01-a5f973
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

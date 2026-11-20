@@ -1,0 +1,26 @@
+id: g09
+kind: single
+issues:
+- 4632
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: docs
+    file: docs/ARCHITECTURE.md
+  labels:
+  - docs
+  pr: draft
+source: 'Maintainer history for #4632: Docs updated in #971: docs/ARCHITECTURE.md
+  now says a week with no transactions gets no summary.'
+runs:
+- agent-issue-4632-s01-aa33e6
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

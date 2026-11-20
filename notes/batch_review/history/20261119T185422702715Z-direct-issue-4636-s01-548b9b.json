@@ -1,0 +1,52 @@
+{
+  "at": "2026-11-19T18:54:22.702455+00:00",
+  "run_id": "direct-issue-4636-s01-548b9b",
+  "status": "committed",
+  "confirmation": "explicit",
+  "record": {
+    "run_id": "direct-issue-4636-s01-548b9b",
+    "issue": "4636",
+    "title": "Every file from our credit union fails at row 1",
+    "way": "direct",
+    "termination": "completed — written by the runner",
+    "tool_count": "2",
+    "last_observed_tool": "issues_comment",
+    "last_observed_step": "1",
+    "labels": "[]",
+    "comment_count": "1",
+    "pr_count": "0",
+    "merges": "0",
+    "pushes": "[]",
+    "elsewhere": "[]",
+    "mechanical_flags": "Comment says label 'bug'; actual recorded labels are []. A comment does not apply a label.; Comment names src/ingest/parser.ts, but recorded state has no open PR. Check the complete tools and intended decision.",
+    "maintainer_resolution": "Duplicate of #4601, tracked there.",
+    "evidence_file": "notes/batch_review/packets/direct-issue-4636-s01-548b9b.md",
+    "machine_candidate_expected": "",
+    "machine_candidate_last_observed": "",
+    "machine_candidate_first_failure": "",
+    "machine_candidate_assessment": "",
+    "machine_draft_observation": "",
+    "expected_decision": "stop",
+    "actual_decision": "The direct implementation read issue #4636 and posted a comment treating the CSV import failure as a bug in src/ingest/parser.ts. It did not identify the issue as a duplicate of #4601. The recorded end state shows one comment, no applied labels, no PR, and no other changes.",
+    "last_correct_call": "issues_read at step 0 [c1]",
+    "first_incorrect_call": "issues_comment at step 1 [c2]",
+    "observation": "The direct implementation correctly read issue #4636 at step 0, but failed to account for the maintainer's comment identifying it as a duplicate of #4601. At step 1, it posted a new comment labeling the problem as a bug in `src/ingest/parser.ts` instead of leaving the duplicate issue unchanged. The recorded final state confirms one comment, no applied labels, and no PR. The maintainer's resolution confirms that the issue was already tracked under #4601. I consider the run unsuccessful because it performed unnecessary triage on an existing duplicate.",
+    "assessment": "failed",
+    "source_checked": "fixtures/closed_issues.yaml issue #4636",
+    "verified": "yes",
+    "confirmation": "Explicit human confirmation in review workflow"
+  },
+  "backup": "notes/batch_review/backups/20261119T185422702102Z-trace-review.md",
+  "before_sha256": "5fffd1ea2f6ab3708e93c844cc891fa1bad40bd33f4b628894250cad9f8b72ae",
+  "after_sha256": "29db1983bdc73e0af2141cef4d6641e7c6ddbcb66a4879f296fd5b4458d234c3",
+  "reviews": {
+    "direct-issue-4636-s01-548b9b": "aa61307c391bc7fb0670e2ad55dba6a3a9a5064193d4770cea80856679e9ab46"
+  },
+  "fixture_hashes": {
+    "fixtures/traces7/direct-issue-4636-s01-548b9b.jsonl": "72556ef1541a2b8cc76d777ad9c4de8b3ec4786181c5215504d810c293cb889c",
+    "fixtures/traces7/direct-issue-4636-s01-548b9b.state.json": "8cb1ff6aca16c0a752c31973afde6a6949bec3797fd945d124219a08efd37b84",
+    "fixtures/issues/pool/4636.md": "62699cee23238b3d7264d7e94376470246d0b1b1c774aaf17f63b0ce2917b891",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": []
+}

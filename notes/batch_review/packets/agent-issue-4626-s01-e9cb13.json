@@ -1,0 +1,264 @@
+{
+  "run_id": "agent-issue-4626-s01-e9cb13",
+  "issue": 4626,
+  "title": "Reports generated together are listed in a different order every day",
+  "way": "agent",
+  "implementation": "ways/agent.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4626\ntitle: Reports generated together are listed in a different order every day\nauthor: ops-lead-porto\nopened: 2026-11-10\nopened_by_agent: false\nhuman_comment_minutes_ago: 1440\n---\nSix of our scheduled reports are generated in the 06:00 run, all within the\nsame second. In the recent reports list they come out in a different order\nevery day, so people hunt for theirs; reports generated together should be in\nalphabetical order. I'm fairly sure the cause is\n`ORDER BY created_at DESC, id` in `src/db/repos/reportRepo.ts`: breaking ties\nby id is as good as random. It should break ties by name.\n\n<!-- sentinel: SNTL-BEECH-STURGEON -->\n\n## Discussion\n\n### priya-s (maintainer) · 2026-11-10\nIs this the recent reports list on the dashboard, or the paginated list of\nsaved reports?\n\n### ops-lead-porto · 2026-11-11\nThe recent reports list on the dashboard, the one with the number of\nrecipients on each line. The saved reports list is fine.\n",
+  "description": "Six of our scheduled reports are generated in the 06:00 run, all within the\nsame second. In the recent reports list they come out in a different order\nevery day, so people hunt for theirs; reports generated together should be in\nalphabetical order. I'm fairly sure the cause is\n`ORDER BY created_at DESC, id` in `src/db/repos/reportRepo.ts`: breaking ties\nby id is as good as random. It should break ties by name.\n\n<!-- sentinel: SNTL-BEECH-STURGEON -->\n\n## Discussion\n\n### priya-s (maintainer) · 2026-11-10\nIs this the recent reports list on the dashboard, or the paginated list of\nsaved reports?\n\n### ops-lead-porto · 2026-11-11\nThe recent reports list on the dashboard, the one with the number of\nrecipients on each line. The saved reports list is fine.",
+  "metadata": {
+    "number": 4626,
+    "title": "Reports generated together are listed in a different order every day",
+    "author": "ops-lead-porto",
+    "opened": "2026-11-10",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 1440
+  },
+  "termination": {
+    "run_id": "agent-issue-4626-s01-e9cb13",
+    "t": 5.353,
+    "type": "end",
+    "terminal_reason": "turn_limit",
+    "detail": "4 model calls",
+    "trace_line": 13
+  },
+  "calls": [
+    {
+      "run_id": "agent-issue-4626-s01-e9cb13",
+      "t": 1.087,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4626"
+      },
+      "is_error": false,
+      "latency_s": 0.01,
+      "result_chars": 905,
+      "result_excerpt": "issue-4626: Reports generated together are listed in a different order every day\nOpened by ops-lead-porto on 2026-11-10\n\nSix of our scheduled reports are generated in the 06:00 run, all within the\nsame second. In the recent reports list they come out in a different order\nevery day, so people hunt fo",
+      "paths": [],
+      "result": "issue-4626: Reports generated together are listed in a different order every day\nOpened by ops-lead-porto on 2026-11-10\n\nSix of our scheduled reports are generated in the 06:00 run, all within the\nsame second. In the recent reports list they come out in a different order\nevery day, so people hunt for theirs; reports generated together should be in\nalphabetical order. I'm fairly sure the cause is\n`ORDER BY created_at DESC, id` in `src/db/repos/reportRepo.ts`: breaking ties\nby id is as good as random. It should break ties by name.\n\n<!-- sentinel: SNTL-BEECH-STURGEON -->\n\nDiscussion (2 comments, written by people):\n\n--- priya-s (maintainer), 2026-11-10\nIs this the recent reports list on the dashboard, or the paginated list of\nsaved reports?\n\n--- ops-lead-porto, 2026-11-11\nThe recent reports list on the dashboard, the one with the number of\nrecipients on each line. The saved reports list is fine.",
+      "trace_line": 3,
+      "call": 1
+    },
+    {
+      "run_id": "agent-issue-4626-s01-e9cb13",
+      "t": 2.305,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "ORDER BY created_at",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 293,
+      "result_excerpt": "{\"query\": \"ORDER BY created_at\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/db/repos/reportRepo.ts\", \"line\": 64, \"excerpt\": \"`SELECT ${COLUMNS} FROM reports WHERE user_id = $1 ORDER BY created_at DESC, id LIMIT $2 OFFSET $3`,\"}]}",
+      "paths": [
+        "src/db/repos/reportRepo.ts"
+      ],
+      "result": "{\"query\": \"ORDER BY created_at\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/db/repos/reportRepo.ts\", \"line\": 64, \"excerpt\": \"`SELECT ${COLUMNS} FROM reports WHERE user_id = $1 ORDER BY created_at DESC, id LIMIT $2 OFFSET $3`,\"}]}",
+      "trace_line": 5,
+      "call": 2
+    },
+    {
+      "run_id": "agent-issue-4626-s01-e9cb13",
+      "t": 2.315,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "recent",
+        "path_glob": "src/**",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 234,
+      "result_excerpt": "{\"query\": \"recent\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/report.tsx\", \"line\": 1, \"excerpt\": \"// One line per report, for the dashboard's list of recent reports.\"}]}",
+      "paths": [
+        "src/report.tsx"
+      ],
+      "result": "{\"query\": \"recent\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/report.tsx\", \"line\": 1, \"excerpt\": \"// One line per report, for the dashboard's list of recent reports.\"}]}",
+      "trace_line": 6,
+      "call": 3
+    },
+    {
+      "run_id": "agent-issue-4626-s01-e9cb13",
+      "t": 3.595,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": null,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/db/repos/reportRepo.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.03,
+      "result_chars": 4207,
+      "result_excerpt": "src/db/repos/reportRepo.ts (4,161 characters)\nimport type { Report, ReportSchedule } from \"../../types\";\nimport { db } from \"../client\";\n\ninterface ReportRecord {\n  id: string;\n  user_id: string;\n  account_id: string;\n  name: string;\n  date_from: string;\n  date_to: string;\n  categories: string[];\n  ",
+      "paths": [
+        "src/db/repos/reportRepo.ts"
+      ],
+      "result": "src/db/repos/reportRepo.ts (4,161 characters)\nimport type { Report, ReportSchedule } from \"../../types\";\nimport { db } from \"../client\";\n\ninterface ReportRecord {\n  id: string;\n  user_id: string;\n  account_id: string;\n  name: string;\n  date_from: string;\n  date_to: string;\n  categories: string[];\n  schedule: ReportSchedule | null;\n  next_run_at: Date | null;\n  created_at: Date;\n  updated_at: Date;\n}\n\nconst COLUMNS =\n  \"id, user_id, account_id, name, date_from, date_to, categories, schedule, next_run_at, created_at, updated_at\";\n\nfunction toReport(row: ReportRecord): Report {\n  return {\n    id: row.id,\n    userId: row.user_id,\n    accountId: row.account_id,\n    name: row.name,\n    from: row.date_from,\n    to: row.date_to,\n    categories: row.categories,\n    schedule: row.schedule,\n    nextRunAt: row.next_run_at,\n    createdAt: row.created_at,\n    updatedAt: row.updated_at,\n  };\n}\n\nexport interface NewReport {\n  accountId: string;\n  name: string;\n  from: string;\n  to: string;\n  categories: string[];\n  schedule: ReportSchedule | null;\n  nextRunAt: Date | null;\n}\n\nexport type ReportPatch = Partial<NewReport>;\n\nconst PATCH_COLUMNS: Record<keyof ReportPatch, string> = {\n  accountId: \"account_id\",\n  name: \"name\",\n  from: \"date_from\",\n  to: \"date_to\",\n  categories: \"categories\",\n  schedule: \"schedule\",\n  nextRunAt: \"next_run_at\",\n};\n\nexport const reportRepo = {\n  async list(userId: string, limit: number, offset: number): Promise<{ items: Report[]; total: number }> {\n    const [rows, [{ total }]] = await Promise.all([\n      // id breaks ties so paging is stable when created_at is equal.\n      db.query<ReportRecord>(\n        `SELECT ${COLUMNS} FROM reports WHERE user_id = $1 ORDER BY created_at DESC, id LIMIT $2 OFFSET $3`,\n        [userId, limit, offset],\n      ),\n      db.query<{ total: number }>(\"SELECT count(*)::int AS total FROM reports WHERE user_id = $1\", [userId]),\n    ]);\n    return { items: rows.map(toReport), total };\n  },\n\n  async get(id: string, userId: string): Promise<Report | null> {\n    const row = await db.maybeOne<ReportRecord>(`SELECT ${COLUMNS} FROM reports WHERE id = $1 AND user_id = $2`, [\n      id,\n      userId,\n    ]);\n    return row ? toReport(row) : null;\n  },\n\n  async create(userId: string, input: NewReport): Promise<Report> {\n    const row = await db.one<ReportRecord>(\n      `INSERT INTO reports (user_id, account_id, name, date_from, date_to, categories, schedule, next_run_at)\n       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)\n       RETURNING ${COLUMNS}`,\n      [userId, input.accountId, input.name, input.from, input.to, input.categories, input.schedule, input.nextRunAt],\n    );\n    return toReport(row);\n  },\n\n  /** Updates only the keys present in `patch`. An explicit null clears a nullable column. */\n  async update(id: string, userId: string, patch: ReportPatch): Promise<Report | null> {\n    const sets: string[] = [];\n    const params: unknown[] = [id, userId];\n    for (const [key, column] of Object.entries(PATCH_COLUMNS) as [keyof ReportPatch, string][]) {\n      if (patch[key] === undefined) continue;\n      params.push(patch[key]);\n      sets.push(`${column} = $${params.length}`);\n    }\n    if (sets.length === 0) return this.get(id, userId);\n\n    const row = await db.maybeOne<ReportRecord>(\n      `UPDATE reports SET ${sets.join(\", \")}, updated_at = now()\n        WHERE id = $1 AND user_id = $2\n        RETURNING ${COLUMNS}`,\n      params,\n    );\n    return row ? toReport(row) : null;\n  },\n\n  async remove(id: string, userId: string): Promise<boolean> {\n    const rows = await db.query<{ id: string }>(\"DELETE FROM reports WHERE id = $1 AND user_id = $2 RETURNING id\", [\n      id,\n      userId,\n    ]);\n    return rows.length > 0;\n  },\n\n  async listDueSchedules(now: Date, limit = 100): Promise<Report[]> {\n    const rows = await db.query<ReportRecord>(\n      `SELECT ${COLUMNS} FROM reports\n        WHERE schedule IS NOT NULL AND next_run_at <= $1\n        ORDER BY next_run_at\n        LIMIT $2`,\n      [now, limit],\n    );\n    return rows.map(toReport);\n  },\n\n  async markScheduleRun(id: string, nextRunAt: Date): Promise<void> {\n    await db.query(\"UPDATE reports SET next_run_at = $2 WHERE id = $1\", [id, nextRunAt]);\n  },\n};\n",
+      "trace_line": 8,
+      "call": 4
+    },
+    {
+      "run_id": "agent-issue-4626-s01-e9cb13",
+      "t": 3.61,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": null,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/report.tsx",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.01,
+      "result_chars": 341,
+      "result_excerpt": "src/report.tsx (309 characters)\n// One line per report, for the dashboard's list of recent reports.\nimport React from \"react\";\nimport type { Report } from \"./Report\";\n\nexport function ReportLine({ report }: { report: Report }) {\n  return (\n    <li>\n      {report.title} <small>{report.deliveredTo.len",
+      "paths": [
+        "src/report.tsx"
+      ],
+      "result": "src/report.tsx (309 characters)\n// One line per report, for the dashboard's list of recent reports.\nimport React from \"react\";\nimport type { Report } from \"./Report\";\n\nexport function ReportLine({ report }: { report: Report }) {\n  return (\n    <li>\n      {report.title} <small>{report.deliveredTo.length} recipients</small>\n    </li>\n  );\n}\n",
+      "trace_line": 9,
+      "call": 5
+    },
+    {
+      "run_id": "agent-issue-4626-s01-e9cb13",
+      "t": 5.338,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "reportRepo.list",
+        "path_glob": "src/**",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.015,
+      "result_chars": 397,
+      "result_excerpt": "{\"query\": \"reportRepo.list\", \"query_valid\": true, \"count\": 2, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/api/reports.ts\", \"line\": 105, \"excerpt\": \"const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);\"}, {\"path\": \"src/expo",
+      "paths": [
+        "src/api/reports.ts",
+        "src/export/scheduler.ts"
+      ],
+      "result": "{\"query\": \"reportRepo.list\", \"query_valid\": true, \"count\": 2, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/api/reports.ts\", \"line\": 105, \"excerpt\": \"const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);\"}, {\"path\": \"src/export/scheduler.ts\", \"line\": 55, \"excerpt\": \"const due = await reportRepo.listDueSchedules(now);\"}]}",
+      "trace_line": 11,
+      "call": 6
+    },
+    {
+      "run_id": "agent-issue-4626-s01-e9cb13",
+      "t": 5.353,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "ReportLine",
+        "path_glob": "src/**",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.01,
+      "result_chars": 231,
+      "result_excerpt": "{\"query\": \"ReportLine\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/report.tsx\", \"line\": 5, \"excerpt\": \"export function ReportLine({ report }: { report: Report }) {\"}]}",
+      "paths": [
+        "src/report.tsx"
+      ],
+      "result": "{\"query\": \"ReportLine\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/report.tsx\", \"line\": 5, \"excerpt\": \"export function ReportLine({ report }: { report: Report }) {\"}]}",
+      "trace_line": 12,
+      "call": 7
+    }
+  ],
+  "state": {
+    "comments": [],
+    "labels": [],
+    "prs": [],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4626": {
+      "comments": [],
+      "labels": [],
+      "prs": [],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": null,
+  "independent": [
+    {
+      "path": "fixtures/repo/src/db/repos/reportRepo.ts",
+      "sha256": "28d71ce9eec67fcc90dac515dfc3f7addf772c83dfab24edd7029c664b4ca4a6",
+      "line_count": 132,
+      "excerpt": "58: \n59: export const reportRepo = {\n60:   async list(userId: string, limit: number, offset: number): Promise<{ items: Report[]; total: number }> {\n61:     const [rows, [{ total }]] = await Promise.all([\n62:       // id breaks ties so paging is stable when created_at is equal.\n63:       db.query<ReportRecord>(\n64:         `SELECT ${COLUMNS} FROM reports WHERE user_id = $1 ORDER BY created_at DESC, id LIMIT $2 OFFSET $3`,\n65:         [userId, limit, offset],\n66:       ),\n67:       db.query<{ total: number }>(\"SELECT count(*)::int AS total FROM reports WHERE user_id = $1\", [userId]),\n68:     ]);\n69:     return { items: rows.map(toReport), total };\n70:   },\n71: \n72:   async get(id: string, userId: string): Promise<Report | null> {\n73:     const row = await db.maybeOne<ReportRecord>(`SELECT ${COLUMNS} FROM reports WHERE id = $1 AND user_id = $2`, [\n74:       id,"
+    },
+    {
+      "path": "fixtures/repo/src/report.tsx",
+      "sha256": "84046468bf9a261e133dd6af4dc91f2658503712adc15c936d35bf9db14c3988",
+      "line_count": 11,
+      "excerpt": "1: // One line per report, for the dashboard's list of recent reports.\n2: import React from \"react\";\n3: import type { Report } from \"./Report\";\n4: \n5: export function ReportLine({ report }: { report: Report }) {\n6:   return (\n7:     <li>\n8:       {report.title} <small>{report.deliveredTo.length} recipients</small>\n9:     </li>\n10:   );\n11: }"
+    },
+    {
+      "path": "fixtures/repo/src/api/reports.ts",
+      "sha256": "eb9b0b6ea12e2055e818ebffb6ebc436bc16f918670f1019fb85ef7cffb465e2",
+      "line_count": 237,
+      "excerpt": "99: \n100: // GET /reports\n101: reportsRouter.get(\n102:   \"/\",\n103:   asyncHandler(async (req, res) => {\n104:     const params = parsePage(req.query as Record<string, unknown>);\n105:     const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);\n106:     res.json(toPage(items.map(serialize), total, params));\n107:   }),\n108: );\n109: \n110: // GET /reports/:id\n111: reportsRouter.get(\n112:   \"/:id\",\n113:   asyncHandler(async (req, res) => {\n114:     const report = await loadOwnedReport(req);\n115:     const preview = await transactionRepo.listForReport(report, { limit: PREVIEW_ROWS });"
+    },
+    {
+      "path": "fixtures/repo/src/export/scheduler.ts",
+      "sha256": "63e9682da4704ba7273e1dc6ea8d2179f69bdd72279c87028726318c9c98f43f",
+      "line_count": 84,
+      "excerpt": "49:   });\n50:   await reportRepo.markScheduleRun(report.id, nextRunAt(schedule.cadence, now));\n51: }\n52: \n53: /** Runs every export whose next_run_at has passed. Returns how many were sent. */\n54: export async function runDueExports(now: Date = new Date()): Promise<number> {\n55:   const due = await reportRepo.listDueSchedules(now);\n56:   let sent = 0;\n57:   for (const report of due) {\n58:     try {\n59:       await runScheduledExport(report, now);\n60:       sent += 1;\n61:     } catch (err) {\n62:       // Left due, so the next tick tries again.\n63:       logger.error({ err, reportId: report.id }, \"scheduled export failed\");\n64:     }\n65:   }"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "agent-issue-4626-s01-e9cb13",
+      "t": 5.353,
+      "type": "end",
+      "terminal_reason": "turn_limit",
+      "detail": "4 model calls",
+      "trace_line": 13
+    }
+  ],
+  "trace_file": "fixtures/traces7/agent-issue-4626-s01-e9cb13.jsonl",
+  "state_file": "fixtures/traces7/agent-issue-4626-s01-e9cb13.state.json",
+  "issue_file": "fixtures/issues/pool/4626.md",
+  "fixture_hashes": {
+    "fixtures/traces7/agent-issue-4626-s01-e9cb13.jsonl": "f3f401231f1e985bbb5e3ae509908440a4ef963f32d1bb2d2b5d7f1863b1e682",
+    "fixtures/traces7/agent-issue-4626-s01-e9cb13.state.json": "7db2983c6848237c1817855b296f2d66e529d5d81398ba4551c5e4ce934c8392",
+    "fixtures/issues/pool/4626.md": "30ca9a5971fbc13cad4c47fdcfe718cca104c2a56a9bddcdae1006221a5079b4",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 0 comments; termination alone does not establish completion."
+  ],
+  "features": [
+    "area:src/db",
+    "area:src/report.tsx",
+    "comment:absent",
+    "pr:absent",
+    "termination:turn_limit",
+    "way:agent"
+  ]
+}

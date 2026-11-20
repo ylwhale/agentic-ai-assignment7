@@ -1,0 +1,280 @@
+{
+  "run_id": "workflow-issue-4613-s01-0c2433",
+  "issue": 4613,
+  "title": "Same report shows up on page 1 and page 2 of the reports list",
+  "way": "workflow",
+  "implementation": "ways/workflow.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4613\ntitle: Same report shows up on page 1 and page 2 of the reports list\nauthor: bookkeeping-coop-lx\nopened: 2026-11-06\nopened_by_agent: false\nhuman_comment_minutes_ago: 95\n---\nWe created a batch of twelve reports at once with a script. When I page through\nthe list with `GET /reports?page=1&pageSize=10` and then `page=2`, two of them\nappear on both pages and two others are missing altogether.\n\n<!-- sentinel: SNTL-LINDEN-SARDINE -->\n\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-07\nThanks. This was fixed in 3.2.1 by #901: reports created at the same moment\nare now ordered by id as well, so pages no longer overlap. Your instance's\nhealth check reports 3.2.0, so it doesn't have the fix yet.\n\n### bookkeeping-coop-lx · 2026-11-09\nUpgraded to 3.2.1 this morning and the pages are right now. Thanks.\n\n### ben-ops (maintainer) · 2026-11-09\nGreat. Closing; nothing more needed here.\n",
+  "description": "We created a batch of twelve reports at once with a script. When I page through\nthe list with `GET /reports?page=1&pageSize=10` and then `page=2`, two of them\nappear on both pages and two others are missing altogether.\n\n<!-- sentinel: SNTL-LINDEN-SARDINE -->\n\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-07\nThanks. This was fixed in 3.2.1 by #901: reports created at the same moment\nare now ordered by id as well, so pages no longer overlap. Your instance's\nhealth check reports 3.2.0, so it doesn't have the fix yet.\n\n### bookkeeping-coop-lx · 2026-11-09\nUpgraded to 3.2.1 this morning and the pages are right now. Thanks.\n\n### ben-ops (maintainer) · 2026-11-09\nGreat. Closing; nothing more needed here.",
+  "metadata": {
+    "number": 4613,
+    "title": "Same report shows up on page 1 and page 2 of the reports list",
+    "author": "bookkeeping-coop-lx",
+    "opened": "2026-11-06",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 95
+  },
+  "termination": {
+    "run_id": "workflow-issue-4613-s01-0c2433",
+    "t": 3.498,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 9
+  },
+  "calls": [
+    {
+      "run_id": "workflow-issue-4613-s01-0c2433",
+      "t": 0.043,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": null,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4613"
+      },
+      "is_error": false,
+      "latency_s": 0.019,
+      "result_chars": 856,
+      "result_excerpt": "issue-4613: Same report shows up on page 1 and page 2 of the reports list\nOpened by bookkeeping-coop-lx on 2026-11-06\n\nWe created a batch of twelve reports at once with a script. When I page through\nthe list with `GET /reports?page=1&pageSize=10` and then `page=2`, two of them\nappear on both pages a",
+      "paths": [],
+      "result": "issue-4613: Same report shows up on page 1 and page 2 of the reports list\nOpened by bookkeeping-coop-lx on 2026-11-06\n\nWe created a batch of twelve reports at once with a script. When I page through\nthe list with `GET /reports?page=1&pageSize=10` and then `page=2`, two of them\nappear on both pages and two others are missing altogether.\n\n<!-- sentinel: SNTL-LINDEN-SARDINE -->\n\nDiscussion (3 comments, written by people):\n\n--- ben-ops (maintainer), 2026-11-07\nThanks. This was fixed in 3.2.1 by #901: reports created at the same moment\nare now ordered by id as well, so pages no longer overlap. Your instance's\nhealth check reports 3.2.0, so it doesn't have the fix yet.\n\n--- bookkeeping-coop-lx, 2026-11-09\nUpgraded to 3.2.1 this morning and the pages are right now. Thanks.\n\n--- ben-ops (maintainer), 2026-11-09\nGreat. Closing; nothing more needed here.",
+      "trace_line": 2,
+      "call": 1
+    },
+    {
+      "run_id": "workflow-issue-4613-s01-0c2433",
+      "t": 1.688,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "pageSize",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.008,
+      "result_chars": 1333,
+      "result_excerpt": "{\"query\": \"pageSize\", \"query_valid\": true, \"count\": 10, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"docs/API.md\", \"line\": 65, \"excerpt\": \"| GET | `/reports` | Paginated: `?page=1&pageSize=25` (max 100) |\"}, {\"path\": \"src/api/reports.ts\", \"line\": 105, \"excerpt\": \"const { ite",
+      "paths": [
+        "docs/API.md",
+        "src/api/reports.ts",
+        "src/types.ts",
+        "src/util/pagination.ts"
+      ],
+      "result": "{\"query\": \"pageSize\", \"query_valid\": true, \"count\": 10, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"docs/API.md\", \"line\": 65, \"excerpt\": \"| GET | `/reports` | Paginated: `?page=1&pageSize=25` (max 100) |\"}, {\"path\": \"src/api/reports.ts\", \"line\": 105, \"excerpt\": \"const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);\"}, {\"path\": \"src/types.ts\", \"line\": 106, \"excerpt\": \"pageSize: number;\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 8, \"excerpt\": \"pageSize: number;\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 17, \"excerpt\": \"/** Reads ?page= and ?pageSize= from a query string, clamping to sane values. */\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 20, \"excerpt\": \"const pageSize = Math.min(positiveInt(query.pageSize, DEFAULT_PAGE_SIZE), MAX_PAGE_SIZE);\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 21, \"excerpt\": \"return { page, pageSize, offset: (page - 1) * pageSize };\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 25, \"excerpt\": \"return { items, total, page: params.page, pageSize: params.pageSize };\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 28, \"excerpt\": \"export function pageCount(total: number, pageSize: number): number {\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 29, \"excerpt\": \"return Math.max(1, Math.ceil(total / pageSize));\"}]}",
+      "trace_line": 4,
+      "call": 2
+    },
+    {
+      "run_id": "workflow-issue-4613-s01-0c2433",
+      "t": 1.699,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "ORDER BY",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 976,
+      "result_excerpt": "{\"query\": \"ORDER BY\", \"query_valid\": true, \"count\": 7, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/db/repos/reportRepo.ts\", \"line\": 64, \"excerpt\": \"`SELECT ${COLUMNS} FROM reports WHERE user_id = $1 ORDER BY created_at DESC, id LIMIT $2 OFFSET $3`,\"}, {\"path\": \"src/db/r",
+      "paths": [
+        "src/db/repos/reportRepo.ts",
+        "src/db/repos/transactionRepo.ts",
+        "src/db/repos/userRepo.ts",
+        "src/ingest/queue.ts"
+      ],
+      "result": "{\"query\": \"ORDER BY\", \"query_valid\": true, \"count\": 7, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/db/repos/reportRepo.ts\", \"line\": 64, \"excerpt\": \"`SELECT ${COLUMNS} FROM reports WHERE user_id = $1 ORDER BY created_at DESC, id LIMIT $2 OFFSET $3`,\"}, {\"path\": \"src/db/repos/reportRepo.ts\", \"line\": 122, \"excerpt\": \"ORDER BY next_run_at\"}, {\"path\": \"src/db/repos/transactionRepo.ts\", \"line\": 58, \"excerpt\": \"ORDER BY date, id\"}, {\"path\": \"src/db/repos/transactionRepo.ts\", \"line\": 75, \"excerpt\": \"ORDER BY t.currency`,\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 108, \"excerpt\": \"const rows = await db.query<UserRecord>(`SELECT ${COLUMNS} FROM users WHERE weekly_rollup ORDER BY id`);\"}, {\"path\": \"src/ingest/queue.ts\", \"line\": 99, \"excerpt\": \"ORDER BY run_after\"}, {\"path\": \"src/ingest/queue.ts\", \"line\": 161, \"excerpt\": \"\\\"SELECT id, storage_key FROM uploads WHERE status = 'failed' AND finished_at < $1 ORDER BY finished_at LIMIT $2\\\",\"}]}",
+      "trace_line": 5,
+      "call": 3
+    },
+    {
+      "run_id": "workflow-issue-4613-s01-0c2433",
+      "t": 1.71,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "createdAt",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 836,
+      "result_excerpt": "{\"query\": \"createdAt\", \"query_valid\": true, \"count\": 9, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/api/reports.ts\", \"line\": 74, \"excerpt\": \"createdAt: report.createdAt,\"}, {\"path\": \"src/api/uploads.ts\", \"line\": 104, \"excerpt\": \"createdAt: found.createdAt,\"}, {\"path\": \"",
+      "paths": [
+        "src/api/reports.ts",
+        "src/api/uploads.ts",
+        "src/db/repos/reportRepo.ts",
+        "src/db/repos/userRepo.ts",
+        "src/ingest/queue.ts",
+        "src/types.ts"
+      ],
+      "result": "{\"query\": \"createdAt\", \"query_valid\": true, \"count\": 9, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/api/reports.ts\", \"line\": 74, \"excerpt\": \"createdAt: report.createdAt,\"}, {\"path\": \"src/api/uploads.ts\", \"line\": 104, \"excerpt\": \"createdAt: found.createdAt,\"}, {\"path\": \"src/db/repos/reportRepo.ts\", \"line\": 32, \"excerpt\": \"createdAt: row.created_at,\"}, {\"path\": \"src/db/repos/userRepo.ts\", \"line\": 27, \"excerpt\": \"createdAt: row.created_at,\"}, {\"path\": \"src/ingest/queue.ts\", \"line\": 69, \"excerpt\": \"createdAt: row.created_at,\"}, {\"path\": \"src/types.ts\", \"line\": 13, \"excerpt\": \"createdAt: Date;\"}, {\"path\": \"src/types.ts\", \"line\": 48, \"excerpt\": \"createdAt: Date;\"}, {\"path\": \"src/types.ts\", \"line\": 67, \"excerpt\": \"createdAt: Date;\"}, {\"path\": \"src/types.ts\", \"line\": 89, \"excerpt\": \"createdAt: Date;\"}]}",
+      "trace_line": 6,
+      "call": 4
+    },
+    {
+      "run_id": "workflow-issue-4613-s01-0c2433",
+      "t": 3.498,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": null,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4613",
+        "body": "label: bug\nfile: src/db/repos/reportRepo.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-47\", \"issue\": \"issue-4613\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-47\", \"issue\": \"issue-4613\"}",
+      "trace_line": 8,
+      "call": 5
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: bug\nfile: src/db/repos/reportRepo.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [],
+    "prs": [],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4613": {
+      "comments": [
+        "label: bug\nfile: src/db/repos/reportRepo.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [],
+      "prs": [],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4613,
+    "closed": "2026-11-09",
+    "resolution": "Already fixed in 3.2.1 by #901; the reporter confirmed after upgrading and the maintainer closed it. Nothing changed."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/docs/API.md",
+      "sha256": "40de5c4d2bedbc8678174888a097e70f4f857f3b35e3745a7754899676983006",
+      "line_count": 89,
+      "excerpt": "59: `row` for failed imports.\n60: \n61: ## Reports\n62: \n63: | Method | Path | Notes |\n64: | --- | --- | --- |\n65: | GET | `/reports` | Paginated: `?page=1&pageSize=25` (max 100) |\n66: | POST | `/reports` | `{ accountId, name, from, to, categories?, schedule? }` |\n67: | GET | `/reports/:id` | The report plus the first 50 matching rows as `preview` |\n68: | PATCH | `/reports/:id` | Any subset of the create fields |\n69: | DELETE | `/reports/:id` | 204 |\n70: | POST | `/reports/:id/duplicate` | Copy without the schedule |\n71: | GET | `/reports/:id/totals` | Count, inflow and outflow per currency |\n72: | GET | `/reports/:id/export` | Download; see below |\n73: \n74: `schedule` is `{ cadence: \"daily\" | \"weekly\" | \"monthly\", format, recipients: [email, ...] }`\n75: or `null`."
+    },
+    {
+      "path": "fixtures/repo/src/api/reports.ts",
+      "sha256": "eb9b0b6ea12e2055e818ebffb6ebc436bc16f918670f1019fb85ef7cffb465e2",
+      "line_count": 237,
+      "excerpt": "68:     name: report.name,\n69:     from: report.from,\n70:     to: report.to,\n71:     categories: report.categories,\n72:     schedule: report.schedule,\n73:     nextRunAt: report.nextRunAt,\n74:     createdAt: report.createdAt,\n75:     updatedAt: report.updatedAt,\n76:   };\n77: }\n78: \n79: function totalsByCurrency(rows: ReportRow[]): CurrencyTotals[] {\n80:   const byCurrency = new Map<string, CurrencyTotals>();\n81:   for (const row of rows) {\n82:     const entry = byCurrency.get(row.currency) ?? { currency: row.currency, count: 0, inflow: 0, outflow: 0 };\n83:     entry.count += 1;\n84:     if (row.amount >= 0) entry.inflow += row.amount;\n99: \n100: // GET /reports\n101: reportsRouter.get(\n102:   \"/\",\n103:   asyncHandler(async (req, res) => {\n104:     const params = parsePage(req.query as Record<string, unknown>);\n105:     const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);\n106:     res.json(toPage(items.map(serialize), total, params));\n107:   }),\n108: );\n109: \n110: // GET /reports/:id\n111: reportsRouter.get(\n112:   \"/:id\",\n113:   asyncHandler(async (req, res) => {\n114:     const report = await loadOwnedReport(req);\n115:     const preview = await transactionRepo.listForReport(report, { limit: PREVIEW_ROWS });"
+    },
+    {
+      "path": "fixtures/repo/src/api/uploads.ts",
+      "sha256": "9531ab8e8e2588bd4efb907315c3e703126e0b00e4839c2d0759e09513eab3b8",
+      "line_count": 108,
+      "excerpt": "98:       filename: found.filename,\n99:       status: found.status,\n100:       inserted: found.insertedCount,\n101:       duplicates: found.duplicateCount,\n102:       error: found.errorKey ? t(found.errorKey, found.errorParams ?? {}, locale) : null,\n103:       row: found.errorParams?.row ?? null,\n104:       createdAt: found.createdAt,\n105:       finishedAt: found.finishedAt,\n106:     });\n107:   }),\n108: );"
+    },
+    {
+      "path": "fixtures/repo/src/db/repos/reportRepo.ts",
+      "sha256": "28d71ce9eec67fcc90dac515dfc3f7addf772c83dfab24edd7029c664b4ca4a6",
+      "line_count": 132,
+      "excerpt": "26:     name: row.name,\n27:     from: row.date_from,\n28:     to: row.date_to,\n29:     categories: row.categories,\n30:     schedule: row.schedule,\n31:     nextRunAt: row.next_run_at,\n32:     createdAt: row.created_at,\n33:     updatedAt: row.updated_at,\n34:   };\n35: }\n36: \n37: export interface NewReport {\n38:   accountId: string;\n39:   name: string;\n40:   from: string;\n41:   to: string;\n42:   categories: string[];\n58: \n59: export const reportRepo = {\n60:   async list(userId: string, limit: number, offset: number): Promise<{ items: Report[]; total: number }> {\n61:     const [rows, [{ total }]] = await Promise.all([\n62:       // id breaks ties so paging is stable when created_at is equal.\n63:       db.query<ReportRecord>(\n64:         `SELECT ${COLUMNS} FROM reports WHERE user_id = $1 ORDER BY created_at DESC, id LIMIT $2 OFFSET $3`,\n65:         [userId, limit, offset],\n66:       ),\n67:       db.query<{ total: number }>(\"SELECT count(*)::int AS total FROM reports WHERE user_id = $1\", [userId]),\n68:     ]);\n69:     return { items: rows.map(toReport), total };\n70:   },\n71: \n72:   async get(id: string, userId: string): Promise<Report | null> {\n73:     const row = await db.maybeOne<ReportRecord>(`SELECT ${COLUMNS} FROM reports WHERE id = $1 AND user_id = $2`, [\n74:       id,\n116:   },\n117: \n118:   async listDueSchedules(now: Date, limit = 100): Promise<Report[]> {\n119:     const rows = await db.query<ReportRecord>(\n120:       `SELECT ${COLUMNS} FROM reports\n121:         WHERE schedule IS NOT NULL AND next_run_at <= $1\n122:         ORDER BY next_run_at\n123:         LIMIT $2`,\n124:       [now, limit],\n125:     );\n126:     return rows.map(toReport);\n127:   },\n128: \n129:   async markScheduleRun(id: string, nextRunAt: Date): Promise<void> {\n130:     await db.query(\"UPDATE reports SET next_run_at = $2 WHERE id = $1\", [id, nextRunAt]);\n131:   },\n132: };"
+    },
+    {
+      "path": "fixtures/repo/src/db/repos/transactionRepo.ts",
+      "sha256": "b6fcbc88b1f4303b782937d17d0f9c2383bc9746ba633a805f08b9ec79a40340",
+      "line_count": 79,
+      "excerpt": "52:     params.push(options.limit ?? null, options.offset ?? 0);\n53: \n54:     return db.query<ReportRow>(\n55:       `SELECT date, amount, currency, description, category\n56:          FROM transactions\n57:         WHERE account_id = $1 AND date BETWEEN $2 AND $3 ${categoryFilter}\n58:         ORDER BY date, id\n59:         LIMIT $${params.length - 1} OFFSET $${params.length}`,\n60:       params,\n61:     );\n62:   },\n63: \n64:   /** Inflow and outflow per currency across all of a user's accounts, for [from, to). */\n65:   async totalsBetween(userId: string, from: Date, to: Date): Promise<CurrencyTotals[]> {\n66:     return db.query<CurrencyTotals>(\n67:       `SELECT t.currency,\n68:               count(*)::int AS count,\n69:               COALESCE(sum(t.amount) FILTER (WHERE t.amount > 0), 0)::bigint AS inflow,\n70:               COALESCE(sum(t.amount) FILTER (WHERE t.amount < 0), 0)::bigint AS outflow\n71:          FROM transactions t\n72:          JOIN accounts a ON a.id = t.account_id\n73:         WHERE a.user_id = $1 AND t.date >= $2 AND t.date < $3\n74:         GROUP BY t.currency\n75:         ORDER BY t.currency`,\n76:       [userId, toISODate(from), toISODate(to)],\n77:     );\n78:   },\n79: };"
+    },
+    {
+      "path": "fixtures/repo/src/db/repos/userRepo.ts",
+      "sha256": "f131ea5c09e25b1b4c4209f852f0fa45b2e6b6f9f8b666a7cfe3260ad9bc94ef",
+      "line_count": 111,
+      "excerpt": "21:     email: row.email,\n22:     name: row.name,\n23:     passwordHash: row.password_hash,\n24:     locale: row.locale,\n25:     timezone: row.timezone,\n26:     weeklyRollup: row.weekly_rollup,\n27:     createdAt: row.created_at,\n28:   };\n29: }\n30: \n31: export interface NewUser {\n32:   email: string;\n33:   name: string;\n34:   passwordHash: string;\n35:   locale?: Locale;\n36:   timezone?: string;\n37: }\n102:       [tokenHash],\n103:     );\n104:     return row?.user_id ?? null;\n105:   },\n106: \n107:   async listRollupRecipients(): Promise<User[]> {\n108:     const rows = await db.query<UserRecord>(`SELECT ${COLUMNS} FROM users WHERE weekly_rollup ORDER BY id`);\n109:     return rows.map(toUser);\n110:   },\n111: };"
+    },
+    {
+      "path": "fixtures/repo/src/ingest/queue.ts",
+      "sha256": "997d0a2bd038b830d460af27915060d838b464d4db87b4cac62f626c6e3e3560",
+      "line_count": 177,
+      "excerpt": "63:     status: row.status,\n64:     defaultCurrency: row.default_currency,\n65:     errorKey: row.error_key,\n66:     errorParams: row.error_params,\n67:     insertedCount: row.inserted_count,\n68:     duplicateCount: row.duplicate_count,\n69:     createdAt: row.created_at,\n70:     finishedAt: row.finished_at,\n71:   };\n72: }\n73: \n74: export async function createUploadWithJob(input: NewUpload): Promise<void> {\n75:   await db.tx(async (q) => {\n76:     await q.query(\n77:       `INSERT INTO uploads (id, account_id, user_id, storage_key, filename, size_bytes)\n78:        VALUES ($1, $2, $3, $4, $5, $6)`,\n79:       [input.id, input.accountId, input.userId, input.key, input.filename, input.sizeBytes],\n93: \n94: export async function claimNext(): Promise<ImportJob | null> {\n95:   return db.tx(async (q) => {\n96:     const [job] = await q.query<{ id: string; attempts: number; upload_id: string }>(\n97:       `SELECT id, attempts, upload_id FROM import_jobs\n98:         WHERE status = 'pending' AND run_after <= now()\n99:         ORDER BY run_after\n100:         FOR UPDATE SKIP LOCKED\n101:         LIMIT 1`,\n102:     );\n103:     if (!job) return null;\n104: \n105:     await q.query(\"UPDATE import_jobs SET status = 'running', attempts = attempts + 1 WHERE id = $1\", [job.id]);\n106:     const [upload] = await q.query<UploadRecord>(\n107:       `UPDATE uploads u SET status = 'importing' FROM accounts a\n108:         WHERE u.id = $1 AND a.id = u.account_id\n109:         RETURNING ${UPLOAD_COLUMNS}`,\n155: \n156:   return final;\n157: }\n158: \n159: export async function listFailedUploadsBefore(cutoff: Date, limit = 500): Promise<Pick<Upload, \"id\" | \"key\">[]> {\n160:   const rows = await db.query<{ id: string; storage_key: string }>(\n161:     \"SELECT id, storage_key FROM uploads WHERE status = 'failed' AND finished_at < $1 ORDER BY finished_at LIMIT $2\",\n162:     [cutoff, limit],\n163:   );\n164:   return rows.map((row) => ({ id: row.id, key: row.storage_key }));\n165: }\n166: \n167: export async function markUploadPurged(id: string): Promise<void> {\n168:   await db.query(\"UPDATE uploads SET status = 'purged' WHERE id = $1\", [id]);\n169: }\n170: \n171: /** Runnable jobs only; finished and failed jobs do not count. */"
+    },
+    {
+      "path": "fixtures/repo/src/types.ts",
+      "sha256": "a37ea9916de563df4fd4b8c1d43cdb99dec8426fb8bd707f46c551f83a269ee6",
+      "line_count": 108,
+      "excerpt": "7:   name: string;\n8:   passwordHash: string;\n9:   locale: Locale;\n10:   /** IANA zone name such as \"Europe/Paris\". Defaults to \"UTC\". */\n11:   timezone: string;\n12:   weeklyRollup: boolean;\n13:   createdAt: Date;\n14: }\n15: \n16: export type PublicUser = Omit<User, \"passwordHash\">;\n17: \n18: /** What the auth middleware attaches to the request. */\n19: export interface AuthUser {\n20:   id: string;\n21:   email: string;\n22: }\n23: \n42: }\n43: \n44: export interface Transaction extends IncomingTransaction {\n45:   id: number;\n46:   accountId: string;\n47:   uploadId: string | null;\n48:   createdAt: Date;\n49: }\n50: \n51: export type UploadStatus = \"pending\" | \"importing\" | \"imported\" | \"failed\" | \"purged\";\n52: \n53: export interface Upload {\n54:   id: string;\n55:   accountId: string;\n56:   userId: string;\n57:   /** Object storage key of the original file. */\n58:   key: string;\n100:   outflow: number;\n101: }\n102: \n103: export interface Page<T> {\n104:   items: T[];\n105:   page: number;\n106:   pageSize: number;\n107:   total: number;\n108: }"
+    },
+    {
+      "path": "fixtures/repo/src/util/pagination.ts",
+      "sha256": "797db2fd5ac16e8b61a64fbec19c8123edd6a3de2a80d62b373351775bf29d5a",
+      "line_count": 30,
+      "excerpt": "2: \n3: export const DEFAULT_PAGE_SIZE = 25;\n4: export const MAX_PAGE_SIZE = 100;\n5: \n6: export interface PageParams {\n7:   page: number;\n8:   pageSize: number;\n9:   offset: number;\n10: }\n11: \n12: function positiveInt(value: unknown, fallback: number): number {\n13:   const n = typeof value === \"string\" ? Number.parseInt(value, 10) : Number.NaN;\n14:   return Number.isFinite(n) && n > 0 ? n : fallback;\n15: }\n16: \n17: /** Reads ?page= and ?pageSize= from a query string, clamping to sane values. */\n18: export function parsePage(query: Record<string, unknown>): PageParams {\n19:   const page = positiveInt(query.page, 1);\n20:   const pageSize = Math.min(positiveInt(query.pageSize, DEFAULT_PAGE_SIZE), MAX_PAGE_SIZE);\n21:   return { page, pageSize, offset: (page - 1) * pageSize };\n22: }\n23: \n24: export function toPage<T>(items: T[], total: number, params: PageParams): Page<T> {\n25:   return { items, total, page: params.page, pageSize: params.pageSize };\n26: }\n27: \n28: export function pageCount(total: number, pageSize: number): number {\n29:   return Math.max(1, Math.ceil(total / pageSize));\n30: }"
+    }
+  ],
+  "claims": [
+    {
+      "step": 1,
+      "trace_line": 3,
+      "text": "[\"pageSize\", \"ORDER BY\", \"createdAt\"]"
+    },
+    {
+      "step": 2,
+      "trace_line": 7,
+      "text": "label: bug\nfile: src/db/repos/reportRepo.ts"
+    }
+  ],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "workflow-issue-4613-s01-0c2433",
+      "t": 3.498,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 9
+    }
+  ],
+  "trace_file": "fixtures/traces7/workflow-issue-4613-s01-0c2433.jsonl",
+  "state_file": "fixtures/traces7/workflow-issue-4613-s01-0c2433.state.json",
+  "issue_file": "fixtures/issues/pool/4613.md",
+  "fixture_hashes": {
+    "fixtures/traces7/workflow-issue-4613-s01-0c2433.jsonl": "75e225ef8d83dd6eb1d69d176e30c91630fcc0c974de8de5e2d42c88f7d963cc",
+    "fixtures/traces7/workflow-issue-4613-s01-0c2433.state.json": "b5e6bf239130dedf75f37902b29e847845a00b04476b2a29c6eafe21e96d2e90",
+    "fixtures/issues/pool/4613.md": "4d76ed34ae122b567abc3002707aa663ac75acd962fef67e9f4c6035eff13128",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Comment says label 'bug'; actual recorded labels are []. A comment does not apply a label.",
+    "Comment names src/db/repos/reportRepo.ts, but recorded state has no open PR. Check the complete tools and intended decision."
+  ],
+  "features": [
+    "area:docs/API.md",
+    "area:src/api",
+    "comment:present",
+    "compare:comment-label-vs-state",
+    "history:already-fixed",
+    "history:no-change-language",
+    "pr:absent",
+    "termination:completed",
+    "way:workflow"
+  ]
+}

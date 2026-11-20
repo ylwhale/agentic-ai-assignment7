@@ -1,0 +1,27 @@
+id: g06
+kind: single
+issues:
+- 4622
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: feature
+    file: src/export/scheduler.ts
+  labels:
+  - feature
+  pr: draft
+source: 'Maintainer history for #4622: Done in #974: src/export/scheduler.ts skips
+  the email when a scheduled report has no rows, and still sets the next run.'
+runs:
+- agent-issue-4622-s01-f1171c
+- workflow-issue-4622-s01-4e5355
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

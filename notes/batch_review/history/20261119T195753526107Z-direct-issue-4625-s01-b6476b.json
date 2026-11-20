@@ -1,0 +1,52 @@
+{
+  "at": "2026-11-19T19:57:53.525848+00:00",
+  "run_id": "direct-issue-4625-s01-b6476b",
+  "status": "committed",
+  "confirmation": "explicit",
+  "record": {
+    "run_id": "direct-issue-4625-s01-b6476b",
+    "issue": "4625",
+    "title": "CSV exports open in a single column in German Excel",
+    "way": "direct",
+    "termination": "completed — written by the runner",
+    "tool_count": "2",
+    "last_observed_tool": "issues_comment",
+    "last_observed_step": "1",
+    "labels": "[]",
+    "comment_count": "1",
+    "pr_count": "0",
+    "merges": "0",
+    "pushes": "[]",
+    "elsewhere": "[]",
+    "mechanical_flags": "Comment says label 'feature'; actual recorded labels are []. A comment does not apply a label.; Comment names src/exportUtils.ts, but recorded state has no open PR. Check the complete tools and intended decision.",
+    "maintainer_resolution": "Done in #980: the CSV export can use a semicolon separator; the option lives in toDelimited in src/exportUtils.ts.",
+    "evidence_file": "notes/batch_review/packets/direct-issue-4625-s01-b6476b.md",
+    "machine_candidate_expected": "",
+    "machine_candidate_last_observed": "",
+    "machine_candidate_first_failure": "",
+    "machine_candidate_assessment": "",
+    "machine_draft_observation": "",
+    "expected_decision": "act",
+    "actual_decision": "The direct implementation read issue #4625 and posted a generic triage comment identifying the request as a feature involving `src/exportUtils.ts`. However, it did not apply the `feature` label, inspect the source code, or open a draft PR. The recorded end state confirms one comment, no labels, and no PRs. Independent inspection of `src/exportUtils.ts` shows that `toDelimited` uses commas as fixed separators, supporting the need for the requested semicolon option.",
+    "last_correct_call": "issues_read at step 0 [c1]",
+    "first_incorrect_call": "issues_comment at step 1 [c2]",
+    "observation": "The direct implementation correctly read issue #4625 at step 0 (c1), but then posted only a generic triage comment at step 1 (c2). The comment identified `src/exportUtils.ts` as the relevant file, but no actual feature label or PR was created. The source code shows that `toDelimited` joins columns using commas, which explains the reported compatibility problem with Austrian Excel settings. The maintainer later implemented the semicolon option in PR #980. I consider this run unsuccessful because it did not complete the required feature triage.",
+    "assessment": "failed",
+    "source_checked": "fixtures/closed_issues.yaml issue #4625;fixtures/repo/src/exportUtils.ts",
+    "verified": "yes",
+    "confirmation": "Explicit human confirmation in review workflow"
+  },
+  "backup": "notes/batch_review/backups/20261119T195753524916Z-trace-review.md",
+  "before_sha256": "089f3950dea2daa048dc85de03dd84783cea177caeb41d06442af3f2f060d1b0",
+  "after_sha256": "16dd659f2d7f3aec7f1106e4fc414334488e3625bf73b8a3890c70a005b611f3",
+  "reviews": {
+    "direct-issue-4625-s01-b6476b": "c1a4ce6cf40837fdf65aca04fc719f5b6b421c5e50c18eb733e80a049a35bbfd"
+  },
+  "fixture_hashes": {
+    "fixtures/traces7/direct-issue-4625-s01-b6476b.jsonl": "90b2d9d997940d4c2968182ff72b7f4c12390b6df85a2dbde3580eec7c6ec157",
+    "fixtures/traces7/direct-issue-4625-s01-b6476b.state.json": "bbe24cbe877787289dd42e225250586486c5cb1a5c7574e09c51dd38a9f9f183",
+    "fixtures/issues/pool/4625.md": "22d5e51b208c80cf8823cc6ec752ba5c6ff50b13a332a46515afb2323e074247",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": []
+}

@@ -1,0 +1,22 @@
+# Example schema only. DO NOT rename this to claim.yaml until AFTER three
+# real-model sweeps per arm. Replace example numbers with pilot measurements
+# and personally chosen thresholds; commit and push before sweep four.
+claim: plan
+arm_a: {way: planned, switches: {}}
+arm_b: {way: agent, switches: {}}
+measure: repeats
+gain: B - A
+sweeps: 5
+s_a: null        # sample SD over the first 3 sweep means, arm A
+s_b: null        # sample SD over the first 3 sweep means, arm B
+delta: null      # smallest gain that would change your decision
+n_needed: null   # ceil((s_a^2+s_b^2)*(2.8/delta)^2), >=1
+price_usd: null  # n_needed x two arms x mean observed pilot sweep cost
+bar: null        # chosen lower-interval threshold
+group_floor: null  # chosen lower bound <=0 for every stratum's point gain
+k: 3
+prediction:
+  arm: null
+  by: null
+  stratum: null
+  why: "Explain the prediction BEFORE seeing fourth/fifth sweeps"

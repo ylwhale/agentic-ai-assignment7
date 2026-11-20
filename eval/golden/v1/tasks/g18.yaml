@@ -1,0 +1,26 @@
+id: g18
+kind: single
+issues:
+- 4634
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/api/errors.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4634: Fixed in #965: src/api/errors.ts now puts form-level
+  errors, such as unrecognised keys, into details.'
+runs:
+- agent-issue-4634-s01-f59a1f
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

@@ -1,0 +1,27 @@
+id: g28
+kind: single
+issues:
+- 4604
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: question
+    file: none
+  labels:
+  - question
+  pr: none
+source: 'Original issue #4604 asks how duplicates are defined. fixtures/repo/src/ingest/dedupe.ts:8
+  keys on date, amount and description, and the maintainer resolution confirms this
+  is intended behavior with no code change.'
+reference:
+  calls: 5
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - issues_comment
+runs:
+- agent-issue-4604-s01-bab837
+- direct-issue-4604-s01-0f6301

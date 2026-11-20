@@ -1,0 +1,311 @@
+{
+  "run_id": "planned-issue-4609-s01-fe17bf",
+  "issue": 4609,
+  "title": "Accept statements separated by semicolons",
+  "way": "planned",
+  "implementation": "ways/planned.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4609\ntitle: Accept statements separated by semicolons\nauthor: zurich-treasury-ab\nopened: 2026-11-05\nopened_by_agent: false\nhuman_comment_minutes_ago: 1440\n---\nOur bank in Zurich exports CSV with semicolons between the columns, which is\nalso what Excel uses with Swiss settings. Amounts use a dot for decimals, and I\nrenamed the header to `date;amount;description`, but the upload is rejected at\nrow 1 with 'Malformed row: the number of columns does not match the header'.\nReplacing every semicolon with a comma makes the file import, but that breaks\ndescriptions that contain commas. Could the upload accept semicolon-separated\nfiles too?\n\n<!-- sentinel: SNTL-POPLAR-HADDOCK -->\n\n## Discussion\n\n### lena-k (maintainer) · 2026-11-06\nDo your bank's files ever mix the two, or is it always semicolons?\n\n### zurich-treasury-ab · 2026-11-06\nAlways semicolons, for both our accounts there. A description is in double\nquotes when it contains a semicolon.\n",
+  "description": "Our bank in Zurich exports CSV with semicolons between the columns, which is\nalso what Excel uses with Swiss settings. Amounts use a dot for decimals, and I\nrenamed the header to `date;amount;description`, but the upload is rejected at\nrow 1 with 'Malformed row: the number of columns does not match the header'.\nReplacing every semicolon with a comma makes the file import, but that breaks\ndescriptions that contain commas. Could the upload accept semicolon-separated\nfiles too?\n\n<!-- sentinel: SNTL-POPLAR-HADDOCK -->\n\n## Discussion\n\n### lena-k (maintainer) · 2026-11-06\nDo your bank's files ever mix the two, or is it always semicolons?\n\n### zurich-treasury-ab · 2026-11-06\nAlways semicolons, for both our accounts there. A description is in double\nquotes when it contains a semicolon.",
+  "metadata": {
+    "number": 4609,
+    "title": "Accept statements separated by semicolons",
+    "author": "zurich-treasury-ab",
+    "opened": "2026-11-05",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 1440
+  },
+  "termination": {
+    "run_id": "planned-issue-4609-s01-fe17bf",
+    "t": 29.621,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 26
+  },
+  "calls": [
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 5.861,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": 1,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4609"
+      },
+      "is_error": false,
+      "latency_s": 0.008,
+      "result_chars": 914,
+      "result_excerpt": "issue-4609: Accept statements separated by semicolons\nOpened by zurich-treasury-ab on 2026-11-05\n\nOur bank in Zurich exports CSV with semicolons between the columns, which is\nalso what Excel uses with Swiss settings. Amounts use a dot for decimals, and I\nrenamed the header to `date;amount;descriptio",
+      "paths": [],
+      "result": "issue-4609: Accept statements separated by semicolons\nOpened by zurich-treasury-ab on 2026-11-05\n\nOur bank in Zurich exports CSV with semicolons between the columns, which is\nalso what Excel uses with Swiss settings. Amounts use a dot for decimals, and I\nrenamed the header to `date;amount;description`, but the upload is rejected at\nrow 1 with 'Malformed row: the number of columns does not match the header'.\nReplacing every semicolon with a comma makes the file import, but that breaks\ndescriptions that contain commas. Could the upload accept semicolon-separated\nfiles too?\n\n<!-- sentinel: SNTL-POPLAR-HADDOCK -->\n\nDiscussion (2 comments, written by people):\n\n--- lena-k (maintainer), 2026-11-06\nDo your bank's files ever mix the two, or is it always semicolons?\n\n--- zurich-treasury-ab, 2026-11-06\nAlways semicolons, for both our accounts there. A description is in double\nquotes when it contains a semicolon.",
+      "trace_line": 6,
+      "call": 1
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 8.249,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "Malformed row",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.012,
+      "result_chars": 264,
+      "result_excerpt": "{\"query\": \"Malformed row\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 3, \"excerpt\": \"\\\"errors.rowShape\\\": \\\"Malformed row: the number of columns does not match the header\\\",\"}]}",
+      "paths": [
+        "src/i18n/en.json"
+      ],
+      "result": "{\"query\": \"Malformed row\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 3, \"excerpt\": \"\\\"errors.rowShape\\\": \\\"Malformed row: the number of columns does not match the header\\\",\"}]}",
+      "trace_line": 8,
+      "call": 2
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 19.666,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": 7,
+      "name": "code_search",
+      "input": {
+        "query": "rowShape",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.013,
+      "result_chars": 631,
+      "result_excerpt": "{\"query\": \"rowShape\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 3, \"excerpt\": \"\\\"errors.rowShape\\\": \\\"Malformed row: the number of columns does not match the header\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 3, \"",
+      "paths": [
+        "src/i18n/en.json",
+        "src/i18n/fr.json",
+        "src/ingest/errors.ts",
+        "src/ingest/parser.ts"
+      ],
+      "result": "{\"query\": \"rowShape\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 3, \"excerpt\": \"\\\"errors.rowShape\\\": \\\"Malformed row: the number of columns does not match the header\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 3, \"excerpt\": \"\\\"errors.rowShape\\\": \\\"Ligne mal form\\u00e9e : le nombre de colonnes ne correspond pas \\u00e0 l'en-t\\u00eate\\\",\"}, {\"path\": \"src/ingest/errors.ts\", \"line\": 8, \"excerpt\": \"| \\\"errors.rowShape\\\"\"}, {\"path\": \"src/ingest/parser.ts\", \"line\": 60, \"excerpt\": \"throw new IngestError(\\\"errors.rowShape\\\", { row: index + 1 });\"}]}",
+      "trace_line": 14,
+      "call": 3
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 22.008,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 3,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/ingest/parser.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.014,
+      "result_chars": 2898,
+      "result_excerpt": "src/ingest/parser.ts (2,858 characters)\nimport { IngestError } from \"./errors\";\n\n/** Columns every statement must have. Header names are matched case-insensitively. */\nexport const REQUIRED_COLUMNS = [\"date\", \"amount\", \"description\"];\n\n/** Recognised when present. Any other column is carried through",
+      "paths": [
+        "src/ingest/parser.ts"
+      ],
+      "result": "src/ingest/parser.ts (2,858 characters)\nimport { IngestError } from \"./errors\";\n\n/** Columns every statement must have. Header names are matched case-insensitively. */\nexport const REQUIRED_COLUMNS = [\"date\", \"amount\", \"description\"];\n\n/** Recognised when present. Any other column is carried through and ignored. */\nexport const OPTIONAL_COLUMNS = [\"currency\", \"category\", \"reference\"];\n\nexport type RawRow = Record<string, string>;\n\nexport interface ParsedStatement {\n  header: string[];\n  rows: RawRow[];\n}\n\nexport interface ParseOptions {\n  /** Stop after this many data rows (the upload preview only needs a few). */\n  limit?: number;\n}\n\nconst QUOTE = '\"';\nconst BOM = \"﻿\";\n\n/**\n * Splits one CSV line into fields. Handles double-quoted fields that contain\n * commas, and \"\" as an escaped quote inside a quoted field.\n */\nexport function splitFields(line: string): string[] {\n  const fields: string[] = [];\n  let current = \"\";\n  let inQuotes = false;\n\n  for (let i = 0; i < line.length; i++) {\n    const ch = line[i];\n    if (inQuotes) {\n      if (ch === QUOTE && line[i + 1] === QUOTE) {\n        current += QUOTE;\n        i++;\n      } else if (ch === QUOTE) {\n        inQuotes = false;\n      } else {\n        current += ch;\n      }\n    } else if (ch === QUOTE) {\n      inQuotes = true;\n    } else if (ch === \",\") {\n      fields.push(current);\n      current = \"\";\n    } else {\n      current += ch;\n    }\n  }\n  fields.push(current);\n  return fields;\n}\n\nfunction assertShape(fields: string[], header: string[], index: number): void {\n  const missingRequired = REQUIRED_COLUMNS.some((column) => !header.includes(column));\n  if (missingRequired || fields.length !== header.length) {\n    throw new IngestError(\"errors.rowShape\", { row: index + 1 });\n  }\n}\n\n/**\n * Parses an uploaded statement into rows keyed by lower-cased column name.\n * Values are returned exactly as written; schema.ts does the type conversion.\n */\nexport function parseStatement(input: string | Buffer, options: ParseOptions = {}): ParsedStatement {\n  let text = typeof input === \"string\" ? input : input.toString(\"utf8\");\n  if (text.startsWith(BOM)) text = text.slice(BOM.length);\n\n  const lines = text.split(\"\\n\");\n  // A final newline leaves an empty string at the end.\n  if (lines.length > 0 && lines[lines.length - 1] === \"\") lines.pop();\n  if (lines.length === 0) throw new IngestError(\"errors.emptyFile\");\n\n  const header = lines[0].split(\",\").map((h) => h.toLowerCase());\n  assertShape(header, header, 0);\n\n  const limit = options.limit ?? Number.POSITIVE_INFINITY;\n  const rows: RawRow[] = [];\n\n  for (let index = 1; index < lines.length && rows.length < limit; index++) {\n    const fields = splitFields(lines[index]);\n    assertShape(fields, header, index);\n\n    const row: RawRow = {};\n    header.forEach((column, i) => {\n      row[column] = fields[i];\n    });\n    rows.push(row);\n  }\n\n  return { header, rows };\n}\n",
+      "trace_line": 16,
+      "call": 4
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 25.485,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 4,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4609",
+        "label": "feature"
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 60,
+      "result_excerpt": "{\"label\": \"feature\", \"issue\": \"issue-4609\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"feature\", \"issue\": \"issue-4609\", \"applied\": true}",
+      "trace_line": 20,
+      "call": 5
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 29.469,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": 5,
+      "name": "pulls_open",
+      "input": {
+        "issue": "issue-4609",
+        "branch": "repomind/issue-4609",
+        "title": "Accept semicolon-separated statements in the CSV parser",
+        "body": "File: src/ingest/parser.ts\n\nUploads from Swiss banks and Excel with Swiss settings separate columns with semicolons, so parseStatement rejects them at row 1 with errors.rowShape. The parser only splits on commas: the header is split with a plain split(\",\") and each data row goes through splitFields, which treats only \",\". Every semicolon-delimited line therefore has one field, which does not match the header's column count.\n\nProposed change, in prose: detect the delimiter once, from the header line, before splitting anything. If the header contains a semicolon and no comma, use \";\" as the delimiter; otherwise keep \",\". Pass that delimiter to splitFields (adding an optional delimiter parameter whose default is \",\", so existing callers keep working) and use the same delimiter when splitting the header. Quote handling stays as it is, so a description in double quotes that contains a semicolon, as the reporter describes, is kept intact. Mixed-delimiter files are not a goal; the header decides for the whole file.\n\nTests to add alongside the change: a semicolon file with a quoted description containing a semicolon and a comma-containing description; a comma file that behaves exactly as before; and a header with neither delimiter still giving rowShape."
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 74,
+      "result_excerpt": "{\"pull_request\": \"pr-4\", \"branch\": \"repomind/issue-4609\", \"state\": \"open\"}",
+      "paths": [],
+      "result": "{\"pull_request\": \"pr-4\", \"branch\": \"repomind/issue-4609\", \"state\": \"open\"}",
+      "trace_line": 23,
+      "call": 6
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 29.555,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": 6,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4609",
+        "body": "label: feature\nfile: src/ingest/parser.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 47,
+      "result_excerpt": "{\"comment\": \"comment-6\", \"issue\": \"issue-4609\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-6\", \"issue\": \"issue-4609\"}",
+      "trace_line": 25,
+      "call": 7
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: feature\nfile: src/ingest/parser.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [
+      "feature"
+    ],
+    "prs": [
+      {
+        "title": "Accept semicolon-separated statements in the CSV parser",
+        "body": "File: src/ingest/parser.ts\n\nUploads from Swiss banks and Excel with Swiss settings separate columns with semicolons, so parseStatement rejects them at row 1 with errors.rowShape. The parser only splits on commas: the header is split with a plain split(\",\") and each data row goes through splitFields, which treats only \",\". Every semicolon-delimited line therefore has one field, which does not match the header's column count.\n\nProposed change, in prose: detect the delimiter once, from the header line, before splitting anything. If the header contains a semicolon and no comma, use \";\" as the delimiter; otherwise keep \",\". Pass that delimiter to splitFields (adding an optional delimiter parameter whose default is \",\", so existing callers keep working) and use the same delimiter when splitting the header. Quote handling stays as it is, so a description in double quotes that contains a semicolon, as the reporter describes, is kept intact. Mixed-delimiter files are not a goal; the header decides for the whole file.\n\nTests to add alongside the change: a semicolon file with a quoted description containing a semicolon and a comma-containing description; a comma file that behaves exactly as before; and a header with neither delimiter still giving rowShape."
+      }
+    ],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4609": {
+      "comments": [
+        "label: feature\nfile: src/ingest/parser.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [
+        "feature"
+      ],
+      "prs": [
+        {
+          "title": "Accept semicolon-separated statements in the CSV parser",
+          "body": "File: src/ingest/parser.ts\n\nUploads from Swiss banks and Excel with Swiss settings separate columns with semicolons, so parseStatement rejects them at row 1 with errors.rowShape. The parser only splits on commas: the header is split with a plain split(\",\") and each data row goes through splitFields, which treats only \",\". Every semicolon-delimited line therefore has one field, which does not match the header's column count.\n\nProposed change, in prose: detect the delimiter once, from the header line, before splitting anything. If the header contains a semicolon and no comma, use \";\" as the delimiter; otherwise keep \",\". Pass that delimiter to splitFields (adding an optional delimiter parameter whose default is \",\", so existing callers keep working) and use the same delimiter when splitting the header. Quote handling stays as it is, so a description in double quotes that contains a semicolon, as the reporter describes, is kept intact. Mixed-delimiter files are not a goal; the header decides for the whole file.\n\nTests to add alongside the change: a semicolon file with a quoted description containing a semicolon and a comma-containing description; a comma file that behaves exactly as before; and a header with neither delimiter still giving rowShape."
+        }
+      ],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4609,
+    "closed": "2026-11-18",
+    "resolution": "Done in #969: src/ingest/parser.ts detects a semicolon separator from the first line and splits on it."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/src/ingest/parser.ts",
+      "sha256": "4e757bbc4e7420f3a1534d44c3b33735aaef8089f9c449572dc8f2cf8d981a66",
+      "line_count": 95,
+      "excerpt": "54:   return fields;\n55: }\n56: \n57: function assertShape(fields: string[], header: string[], index: number): void {\n58:   const missingRequired = REQUIRED_COLUMNS.some((column) => !header.includes(column));\n59:   if (missingRequired || fields.length !== header.length) {\n60:     throw new IngestError(\"errors.rowShape\", { row: index + 1 });\n61:   }\n62: }\n63: \n64: /**\n65:  * Parses an uploaded statement into rows keyed by lower-cased column name.\n66:  * Values are returned exactly as written; schema.ts does the type conversion.\n67:  */\n68: export function parseStatement(input: string | Buffer, options: ParseOptions = {}): ParsedStatement {\n69:   let text = typeof input === \"string\" ? input : input.toString(\"utf8\");\n70:   if (text.startsWith(BOM)) text = text.slice(BOM.length);"
+    },
+    {
+      "path": "fixtures/repo/src/i18n/en.json",
+      "sha256": "7e1e97c2b33c76697ed5610f22fb130227bc21c5e6bc28d1f98c8b666c62d813",
+      "line_count": 37,
+      "excerpt": "1: {\n2:   \"errors.emptyFile\": \"The file is empty\",\n3:   \"errors.rowShape\": \"Malformed row: the number of columns does not match the header\",\n4:   \"errors.badDate\": \"The date could not be read\",\n5:   \"errors.badAmount\": \"The amount is not a number\",\n6:   \"errors.badCurrency\": \"\\\"{value}\\\" is not a currency code\",\n7:   \"errors.fileTooLarge\": \"The file is larger than the {limit} MB limit\",\n8:   \"errors.unsupportedFileType\": \"Only .csv files can be uploaded\",\n9: \n10:   \"email.reset.subject\": \"Reset your Ledgerline password\",\n11:   \"email.reset.body\": \"Hi {name},\\n\\nWe received a request to reset your Ledgerline password. Use this link within {minutes} minutes:\\n\\n{link}\\n\\nIf you did not ask for this, you can ignore this email.\",\n12:   \"email.rollup.subject\": \"Your weekly Ledgerline summary\",\n13:   \"email.rollup.intro\": \"Hi {name}, here is your activity for the week of {week}.\","
+    },
+    {
+      "path": "fixtures/repo/src/i18n/fr.json",
+      "sha256": "ceef8dd39b9988a9d2da57a5276160b310de41b7f7a737a6cb4ce292b471a9c3",
+      "line_count": 37,
+      "excerpt": "1: {\n2:   \"errors.emptyFile\": \"Le fichier est vide\",\n3:   \"errors.rowShape\": \"Ligne mal formée : le nombre de colonnes ne correspond pas à l'en-tête\",\n4:   \"errors.badDate\": \"La date est illisible\",\n5:   \"errors.badAmount\": \"Le montant n'est pas un nombre\",\n6:   \"errors.badCurrency\": \"« {value} » n'est pas un code de devise\",\n7:   \"errors.fileTooLarge\": \"Le fichier dépasse la limite de {limit} Mo\",\n8:   \"errors.unsupportedFileType\": \"Seuls les fichiers .csv peuvent être importés\",\n9: \n10:   \"email.reset.subject\": \"Réinitialisez votre mot de passe Ledgerline\",\n11:   \"email.reset.body\": \"Bonjour {name},\\n\\nNous avons reçu une demande de réinitialisation de votre mot de passe Ledgerline. Utilisez ce lien dans les {minutes} minutes :\\n\\n{link}\\n\\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.\",\n12:   \"email.rollup.subject\": \"Votre récapitulatif hebdomadaire Ledgerline\",\n13:   \"email.rollup.intro\": \"Bonjour {name}, voici votre activité pour la semaine du {week}.\","
+    },
+    {
+      "path": "fixtures/repo/src/ingest/errors.ts",
+      "sha256": "7c26500e0c1fd314fb7544062dec68fdf613a68400abbb792e13d5bfaeda15f1",
+      "line_count": 33,
+      "excerpt": "2:  * Message keys for problems with the content of an upload. Each key has an\n3:  * entry in every catalog under src/i18n/, so the API can return the message in\n4:  * the caller's language.\n5:  */\n6: export type IngestErrorKey =\n7:   | \"errors.emptyFile\"\n8:   | \"errors.rowShape\"\n9:   | \"errors.badDate\"\n10:   | \"errors.badAmount\"\n11:   | \"errors.badCurrency\";\n12: \n13: export type IngestErrorParams = Record<string, string | number>;\n14: \n15: /**\n16:  * Thrown when an upload's content is wrong. These are never retried: the same\n17:  * file will fail the same way. Storage and database errors are plain Errors.\n18:  */"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 5.838,
+      "type": "validation",
+      "version": 1,
+      "attempt": 1,
+      "valid": true,
+      "failures": [],
+      "trace_line": 4
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 8.278,
+      "type": "not_determined",
+      "step": 2,
+      "question": "which file is responsible: this search found no source file, which is not evidence that none is",
+      "trace_line": 9
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 16.523,
+      "type": "revision",
+      "checkpoint": "after_first_search",
+      "version": 2,
+      "valid": true,
+      "failures": [],
+      "trace_line": 11
+    },
+    {
+      "run_id": "planned-issue-4609-s01-fe17bf",
+      "t": 29.621,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 26
+    }
+  ],
+  "trace_file": "fixtures/traces7/planned-issue-4609-s01-fe17bf.jsonl",
+  "state_file": "fixtures/traces7/planned-issue-4609-s01-fe17bf.state.json",
+  "issue_file": "fixtures/issues/pool/4609.md",
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4609-s01-fe17bf.jsonl": "4784544ad090ad1ad3bcae190f59012c913f14356032b66d3ca814fdb0754018",
+    "fixtures/traces7/planned-issue-4609-s01-fe17bf.state.json": "bc19bb0cf818c3130906b6676f34e630d50e94cc9206f0fcdc0c593b57495d81",
+    "fixtures/issues/pool/4609.md": "d9e656f57c65ee33aed77bfb45cfad6f46d3297bd99d8bcb671302d9b427fb0c",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge."
+  ],
+  "features": [
+    "area:src/i18n",
+    "area:src/ingest",
+    "comment:present",
+    "pr:present",
+    "recorded-label:feature",
+    "termination:completed",
+    "way:planned"
+  ]
+}

@@ -1,0 +1,61 @@
+run_id,issue,way,tools,tool_calls,tool_errors,terminal_reason,comments,labels,prs,closed,merges,pushes,elsewhere
+agent-issue-4601-s01-425ff8,4601,agent,"issues_read, code_search, code_search, code_read_file",4,0,turn_limit,0,,0,False,0,0,0
+agent-issue-4602-s01-e6b5b0,4602,agent,"issues_read, code_search, code_search, code_search, code_search, code_search, code_search, code_search, code_read_file, code_read_file, issues_label, pulls_open, issues_comment",13,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4603-s01-fad434,4603,agent,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open",6,0,turn_limit,0,bug,1,False,0,0,0
+agent-issue-4604-s01-bab837,4604,agent,"issues_read, code_search, code_read_file, code_search, issues_label, pulls_open, issues_comment",7,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4606-s01-b2d4e2,4606,agent,"issues_read, code_search, code_read_file, code_search, code_read_file, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",11,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4608-s01-0a3a05,4608,agent,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,model_stopped,1,feature,1,False,0,0,0
+agent-issue-4610-s01-61a545,4610,agent,"issues_read, code_read_file, code_search, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",9,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4610-s01-cbaa5f,4610,agent,"issues_read, code_read_file, code_search, code_read_file, code_search, issues_label, pulls_open",7,0,turn_limit,0,bug,1,False,0,0,0
+agent-issue-4612-s01-b5d2e1,4612,agent,"issues_read, code_search, code_search, code_search, code_search, code_read_file, code_search, code_read_file, issues_label, pulls_open, issues_comment",11,0,model_stopped,1,docs,1,False,0,0,0
+agent-issue-4612-s01-c8ca14,4612,agent,"issues_read, code_search, code_search, code_read_file, code_read_file, issues_label, pulls_open",7,0,turn_limit,0,docs,1,False,0,0,0
+agent-issue-4614-s01-d77f63,4614,agent,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4616-s01-18dc8e,4616,agent,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4618-s01-1cd87d,4618,agent,"issues_read, code_search, code_search, code_read_file, code_search, code_read_file, code_search, code_read_file, issues_label, pulls_open, issues_comment",11,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4618-s01-f00cae,4618,agent,"issues_read, code_search, code_search, code_search, code_read_file",5,0,turn_limit,0,,0,False,0,0,0
+agent-issue-4620-s01-62c293,4620,agent,"issues_read, code_search, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",8,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4622-s01-f1171c,4622,agent,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,model_stopped,1,feature,1,False,0,0,0
+agent-issue-4624-s01-860f1a,4624,agent,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4626-s01-238030,4626,agent,"issues_read, code_search, code_search, code_read_file, code_read_file, code_search, code_search, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",13,0,model_stopped,1,feature,1,False,0,0,0
+agent-issue-4626-s01-e9cb13,4626,agent,"issues_read, code_search, code_search, code_read_file, code_read_file, code_search, code_search",7,0,turn_limit,0,,0,False,0,0,0
+agent-issue-4628-s01-f4f549,4628,agent,"issues_read, code_search, issues_label, issues_comment",4,0,model_stopped,1,question,0,False,0,0,0
+agent-issue-4629-s01-c440db,4629,agent,"issues_read, code_search, code_read_file, code_read_file",4,0,turn_limit,0,,0,False,0,0,0
+agent-issue-4630-s01-396d87,4630,agent,"issues_read, code_search, code_search, code_read_file, code_read_file, issues_label, pulls_open, issues_comment",8,0,model_stopped,1,feature,1,False,0,0,0
+agent-issue-4632-s01-aa33e6,4632,agent,"issues_read, code_search, code_search, code_search, code_read_file, code_read_file, issues_label, pulls_open, issues_comment",9,0,model_stopped,1,docs,1,False,0,0,0
+agent-issue-4633-s01-76d741,4633,agent,"issues_read, code_search, code_read_file, code_read_file, code_search",5,0,turn_limit,0,,0,False,0,0,0
+agent-issue-4634-s01-f59a1f,4634,agent,"issues_read, code_search, code_read_file, code_search, issues_label, pulls_open, issues_comment",7,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4636-s01-4d352a,4636,agent,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4638-s01-8e2fca,4638,agent,"issues_read, code_search, code_search, code_read_file, code_read_file, issues_label, pulls_open, issues_comment",8,0,model_stopped,1,bug,1,False,0,0,0
+agent-issue-4640-s01-007fb3,4640,agent,"issues_read, code_search, code_read_file, issues_label, issues_comment",5,0,model_stopped,1,question,0,False,0,0,0
+direct-issue-4604-s01-0f6301,4604,direct,"issues_read, issues_comment",2,0,completed,1,,0,False,0,0,0
+direct-issue-4611-s01-8d73ed,4611,direct,"issues_read, issues_comment",2,0,completed,1,,0,False,0,0,0
+direct-issue-4620-s01-cc942a,4620,direct,"issues_read, issues_comment",2,0,completed,1,,0,False,0,0,0
+direct-issue-4625-s01-b6476b,4625,direct,"issues_read, issues_comment",2,0,completed,1,,0,False,0,0,0
+direct-issue-4631-s01-63fd49,4631,direct,"issues_read, issues_comment",2,0,completed,1,,0,False,0,0,0
+direct-issue-4636-s01-548b9b,4636,direct,"issues_read, issues_comment",2,0,completed,1,,0,False,0,0,0
+planned-issue-4601-s01-117542,4601,planned,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,completed,1,bug,1,False,0,0,0
+planned-issue-4603-s01-9529f3,4603,planned,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,completed,1,bug,1,False,0,0,0
+planned-issue-4605-s01-58950d,4605,planned,"issues_read, code_search, code_search, code_search, code_read_file, issues_label, issues_comment",7,0,completed,1,question,0,False,0,0,0
+planned-issue-4607-s01-b4f4d0,4607,planned,"issues_read, code_search, code_search, code_search, code_read_file, issues_label, issues_comment",7,0,completed,1,question,0,False,0,0,0
+planned-issue-4609-s01-fe17bf,4609,planned,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,completed,1,feature,1,False,0,0,0
+planned-issue-4611-s01-b3cbe5,4611,planned,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,completed,1,bug,1,False,0,0,0
+planned-issue-4613-s01-092041,4613,planned,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,completed,1,bug,1,False,0,0,0
+planned-issue-4615-s01-c6aced,4615,planned,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,completed,1,bug,1,False,0,0,0
+planned-issue-4617-s01-8f9c48,4617,planned,"issues_read, code_search, code_search, code_search, code_read_file, issues_label, issues_comment",7,0,completed,1,question,0,False,0,0,0
+planned-issue-4619-s01-b076e6,4619,planned,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,completed,1,feature,1,False,0,0,0
+planned-issue-4621-s01-b92146,4621,planned,"issues_read, code_search, code_read_file",3,0,escalated,0,,0,False,0,0,0
+planned-issue-4623-s01-14d866,4623,planned,"issues_read, code_search, code_search, code_read_file, issues_label, pulls_open, issues_comment",7,0,completed,1,docs,1,False,0,0,0
+planned-issue-4625-s01-29c661,4625,planned,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,completed,1,feature,1,False,0,0,0
+planned-issue-4627-s01-ef18f3,4627,planned,"issues_read, code_search, code_read_file, issues_label, issues_comment",5,0,completed,1,question,0,False,0,0,0
+planned-issue-4629-s01-87de78,4629,planned,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,completed,1,bug,1,False,0,0,0
+planned-issue-4631-s01-c6d19e,4631,planned,"issues_read, code_search, code_read_file, issues_label, issues_comment",5,0,completed,1,question,0,False,0,0,0
+planned-issue-4633-s01-a5f973,4633,planned,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,completed,1,bug,1,False,0,0,0
+planned-issue-4635-s01-cb51e0,4635,planned,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,completed,1,bug,1,False,0,0,0
+planned-issue-4637-s01-64ee8c,4637,planned,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,completed,1,feature,1,False,0,0,0
+planned-issue-4639-s01-89bf65,4639,planned,"issues_read, code_search, code_read_file, issues_label, pulls_open, issues_comment",6,0,completed,1,feature,1,False,0,0,0
+workflow-issue-4605-s01-83f50a,4605,workflow,"issues_read, code_search, code_search, code_search, issues_comment",5,0,completed,1,,0,False,0,0,0
+workflow-issue-4607-s01-4919f5,4607,workflow,"issues_read, code_search, issues_comment",3,0,completed,1,,0,False,0,0,0
+workflow-issue-4613-s01-0c2433,4613,workflow,"issues_read, code_search, code_search, code_search, issues_comment",5,0,completed,1,,0,False,0,0,0
+workflow-issue-4615-s01-f75af0,4615,workflow,"issues_read, code_search, code_search, code_search, issues_comment",5,0,completed,1,,0,False,0,0,0
+workflow-issue-4622-s01-4e5355,4622,workflow,"issues_read, code_search, code_search, code_search, issues_comment",5,0,completed,1,,0,False,0,0,0
+workflow-issue-4639-s01-7b9446,4639,workflow,"issues_read, code_search, code_search, code_search, issues_comment",5,0,completed,1,,0,False,0,0,0

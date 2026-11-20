@@ -1,0 +1,9 @@
+{
+  "workflow-issue-4607-s01-4919f5": {
+    "categories": [
+      "spam-misclassification"
+    ],
+    "observation_sha256": "3c13424ad8e590e4e050a66ef8ae14d1783b30fa3431d479b7445e45065c8503",
+    "human_confirmed": true
+  }
+}

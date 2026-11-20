@@ -1,0 +1,22 @@
+# Design chosen before any real Part C run. This is not the pilot-derived threshold.
+claim: plan
+arm_a: {way: planned, switches: {}}
+arm_b: {way: agent, switches: {}}
+measure: repeats
+gain: B - A
+sweeps: 5
+k: 3
+delta: 0.25
+bar: 0.0
+group_floor: 0.0
+prediction:
+  arm: A
+  by: 0.25
+  stratum: unusual
+  why: >-
+    An explicit plan constrains repeated exploratory calls, so planned is predicted
+    to make fewer repeated calls than agent, especially when unusual issues name
+    a misleading source location. A reduction of 0.25 repeated calls per task
+    equals two avoided repeated calls in an eight-task sweep. The sign B - A
+    makes a positive gain favor planned. This prediction uses the design and
+    historical human observations, not an observed pilot mean advantage.

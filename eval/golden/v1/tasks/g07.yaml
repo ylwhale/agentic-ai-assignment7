@@ -1,0 +1,26 @@
+id: g07
+kind: single
+issues:
+- 4624
+stratum: routine
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/report.tsx
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4624: Fixed in #962: src/report.tsx says 1 recipient
+  for a single recipient.'
+runs:
+- agent-issue-4624-s01-860f1a
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

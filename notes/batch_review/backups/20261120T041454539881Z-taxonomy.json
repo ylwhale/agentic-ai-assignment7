@@ -1,0 +1,226 @@
+{
+  "workflow-issue-4607-s01-4919f5": {
+    "categories": [
+      "spam-misclassification"
+    ],
+    "observation_sha256": "3c13424ad8e590e4e050a66ef8ae14d1783b30fa3431d479b7445e45065c8503",
+    "human_confirmed": true
+  },
+  "planned-issue-4637-s01-64ee8c": {
+    "categories": [],
+    "observation_sha256": "ddd2f49a341afbd46c0f3af8d3e72b4f43631ae8db20df76f23a57119615fbd0",
+    "human_confirmed": true
+  },
+  "agent-issue-4612-s01-c8ca14": {
+    "categories": [
+      "premature-termination"
+    ],
+    "observation_sha256": "5890881042a72c4e3c9793e6a29fc3ec975dc48431607bb88f64fd600c4dc438",
+    "human_confirmed": true
+  },
+  "agent-issue-4612-s01-b5d2e1": {
+    "categories": [],
+    "observation_sha256": "5a384406d3ad29b3f63008d39d52110741e526c885fa5003c0c0214b3ae1a30a",
+    "human_confirmed": true
+  },
+  "agent-issue-4601-s01-425ff8": {
+    "categories": [
+      "premature-termination"
+    ],
+    "observation_sha256": "245c09c3114b1dff21ffea6361e90b534f7a5ae0f51c9a3e5d2b1729fbca74fa",
+    "human_confirmed": true
+  },
+  "agent-issue-4602-s01-e6b5b0": {
+    "categories": [],
+    "observation_sha256": "0632d900496e7402b68aa7e7489aaca012b8baed273c52f028873099b808a350",
+    "human_confirmed": true
+  },
+  "agent-issue-4603-s01-fad434": {
+    "categories": [
+      "premature-termination"
+    ],
+    "observation_sha256": "675e161ef90806260b318cba63f602599472bdaaad89040b0460afb5860d6480",
+    "human_confirmed": true
+  },
+  "agent-issue-4604-s01-bab837": {
+    "categories": [
+      "intended-behavior-misclassification"
+    ],
+    "observation_sha256": "394fc8f4829987057c800ca206f401b085ac11e6b741dd2e2c6d58b8aa72faef",
+    "human_confirmed": true
+  },
+  "agent-issue-4606-s01-b2d4e2": {
+    "categories": [],
+    "observation_sha256": "6fa188723bd5abfe913e58308f7ed30bfcdd7a81f429937dc4e0e4369b192909",
+    "human_confirmed": true
+  },
+  "agent-issue-4608-s01-0a3a05": {
+    "categories": [],
+    "observation_sha256": "1e42a97d8436781934f060b38aef884ff1284efbdcd9560e6e18152185602dfb",
+    "human_confirmed": true
+  },
+  "agent-issue-4610-s01-61a545": {
+    "categories": [],
+    "observation_sha256": "13ca1b5296a59d91ae9621dd9067bacea3035645345b626f5b7e0f3c62888419",
+    "human_confirmed": true
+  },
+  "agent-issue-4610-s01-cbaa5f": {
+    "categories": [
+      "premature-termination"
+    ],
+    "observation_sha256": "1d73d92569d7e859d660c4f4291015349e6d4683da2122717f39d1dd1fc7a94c",
+    "human_confirmed": true
+  },
+  "agent-issue-4614-s01-d77f63": {
+    "categories": [],
+    "observation_sha256": "5796b27939b300d5738fb366a2ee841bf4269f318747fc34fc8a2ff3ee9c5d9b",
+    "human_confirmed": true
+  },
+  "agent-issue-4616-s01-18dc8e": {
+    "categories": [],
+    "observation_sha256": "bb6dfd43d051bb78d568fd7befb4b87dff7d1fe72a5332a49497fe1b546c6810",
+    "human_confirmed": true
+  },
+  "agent-issue-4618-s01-1cd87d": {
+    "categories": [],
+    "observation_sha256": "3dad689722d9e265b6af074e9132fb67032f06fe97ab43a00e7a0d62101a8085",
+    "human_confirmed": true
+  },
+  "agent-issue-4618-s01-f00cae": {
+    "categories": [
+      "premature-termination"
+    ],
+    "observation_sha256": "c12299c544eee5f27a2369c6460d744ec5d6ba40edb375ae789a035ec5b6e1a6",
+    "human_confirmed": true
+  },
+  "agent-issue-4620-s01-62c293": {
+    "categories": [],
+    "observation_sha256": "fb087aedd7625c6c4bc8c173c1712d2b9c139aa5b9f7011d1c4adbbc42e82431",
+    "human_confirmed": true
+  },
+  "agent-issue-4622-s01-f1171c": {
+    "categories": [],
+    "observation_sha256": "53d7bb1a1e056632ab148445cf1ee2265e6d43249ffa0ceca89bdd5f58694075",
+    "human_confirmed": true
+  },
+  "agent-issue-4624-s01-860f1a": {
+    "categories": [],
+    "observation_sha256": "6e58a07db0d11d9fde4b30e7d00607ed88e842578afae16d52584fe99bab939f",
+    "human_confirmed": true
+  },
+  "workflow-issue-4605-s01-83f50a": {
+    "categories": [
+      "missing-explicit-refusal"
+    ],
+    "observation_sha256": "5329b22e9b7c4e845cc1192ac94f7fb6b56fe89e8e7c15272ad3a913c11aeb0f",
+    "human_confirmed": true
+  },
+  "planned-issue-4621-s01-b92146": {
+    "categories": [],
+    "observation_sha256": "78675c0bd9347f3d8fc4035d5a14118bc48922f6812381e51b98c0cbcd6fcc2e",
+    "human_confirmed": true
+  },
+  "direct-issue-4636-s01-548b9b": {
+    "categories": [
+      "ignored-duplicate-resolution"
+    ],
+    "observation_sha256": "177e6a956504cfe6d9e286ea9423b88a2c1032002e21d4c1506bdfe7af37e016",
+    "human_confirmed": true
+  },
+  "planned-issue-4613-s01-092041": {
+    "categories": [
+      "ignored-existing-fix"
+    ],
+    "observation_sha256": "cbd87203744a9674ea4f3eed18d79c384cb6ea56d2229eef303c0b5d70c656fd",
+    "human_confirmed": true
+  },
+  "direct-issue-4631-s01-63fd49": {
+    "categories": [
+      "missing-explicit-refusal"
+    ],
+    "observation_sha256": "03e5bd5ddf6fe0ff36421ebcd86c81bdc2f4cdbb62db3a87c9411079bb75becc",
+    "human_confirmed": true
+  },
+  "agent-issue-4628-s01-f4f549": {
+    "categories": [
+      "ignored-test-issue"
+    ],
+    "observation_sha256": "4cbaaea557ff21f53d7886a4d5610791d3d1817e6f89e856e2902f236f0fafec",
+    "human_confirmed": true
+  },
+  "workflow-issue-4639-s01-7b9446": {
+    "categories": [
+      "comment-only-incomplete-triage"
+    ],
+    "observation_sha256": "64449245fbfa2b03f2899f8f3362a158d2183d0ca746380bedd48ff2eea68564",
+    "human_confirmed": true
+  },
+  "agent-issue-4640-s01-007fb3": {
+    "categories": [
+      "ignored-withdrawn-issue"
+    ],
+    "observation_sha256": "838f4205b8e17b3b39dd79c5c692e1d227cb2d11d69b18a294c01ffdac5e9685",
+    "human_confirmed": true
+  },
+  "planned-issue-4605-s01-58950d": {
+    "categories": [
+      "missing-explicit-refusal"
+    ],
+    "observation_sha256": "cfa660e1c58900c4e0be5eefbaa61cc26ad093933b64abfa2ce8087185cf11ff",
+    "human_confirmed": true
+  },
+  "direct-issue-4611-s01-8d73ed": {
+    "categories": [
+      "comment-only-incomplete-triage"
+    ],
+    "observation_sha256": "31e474d4e7e1b668cfb79deb1b31efd3e63e08e4cf25f28d8964b2495ac21510",
+    "human_confirmed": true
+  },
+  "workflow-issue-4613-s01-0c2433": {
+    "categories": [
+      "ignored-existing-fix"
+    ],
+    "observation_sha256": "38177d20da371868ed2e66e6b6a5ad4878294df16e5eb65bc35c48900304a581",
+    "human_confirmed": true
+  },
+  "planned-issue-4623-s01-14d866": {
+    "categories": [],
+    "observation_sha256": "006c683d3b4cb409507ab2b2f027cbf16457cb393e6edc7db5df79114ab7ed7d",
+    "human_confirmed": true
+  },
+  "direct-issue-4625-s01-b6476b": {
+    "categories": [
+      "comment-only-incomplete-triage"
+    ],
+    "observation_sha256": "f5c6187a84cbaf54baa44dad86f9882f4434fc741f8856b7ec0c8090a3b5f4c8",
+    "human_confirmed": true
+  },
+  "planned-issue-4631-s01-c6d19e": {
+    "categories": [
+      "missing-explicit-refusal"
+    ],
+    "observation_sha256": "d478ff1a9a562685dd4a3842294effd75cd6d329a45b705f7add8012f1892a3b",
+    "human_confirmed": true
+  },
+  "agent-issue-4636-s01-4d352a": {
+    "categories": [
+      "ignored-duplicate-resolution"
+    ],
+    "observation_sha256": "cd0235d192dbd8eb346d21965e14f3d5c9fe1fdee2b589babf0f5895040c9e4b",
+    "human_confirmed": true
+  },
+  "planned-issue-4607-s01-b4f4d0": {
+    "categories": [
+      "spam-misclassification"
+    ],
+    "observation_sha256": "2c09458320d2e3504cc679141da440c31f1750f79892ae99491b826446d8166e",
+    "human_confirmed": true
+  },
+  "direct-issue-4604-s01-0f6301": {
+    "categories": [
+      "intended-behavior-misclassification"
+    ],
+    "observation_sha256": "176e626fdb9447f6f64cafe0b94478727f458226cb3503493c94148d38463680",
+    "human_confirmed": true
+  }
+}

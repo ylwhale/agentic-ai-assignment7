@@ -1,0 +1,20 @@
+id: g30
+kind: single
+issues:
+- 4636
+stratum: should_not_act
+decision: stop
+expect:
+  comment: null
+  labels: []
+  pr: none
+source: 'The original #4636 discussion explicitly closes this report as a duplicate
+  of #4601 and directs the reporter there. fixtures/closed_issues.yaml confirms it
+  is tracked in #4601; no additional public write or duplicate PR is justified.'
+reference:
+  calls: 1
+  tools:
+  - issues_read
+runs:
+- agent-issue-4636-s01-4d352a
+- direct-issue-4636-s01-548b9b

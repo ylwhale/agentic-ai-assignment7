@@ -1,0 +1,26 @@
+id: g11
+kind: single
+issues:
+- 4606
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/components/Toast.tsx
+  labels:
+  - bug
+  pr: draft
+source: 'Independent source: src/components/Toast.tsx omits locale in its call to
+  t, src/i18n/index.ts defaults to English and fr.json already has Fermer.'
+runs:
+- agent-issue-4606-s01-b2d4e2
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

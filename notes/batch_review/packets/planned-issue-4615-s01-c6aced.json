@@ -1,0 +1,312 @@
+{
+  "run_id": "planned-issue-4615-s01-c6aced",
+  "issue": 4615,
+  "title": "Upload file names with Cyrillic letters come back garbled",
+  "way": "planned",
+  "implementation": "ways/planned.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4615\ntitle: Upload file names with Cyrillic letters come back garbled\nauthor: riga-shared-services\nopened: 2026-11-07\nopened_by_agent: false\nhuman_comment_minutes_ago: 240\n---\nWe name statement files after the bank and the account, partly in Russian. The\nimport works, but `GET /uploads/:id` returns the name garbled: a file uploaded\nas `банк_вклад.csv` comes back as `Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv`. It isn't only\nCyrillic: `relevé_octobre.csv` from our Lyon office comes back as\n`relevÃ©_octobre.csv`. Our reconciliation script matches uploads to files by\nname, so it can't find these. Names in plain ASCII are fine.\n\n<!-- sentinel: SNTL-ELDER-TURBOT -->\n\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-09\nThanks. Are these uploaded through the web form, or by your own script?\n\n### riga-shared-services · 2026-11-09\nBoth. The web form in Chrome and our curl script give the same result.\n",
+  "description": "We name statement files after the bank and the account, partly in Russian. The\nimport works, but `GET /uploads/:id` returns the name garbled: a file uploaded\nas `банк_вклад.csv` comes back as `Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv`. It isn't only\nCyrillic: `relevé_octobre.csv` from our Lyon office comes back as\n`relevÃ©_octobre.csv`. Our reconciliation script matches uploads to files by\nname, so it can't find these. Names in plain ASCII are fine.\n\n<!-- sentinel: SNTL-ELDER-TURBOT -->\n\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-09\nThanks. Are these uploaded through the web form, or by your own script?\n\n### riga-shared-services · 2026-11-09\nBoth. The web form in Chrome and our curl script give the same result.",
+  "metadata": {
+    "number": 4615,
+    "title": "Upload file names with Cyrillic letters come back garbled",
+    "author": "riga-shared-services",
+    "opened": "2026-11-07",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 240
+  },
+  "termination": {
+    "run_id": "planned-issue-4615-s01-c6aced",
+    "t": 29.397,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 26
+  },
+  "calls": [
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 5.655,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": 1,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4615"
+      },
+      "is_error": false,
+      "latency_s": 0.008,
+      "result_chars": 854,
+      "result_excerpt": "issue-4615: Upload file names with Cyrillic letters come back garbled\nOpened by riga-shared-services on 2026-11-07\n\nWe name statement files after the bank and the account, partly in Russian. The\nimport works, but `GET /uploads/:id` returns the name garbled: a file uploaded\nas `банк_вклад.csv` comes ",
+      "paths": [],
+      "result": "issue-4615: Upload file names with Cyrillic letters come back garbled\nOpened by riga-shared-services on 2026-11-07\n\nWe name statement files after the bank and the account, partly in Russian. The\nimport works, but `GET /uploads/:id` returns the name garbled: a file uploaded\nas `банк_вклад.csv` comes back as `Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv`. It isn't only\nCyrillic: `relevé_octobre.csv` from our Lyon office comes back as\n`relevÃ©_octobre.csv`. Our reconciliation script matches uploads to files by\nname, so it can't find these. Names in plain ASCII are fine.\n\n<!-- sentinel: SNTL-ELDER-TURBOT -->\n\nDiscussion (2 comments, written by people):\n\n--- ben-ops (maintainer), 2026-11-09\nThanks. Are these uploaded through the web form, or by your own script?\n\n--- riga-shared-services, 2026-11-09\nBoth. The web form in Chrome and our curl script give the same result.",
+      "trace_line": 6,
+      "call": 1
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 8.341,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "latin1",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.007,
+      "result_chars": 115,
+      "result_excerpt": "{\"query\": \"latin1\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "paths": [],
+      "result": "{\"query\": \"latin1\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "trace_line": 8,
+      "call": 2
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 15.811,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "filename",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 1328,
+      "result_excerpt": "{\"query\": \"filename\", \"query_valid\": true, \"count\": 34, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"docs/ARCHITECTURE.md\", \"line\": 57, \"excerpt\": \"names, column order and filename rules shared by both writers live in\"}, {\"path\": \"docs/CONFIG.md\", \"line\": 33, \"excerpt\": \"Migr",
+      "paths": [
+        "docs/ARCHITECTURE.md",
+        "docs/CONFIG.md",
+        "src/api/reports.ts",
+        "src/api/uploads.ts",
+        "src/components/ExportButton.tsx"
+      ],
+      "result": "{\"query\": \"filename\", \"query_valid\": true, \"count\": 34, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"docs/ARCHITECTURE.md\", \"line\": 57, \"excerpt\": \"names, column order and filename rules shared by both writers live in\"}, {\"path\": \"docs/CONFIG.md\", \"line\": 33, \"excerpt\": \"Migrations are plain SQL files in `src/db/migrations/`, applied in filename\"}, {\"path\": \"src/api/reports.ts\", \"line\": 9, \"excerpt\": \"formatExportFilename,\"}, {\"path\": \"src/api/reports.ts\", \"line\": 218, \"excerpt\": \"const filename = formatExportFilename(report.name, format);\"}, {\"path\": \"src/api/reports.ts\", \"line\": 221, \"excerpt\": \"res.setHeader(\\\"Content-Disposition\\\", `attachment; filename=\\\"${filename}\\\"`);\"}, {\"path\": \"src/api/uploads.ts\", \"line\": 75, \"excerpt\": \"filename: file.originalname,\"}, {\"path\": \"src/api/uploads.ts\", \"line\": 98, \"excerpt\": \"filename: found.filename,\"}, {\"path\": \"src/components/ExportButton.tsx\", \"line\": 13, \"excerpt\": \"function filenameFromDisposition(header: string | null): string | null {\"}, {\"path\": \"src/components/ExportButton.tsx\", \"line\": 14, \"excerpt\": \"const match = header?.match(/filename=\\\"([^\\\"]+)\\\"/);\"}, {\"path\": \"src/components/ExportButton.tsx\", \"line\": 31, \"excerpt\": \"link.download = filenameFromDisposition(res.headers.get(\\\"content-disposition\\\")) ?? `report.${format}`;\"}]}",
+      "trace_line": 14,
+      "call": 3
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 17.98,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 3,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/api/uploads.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 3820,
+      "result_excerpt": "src/api/uploads.ts (3,782 characters)\nimport { randomUUID } from \"crypto\";\nimport { Router, type NextFunction, type Request, type Response } from \"express\";\nimport multer from \"multer\";\nimport { z } from \"zod\";\nimport { config } from \"../config\";\nimport { db } from \"../db/client\";\nimport { pickLocal",
+      "paths": [
+        "src/api/uploads.ts"
+      ],
+      "result": "src/api/uploads.ts (3,782 characters)\nimport { randomUUID } from \"crypto\";\nimport { Router, type NextFunction, type Request, type Response } from \"express\";\nimport multer from \"multer\";\nimport { z } from \"zod\";\nimport { config } from \"../config\";\nimport { db } from \"../db/client\";\nimport { pickLocale, t } from \"../i18n\";\nimport { OPTIONAL_COLUMNS, parseStatement, REQUIRED_COLUMNS } from \"../ingest/parser\";\nimport { createUploadWithJob, findUpload } from \"../ingest/queue\";\nimport { storage, uploadKey } from \"../storage\";\nimport { currentUser } from \"./auth\";\nimport { asyncHandler, HttpError, notFoundError } from \"./errors\";\n\n// Browsers disagree on the MIME type of a .csv file, so the extension is checked too.\nconst ACCEPTED_TYPES = new Set([\"text/csv\", \"application/csv\", \"application/vnd.ms-excel\", \"text/plain\"]);\nconst PREVIEW_ROWS = 5;\nconst KNOWN_COLUMNS = new Set([...REQUIRED_COLUMNS, ...OPTIONAL_COLUMNS]);\n\nconst upload = multer({\n  storage: multer.memoryStorage(),\n  limits: { fileSize: config.uploads.maxBytes, files: 1 },\n});\n\nconst bodySchema = z.object({\n  accountId: z.string().uuid(),\n});\n\nexport const uploadsRouter = Router();\n\n// Turn multer's size error into a translated 413 instead of a 500.\nfunction handleMulterErrors(err: unknown, req: Request, res: Response, next: NextFunction): void {\n  if (err instanceof multer.MulterError && err.code === \"LIMIT_FILE_SIZE\") {\n    const limit = Math.round(config.uploads.maxBytes / (1024 * 1024));\n    const locale = pickLocale(req.header(\"accept-language\"));\n    res.status(413).json({ error: t(\"errors.fileTooLarge\", { limit }, locale) });\n    return;\n  }\n  next(err);\n}\n\nasync function assertOwnsAccount(accountId: string, userId: string): Promise<void> {\n  const row = await db.maybeOne<{ id: string }>(\n    \"SELECT id FROM accounts WHERE id = $1 AND user_id = $2\",\n    [accountId, userId],\n  );\n  if (!row) throw notFoundError(\"account\");\n}\n\nuploadsRouter.post(\n  \"/\",\n  upload.single(\"file\"),\n  handleMulterErrors,\n  asyncHandler(async (req, res) => {\n    const user = currentUser(req);\n    const { accountId } = bodySchema.parse(req.body);\n    await assertOwnsAccount(accountId, user.id);\n\n    const file = req.file;\n    if (!file) throw new HttpError(400, \"file is required\");\n    if (!file.originalname.toLowerCase().endsWith(\".csv\") || !ACCEPTED_TYPES.has(file.mimetype)) {\n      throw new HttpError(415, t(\"errors.unsupportedFileType\", {}, pickLocale(req.header(\"accept-language\"))));\n    }\n\n    // Parse the first few rows now so a broken file is rejected before it is stored and queued.\n    const preview = parseStatement(file.buffer, { limit: PREVIEW_ROWS });\n\n    const id = randomUUID();\n    const key = uploadKey(accountId, id, file.originalname);\n    await storage.put(key, file.buffer, \"text/csv\");\n    await createUploadWithJob({\n      id,\n      accountId,\n      userId: user.id,\n      key,\n      filename: file.originalname,\n      sizeBytes: file.size,\n    });\n\n    res.status(202).json({\n      id,\n      status: \"pending\",\n      columns: preview.header,\n      ignoredColumns: preview.header.filter((column) => !KNOWN_COLUMNS.has(column)),\n      preview: preview.rows,\n    });\n  }),\n);\n\nuploadsRouter.get(\n  \"/:id\",\n  asyncHandler(async (req, res) => {\n    const found = await findUpload(req.params.id, currentUser(req).id);\n    if (!found) throw notFoundError(\"upload\");\n\n    const locale = pickLocale(req.header(\"accept-language\"));\n    res.json({\n      id: found.id,\n      filename: found.filename,\n      status: found.status,\n      inserted: found.insertedCount,\n      duplicates: found.duplicateCount,\n      error: found.errorKey ? t(found.errorKey, found.errorParams ?? {}, locale) : null,\n      row: found.errorParams?.row ?? null,\n      createdAt: found.createdAt,\n      finishedAt: found.finishedAt,\n    });\n  }),\n);\n",
+      "trace_line": 16,
+      "call": 4
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 22.573,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 4,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4615",
+        "label": "bug"
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 56,
+      "result_excerpt": "{\"label\": \"bug\", \"issue\": \"issue-4615\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"bug\", \"issue\": \"issue-4615\", \"applied\": true}",
+      "trace_line": 20,
+      "call": 5
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 29.243,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": 5,
+      "name": "pulls_open",
+      "input": {
+        "issue": "issue-4615",
+        "branch": "repomind/issue-4615",
+        "title": "Keep non-ASCII upload file names intact when storing and returning them",
+        "body": "File: src/api/uploads.ts\n\nThe upload handler in POST /uploads takes file.originalname from multer and uses it unchanged for the extension check, for the storage key (uploadKey) and for the filename saved with createUploadWithJob. GET /uploads/:id then returns that saved value. Names such as банк_вклад.csv come back as Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv, which is the pattern of UTF-8 bytes read as Latin-1. The likely cause is that the multipart filename reaches multer undecoded, so the name is already mojibake before this handler sees it. This is a hypothesis from the code and the report; it has not been reproduced.\n\nProposed change: at the start of the POST handler, before the extension check, normalise file.originalname. Re-decode it from Latin-1 bytes to UTF-8 when that round trip yields valid text, and leave plain ASCII names unchanged. Use the normalised name for the .csv check, uploadKey and the filename passed to createUploadWithJob, so the stored name and the GET response are both correct. Also confirm that the web form and curl paths produce the same bytes, since the reporter saw the same result from both.\n\nOpen question: uploads already stored with garbled names will still return them. A one-off repair of the filename column, or a note to the reporter, may be needed. The reconciliation script in the report matches by name, so that matters for existing rows as well as new ones."
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 74,
+      "result_excerpt": "{\"pull_request\": \"pr-6\", \"branch\": \"repomind/issue-4615\", \"state\": \"open\"}",
+      "paths": [],
+      "result": "{\"pull_request\": \"pr-6\", \"branch\": \"repomind/issue-4615\", \"state\": \"open\"}",
+      "trace_line": 23,
+      "call": 6
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 29.328,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": 6,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4615",
+        "body": "label: bug\nfile: src/api/uploads.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 47,
+      "result_excerpt": "{\"comment\": \"comment-8\", \"issue\": \"issue-4615\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-8\", \"issue\": \"issue-4615\"}",
+      "trace_line": 25,
+      "call": 7
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: bug\nfile: src/api/uploads.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [
+      "bug"
+    ],
+    "prs": [
+      {
+        "title": "Keep non-ASCII upload file names intact when storing and returning them",
+        "body": "File: src/api/uploads.ts\n\nThe upload handler in POST /uploads takes file.originalname from multer and uses it unchanged for the extension check, for the storage key (uploadKey) and for the filename saved with createUploadWithJob. GET /uploads/:id then returns that saved value. Names such as банк_вклад.csv come back as Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv, which is the pattern of UTF-8 bytes read as Latin-1. The likely cause is that the multipart filename reaches multer undecoded, so the name is already mojibake before this handler sees it. This is a hypothesis from the code and the report; it has not been reproduced.\n\nProposed change: at the start of the POST handler, before the extension check, normalise file.originalname. Re-decode it from Latin-1 bytes to UTF-8 when that round trip yields valid text, and leave plain ASCII names unchanged. Use the normalised name for the .csv check, uploadKey and the filename passed to createUploadWithJob, so the stored name and the GET response are both correct. Also confirm that the web form and curl paths produce the same bytes, since the reporter saw the same result from both.\n\nOpen question: uploads already stored with garbled names will still return them. A one-off repair of the filename column, or a note to the reporter, may be needed. The reconciliation script in the report matches by name, so that matters for existing rows as well as new ones."
+      }
+    ],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4615": {
+      "comments": [
+        "label: bug\nfile: src/api/uploads.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [
+        "bug"
+      ],
+      "prs": [
+        {
+          "title": "Keep non-ASCII upload file names intact when storing and returning them",
+          "body": "File: src/api/uploads.ts\n\nThe upload handler in POST /uploads takes file.originalname from multer and uses it unchanged for the extension check, for the storage key (uploadKey) and for the filename saved with createUploadWithJob. GET /uploads/:id then returns that saved value. Names such as банк_вклад.csv come back as Ð±Ð°Ð½Ðº_Ð²ÐºÐ»Ð°Ð´.csv, which is the pattern of UTF-8 bytes read as Latin-1. The likely cause is that the multipart filename reaches multer undecoded, so the name is already mojibake before this handler sees it. This is a hypothesis from the code and the report; it has not been reproduced.\n\nProposed change: at the start of the POST handler, before the extension check, normalise file.originalname. Re-decode it from Latin-1 bytes to UTF-8 when that round trip yields valid text, and leave plain ASCII names unchanged. Use the normalised name for the .csv check, uploadKey and the filename passed to createUploadWithJob, so the stored name and the GET response are both correct. Also confirm that the web form and curl paths produce the same bytes, since the reporter saw the same result from both.\n\nOpen question: uploads already stored with garbled names will still return them. A one-off repair of the filename column, or a note to the reporter, may be needed. The reconciliation script in the report matches by name, so that matters for existing rows as well as new ones."
+        }
+      ],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": null,
+  "independent": [
+    {
+      "path": "fixtures/repo/src/api/uploads.ts",
+      "sha256": "9531ab8e8e2588bd4efb907315c3e703126e0b00e4839c2d0759e09513eab3b8",
+      "line_count": 108,
+      "excerpt": "69:     await storage.put(key, file.buffer, \"text/csv\");\n70:     await createUploadWithJob({\n71:       id,\n72:       accountId,\n73:       userId: user.id,\n74:       key,\n75:       filename: file.originalname,\n76:       sizeBytes: file.size,\n77:     });\n78: \n79:     res.status(202).json({\n80:       id,\n81:       status: \"pending\",\n82:       columns: preview.header,\n83:       ignoredColumns: preview.header.filter((column) => !KNOWN_COLUMNS.has(column)),\n84:       preview: preview.rows,\n85:     });\n92:     const found = await findUpload(req.params.id, currentUser(req).id);\n93:     if (!found) throw notFoundError(\"upload\");\n94: \n95:     const locale = pickLocale(req.header(\"accept-language\"));\n96:     res.json({\n97:       id: found.id,\n98:       filename: found.filename,\n99:       status: found.status,\n100:       inserted: found.insertedCount,\n101:       duplicates: found.duplicateCount,\n102:       error: found.errorKey ? t(found.errorKey, found.errorParams ?? {}, locale) : null,\n103:       row: found.errorParams?.row ?? null,\n104:       createdAt: found.createdAt,\n105:       finishedAt: found.finishedAt,\n106:     });\n107:   }),\n108: );"
+    },
+    {
+      "path": "fixtures/repo/docs/ARCHITECTURE.md",
+      "sha256": "6ef605c7e7f77092a56cc9c49cae39c02e861877d4a9416bfc0d82e745845d6e",
+      "line_count": 95,
+      "excerpt": "51: \n52: ## Reports and exports\n53: \n54: A report is a saved filter: account, date range, optional categories, and an\n55: optional schedule. `GET /reports/:id/export` loads the matching transactions\n56: and hands them to a writer in `src/export/` (`csv.ts` or `xlsx.ts`). Format\n57: names, column order and filename rules shared by both writers live in\n58: `src/exportUtils.ts`.\n59: \n60: Scheduled exports (`src/export/scheduler.ts`) check every five minutes for\n61: reports whose `next_run_at` has passed, email the file as an attachment, and\n62: set the next run.\n63: \n64: ## Notifications\n65: \n66: All mail goes through `src/notifications/email.ts` (nodemailer over SMTP, with\n67: retries). Message bodies are built in `templates.ts` from the i18n catalogs."
+    },
+    {
+      "path": "fixtures/repo/docs/CONFIG.md",
+      "sha256": "b372eb16c5acb86c8d63373ec7de32435fa648f05f1cd993f49278402a5ad2dc",
+      "line_count": 77,
+      "excerpt": "27: | Variable | Default | Description |\n28: | --- | --- | --- |\n29: | `DB_URL` | required | PostgreSQL connection string |\n30: | `DB_POOL_SIZE` | `10` | Maximum connections per process |\n31: | `DB_STATEMENT_TIMEOUT_MS` | `15000` | Per-statement timeout |\n32: \n33: Migrations are plain SQL files in `src/db/migrations/`, applied in filename\n34: order.\n35: \n36: ## Object storage\n37: \n38: | Variable | Default | Description |\n39: | --- | --- | --- |\n40: | `S3_BUCKET` | required | Bucket for uploaded files |\n41: | `S3_REGION` | `eu-west-1` | Region |\n42: | `S3_ENDPOINT` | unset | Custom endpoint for S3-compatible stores such as MinIO. Enables path-style addressing. |\n43: | `S3_ACCESS_KEY` | required | Access key id |"
+    },
+    {
+      "path": "fixtures/repo/src/api/reports.ts",
+      "sha256": "eb9b0b6ea12e2055e818ebffb6ebc436bc16f918670f1019fb85ef7cffb465e2",
+      "line_count": 237,
+      "excerpt": "3: import { reportRepo } from \"../db/repos/reportRepo\";\n4: import { transactionRepo } from \"../db/repos/transactionRepo\";\n5: import { writeCsv, type ExportFile } from \"../export/csv\";\n6: import { nextRunAt } from \"../export/scheduler\";\n7: import { writeXlsx } from \"../export/xlsx\";\n8: import {\n9:   formatExportFilename,\n10:   isSupportedFormat,\n11:   SUPPORTED_FORMATS,\n12:   type ExportFormat,\n13: } from \"../exportUtils\";\n14: import { logger } from \"../logger\";\n15: import type { CurrencyTotals, Report, ReportRow, ReportSchedule } from \"../types\";\n16: import { parsePage, toPage } from \"../util/pagination\";\n17: import { truncate } from \"../util/strings\";\n18: import { currentUser } from \"./auth\";\n19: import { asyncHandler, badRequest, notFoundError } from \"./errors\";\n212:     const rows = await transactionRepo.listForReport(report, { limit: MAX_EXPORT_ROWS + 1 });\n213:     if (rows.length > MAX_EXPORT_ROWS) {\n214:       throw badRequest(`report has more than ${MAX_EXPORT_ROWS} rows; narrow the date range to export it`);\n215:     }\n216: \n217:     const file = await renderExport(format, rows);\n218:     const filename = formatExportFilename(report.name, format);\n219: \n220:     res.setHeader(\"Content-Type\", file.contentType);\n221:     res.setHeader(\"Content-Disposition\", `attachment; filename=\"${filename}\"`);\n222:     res.setHeader(\"Content-Length\", String(file.body.length));\n223:     res.setHeader(\"Cache-Control\", \"no-store\");\n224:     res.send(file.body);\n225: \n226:     logger.info(\n227:       {\n228:         reportId: report.id,\n229:         format,\n230:         rows: rows.length,\n231:         bytes: file.body.length,"
+    },
+    {
+      "path": "fixtures/repo/src/components/ExportButton.tsx",
+      "sha256": "0e1001fbb1800c8c0278bc5a848d07cef24c0097f25206d9e668839df728938d",
+      "line_count": 75,
+      "excerpt": "7: \n8: function authHeader(): Record<string, string> {\n9:   const token = sessionStorage.getItem(TOKEN_KEY);\n10:   return token ? { authorization: `Bearer ${token}` } : {};\n11: }\n12: \n13: function filenameFromDisposition(header: string | null): string | null {\n14:   const match = header?.match(/filename=\"([^\"]+)\"/);\n15:   return match ? match[1] : null;\n16: }\n17: \n18: /** Downloads the export through a temporary object URL. Rejects on a non-2xx response. */\n19: export async function exportReport(reportId: string, format: ExportFormat): Promise<void> {\n20:   const res = await fetch(`/api/v1/reports/${encodeURIComponent(reportId)}/export?format=${format}`, {\n21:     headers: authHeader(),\n22:   });\n23:   if (!res.ok) {\n24:     throw new Error(`export failed with status ${res.status}`);\n25:   }\n26: \n27:   const blob = await res.blob();\n28:   const url = URL.createObjectURL(blob);\n29:   const link = document.createElement(\"a\");\n30:   link.href = url;\n31:   link.download = filenameFromDisposition(res.headers.get(\"content-disposition\")) ?? `report.${format}`;\n32:   document.body.appendChild(link);\n33:   link.click();\n34:   link.remove();\n35:   URL.revokeObjectURL(url);\n36: }\n37: \n38: interface ExportButtonProps {\n39:   reportId: string;\n40:   defaultFormat?: ExportFormat;\n41: }"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 5.633,
+      "type": "validation",
+      "version": 1,
+      "attempt": 1,
+      "valid": true,
+      "failures": [],
+      "trace_line": 4
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 8.369,
+      "type": "not_determined",
+      "step": 2,
+      "question": "which file is responsible: this search found no source file, which is not evidence that none is",
+      "trace_line": 9
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 11.818,
+      "type": "revision",
+      "checkpoint": "after_first_search",
+      "version": 2,
+      "valid": true,
+      "failures": [],
+      "trace_line": 11
+    },
+    {
+      "run_id": "planned-issue-4615-s01-c6aced",
+      "t": 29.397,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 26
+    }
+  ],
+  "trace_file": "fixtures/traces7/planned-issue-4615-s01-c6aced.jsonl",
+  "state_file": "fixtures/traces7/planned-issue-4615-s01-c6aced.state.json",
+  "issue_file": "fixtures/issues/pool/4615.md",
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4615-s01-c6aced.jsonl": "654ecb77a507be27cf9b8e7c8167195c98c0c7e2d3f96260e97951d6c06d157d",
+    "fixtures/traces7/planned-issue-4615-s01-c6aced.state.json": "33a09fde9db86fde1a91d70061a192139988163038a04a2e38eff1de6f93520c",
+    "fixtures/issues/pool/4615.md": "42a1a566fe42d054aae6004c2129dcd53020521f397e055fcaf6e2e49d077bc4",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge."
+  ],
+  "features": [
+    "area:docs/ARCHITECTURE.md",
+    "area:src/api",
+    "comment:present",
+    "pr:present",
+    "recorded-label:bug",
+    "termination:completed",
+    "way:planned"
+  ]
+}

@@ -1,0 +1,26 @@
+id: g12
+kind: single
+issues:
+- 4609
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: feature
+    file: src/ingest/parser.ts
+  labels:
+  - feature
+  pr: draft
+source: 'Maintainer history for #4609: Done in #969: src/ingest/parser.ts detects
+  a semicolon separator from the first line and splits on it.'
+runs:
+- planned-issue-4609-s01-fe17bf
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

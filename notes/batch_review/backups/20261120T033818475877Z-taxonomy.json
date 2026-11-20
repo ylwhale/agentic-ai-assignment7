@@ -1,0 +1,14 @@
+{
+  "workflow-issue-4607-s01-4919f5": {
+    "categories": [
+      "spam-misclassification"
+    ],
+    "observation_sha256": "3c13424ad8e590e4e050a66ef8ae14d1783b30fa3431d479b7445e45065c8503",
+    "human_confirmed": true
+  },
+  "planned-issue-4637-s01-64ee8c": {
+    "categories": [],
+    "observation_sha256": "ddd2f49a341afbd46c0f3af8d3e72b4f43631ae8db20df76f23a57119615fbd0",
+    "human_confirmed": true
+  }
+}

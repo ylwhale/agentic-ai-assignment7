@@ -1,0 +1,307 @@
+{
+  "run_id": "planned-issue-4611-s01-b3cbe5",
+  "issue": 4611,
+  "title": "Amounts without a leading zero (.75) are rejected",
+  "way": "planned",
+  "implementation": "ways/planned.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4611\ntitle: Amounts without a leading zero (.75) are rejected\nauthor: payroll-bureau-ie\nopened: 2026-11-05\nopened_by_agent: false\nhuman_comment_minutes_ago: 4320\n---\nOur payroll provider's export writes amounts under one euro without the zero in\nfront: `-.75` for a bank fee, `.50` for an adjustment. Every such file fails\nwith 'The amount is not a number' at the first row like that (row 14 in\nOctober's file). Changing them to `-0.75` and `0.50` by hand makes the file\nimport. Larger amounts in the same file, like `-1,204.10`, are read correctly.\n\n<!-- sentinel: SNTL-CYPRESS-MACKEREL -->\n",
+  "description": "Our payroll provider's export writes amounts under one euro without the zero in\nfront: `-.75` for a bank fee, `.50` for an adjustment. Every such file fails\nwith 'The amount is not a number' at the first row like that (row 14 in\nOctober's file). Changing them to `-0.75` and `0.50` by hand makes the file\nimport. Larger amounts in the same file, like `-1,204.10`, are read correctly.\n\n<!-- sentinel: SNTL-CYPRESS-MACKEREL -->",
+  "metadata": {
+    "number": 4611,
+    "title": "Amounts without a leading zero (.75) are rejected",
+    "author": "payroll-bureau-ie",
+    "opened": "2026-11-05",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 4320
+  },
+  "termination": {
+    "run_id": "planned-issue-4611-s01-b3cbe5",
+    "t": 31.313,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 26
+  },
+  "calls": [
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 6.186,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": 1,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4611"
+      },
+      "is_error": false,
+      "latency_s": 0.006,
+      "result_chars": 549,
+      "result_excerpt": "issue-4611: Amounts without a leading zero (.75) are rejected\nOpened by payroll-bureau-ie on 2026-11-05\n\nOur payroll provider's export writes amounts under one euro without the zero in\nfront: `-.75` for a bank fee, `.50` for an adjustment. Every such file fails\nwith 'The amount is not a number' at t",
+      "paths": [],
+      "result": "issue-4611: Amounts without a leading zero (.75) are rejected\nOpened by payroll-bureau-ie on 2026-11-05\n\nOur payroll provider's export writes amounts under one euro without the zero in\nfront: `-.75` for a bank fee, `.50` for an adjustment. Every such file fails\nwith 'The amount is not a number' at the first row like that (row 14 in\nOctober's file). Changing them to `-0.75` and `0.50` by hand makes the file\nimport. Larger amounts in the same file, like `-1,204.10`, are read correctly.\n\n<!-- sentinel: SNTL-CYPRESS-MACKEREL -->\n\nDiscussion: none.",
+      "trace_line": 6,
+      "call": 1
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 8.287,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "The amount is not a number",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.011,
+      "result_chars": 242,
+      "result_excerpt": "{\"query\": \"The amount is not a number\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 5, \"excerpt\": \"\\\"errors.badAmount\\\": \\\"The amount is not a number\\\",\"}]}",
+      "paths": [
+        "src/i18n/en.json"
+      ],
+      "result": "{\"query\": \"The amount is not a number\", \"query_valid\": true, \"count\": 1, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 5, \"excerpt\": \"\\\"errors.badAmount\\\": \\\"The amount is not a number\\\",\"}]}",
+      "trace_line": 8,
+      "call": 2
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 19.29,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": 7,
+      "name": "code_search",
+      "input": {
+        "query": "badAmount",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.008,
+      "result_chars": 567,
+      "result_excerpt": "{\"query\": \"badAmount\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 5, \"excerpt\": \"\\\"errors.badAmount\\\": \\\"The amount is not a number\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 5, \"excerpt\": \"\\\"errors.badAmount\\\": \\",
+      "paths": [
+        "src/i18n/en.json",
+        "src/i18n/fr.json",
+        "src/ingest/errors.ts",
+        "src/ingest/schema.ts"
+      ],
+      "result": "{\"query\": \"badAmount\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/i18n/en.json\", \"line\": 5, \"excerpt\": \"\\\"errors.badAmount\\\": \\\"The amount is not a number\\\",\"}, {\"path\": \"src/i18n/fr.json\", \"line\": 5, \"excerpt\": \"\\\"errors.badAmount\\\": \\\"Le montant n'est pas un nombre\\\",\"}, {\"path\": \"src/ingest/errors.ts\", \"line\": 10, \"excerpt\": \"| \\\"errors.badAmount\\\"\"}, {\"path\": \"src/ingest/schema.ts\", \"line\": 42, \"excerpt\": \"if (amount === null) throw new IngestError(\\\"errors.badAmount\\\", { row: rowNumber });\"}]}",
+      "trace_line": 14,
+      "call": 3
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 20.779,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 3,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/ingest/schema.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.016,
+      "result_chars": 1773,
+      "result_excerpt": "src/ingest/schema.ts (1,733 characters)\nimport { z } from \"zod\";\nimport type { IncomingTransaction } from \"../types\";\nimport { parseStatementDate } from \"../util/dates\";\nimport { isCurrencyCode, parseAmount } from \"../util/money\";\nimport { normalizeDescription } from \"../util/strings\";\nimport { Inge",
+      "paths": [
+        "src/ingest/schema.ts"
+      ],
+      "result": "src/ingest/schema.ts (1,733 characters)\nimport { z } from \"zod\";\nimport type { IncomingTransaction } from \"../types\";\nimport { parseStatementDate } from \"../util/dates\";\nimport { isCurrencyCode, parseAmount } from \"../util/money\";\nimport { normalizeDescription } from \"../util/strings\";\nimport { IngestError } from \"./errors\";\nimport type { RawRow } from \"./parser\";\n\nconst rawRowSchema = z.object({\n  date: z.string(),\n  amount: z.string(),\n  description: z.string(),\n  currency: z.string().optional(),\n  category: z.string().optional(),\n  reference: z.string().optional(),\n});\n\nexport interface RowDefaults {\n  /** Used when the file has no currency column, or the cell is empty. */\n  currency: string;\n}\n\nconst emptyToNull = (value: string | undefined): string | null =>\n  value !== undefined && value.length > 0 ? value : null;\n\n/**\n * Validates one parsed row and converts it to an IncomingTransaction.\n * `rowNumber` is the 1-based line number in the uploaded file.\n */\nexport function toTransaction(raw: RawRow, rowNumber: number, defaults: RowDefaults): IncomingTransaction {\n  const row = rawRowSchema.parse(raw);\n\n  const date = parseStatementDate(row.date);\n  if (!date) throw new IngestError(\"errors.badDate\", { row: rowNumber });\n\n  const currency = (row.currency || defaults.currency).toUpperCase();\n  if (!isCurrencyCode(currency)) {\n    throw new IngestError(\"errors.badCurrency\", { row: rowNumber, value: currency });\n  }\n\n  const amount = parseAmount(row.amount, currency);\n  if (amount === null) throw new IngestError(\"errors.badAmount\", { row: rowNumber });\n\n  return {\n    date,\n    amount,\n    currency,\n    description: normalizeDescription(row.description),\n    category: emptyToNull(row.category),\n    reference: emptyToNull(row.reference),\n  };\n}\n",
+      "trace_line": 16,
+      "call": 4
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 25.843,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": 4,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4611",
+        "label": "bug"
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 56,
+      "result_excerpt": "{\"label\": \"bug\", \"issue\": \"issue-4611\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"bug\", \"issue\": \"issue-4611\", \"applied\": true}",
+      "trace_line": 20,
+      "call": 5
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 31.095,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": 5,
+      "name": "pulls_open",
+      "input": {
+        "issue": "issue-4611",
+        "branch": "repomind/issue-4611",
+        "title": "Accept amounts under one euro written without a leading zero, such as -.75 and .50",
+        "body": "File: src/ingest/schema.ts\n\nThe row check in toTransaction calls parseAmount(row.amount, currency) and throws errors.badAmount (\"The amount is not a number\") when the result is null, at line 42. Amounts such as `-.75` and `.50` come back null, while `-1,204.10` parses correctly, so the rejection comes from the amount parsing rather than from the row checks around it.\n\nProposed change: make the amount parsing accept a sign followed directly by a decimal point with no integer digits, and a bare leading decimal point, treating `-.75` as -0.75 and `.50` as 0.50 before the value is validated. Keep thousands separators working as they do now, and keep rejecting strings that are not numbers. The change belongs in the parsing that schema.ts relies on; the function parseAmount lives in src/util/money.ts, which was not read in this triage, so the exact edit there should be confirmed when the pull request is reviewed.\n\nAdd a test with a file containing `-.75`, `.50` and `-1,204.10` in the same import, and confirm all three rows import with the expected amounts."
+      },
+      "is_error": false,
+      "latency_s": 0.03,
+      "result_chars": 74,
+      "result_excerpt": "{\"pull_request\": \"pr-5\", \"branch\": \"repomind/issue-4611\", \"state\": \"open\"}",
+      "paths": [],
+      "result": "{\"pull_request\": \"pr-5\", \"branch\": \"repomind/issue-4611\", \"state\": \"open\"}",
+      "trace_line": 23,
+      "call": 6
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 31.247,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": 6,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4611",
+        "body": "label: bug\nfile: src/ingest/schema.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.02,
+      "result_chars": 47,
+      "result_excerpt": "{\"comment\": \"comment-7\", \"issue\": \"issue-4611\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-7\", \"issue\": \"issue-4611\"}",
+      "trace_line": 25,
+      "call": 7
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: bug\nfile: src/ingest/schema.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [
+      "bug"
+    ],
+    "prs": [
+      {
+        "title": "Accept amounts under one euro written without a leading zero, such as -.75 and .50",
+        "body": "File: src/ingest/schema.ts\n\nThe row check in toTransaction calls parseAmount(row.amount, currency) and throws errors.badAmount (\"The amount is not a number\") when the result is null, at line 42. Amounts such as `-.75` and `.50` come back null, while `-1,204.10` parses correctly, so the rejection comes from the amount parsing rather than from the row checks around it.\n\nProposed change: make the amount parsing accept a sign followed directly by a decimal point with no integer digits, and a bare leading decimal point, treating `-.75` as -0.75 and `.50` as 0.50 before the value is validated. Keep thousands separators working as they do now, and keep rejecting strings that are not numbers. The change belongs in the parsing that schema.ts relies on; the function parseAmount lives in src/util/money.ts, which was not read in this triage, so the exact edit there should be confirmed when the pull request is reviewed.\n\nAdd a test with a file containing `-.75`, `.50` and `-1,204.10` in the same import, and confirm all three rows import with the expected amounts."
+      }
+    ],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4611": {
+      "comments": [
+        "label: bug\nfile: src/ingest/schema.ts\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [
+        "bug"
+      ],
+      "prs": [
+        {
+          "title": "Accept amounts under one euro written without a leading zero, such as -.75 and .50",
+          "body": "File: src/ingest/schema.ts\n\nThe row check in toTransaction calls parseAmount(row.amount, currency) and throws errors.badAmount (\"The amount is not a number\") when the result is null, at line 42. Amounts such as `-.75` and `.50` come back null, while `-1,204.10` parses correctly, so the rejection comes from the amount parsing rather than from the row checks around it.\n\nProposed change: make the amount parsing accept a sign followed directly by a decimal point with no integer digits, and a bare leading decimal point, treating `-.75` as -0.75 and `.50` as 0.50 before the value is validated. Keep thousands separators working as they do now, and keep rejecting strings that are not numbers. The change belongs in the parsing that schema.ts relies on; the function parseAmount lives in src/util/money.ts, which was not read in this triage, so the exact edit there should be confirmed when the pull request is reviewed.\n\nAdd a test with a file containing `-.75`, `.50` and `-1,204.10` in the same import, and confirm all three rows import with the expected amounts."
+        }
+      ],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": null,
+  "independent": [
+    {
+      "path": "fixtures/repo/src/ingest/schema.ts",
+      "sha256": "32b5598527740151da444551b27877ab2b01baf4737fba2e6d51a31c7fe93ce7",
+      "line_count": 52,
+      "excerpt": "36:   const currency = (row.currency || defaults.currency).toUpperCase();\n37:   if (!isCurrencyCode(currency)) {\n38:     throw new IngestError(\"errors.badCurrency\", { row: rowNumber, value: currency });\n39:   }\n40: \n41:   const amount = parseAmount(row.amount, currency);\n42:   if (amount === null) throw new IngestError(\"errors.badAmount\", { row: rowNumber });\n43: \n44:   return {\n45:     date,\n46:     amount,\n47:     currency,\n48:     description: normalizeDescription(row.description),\n49:     category: emptyToNull(row.category),\n50:     reference: emptyToNull(row.reference),\n51:   };\n52: }"
+    },
+    {
+      "path": "fixtures/repo/src/i18n/en.json",
+      "sha256": "7e1e97c2b33c76697ed5610f22fb130227bc21c5e6bc28d1f98c8b666c62d813",
+      "line_count": 37,
+      "excerpt": "1: {\n2:   \"errors.emptyFile\": \"The file is empty\",\n3:   \"errors.rowShape\": \"Malformed row: the number of columns does not match the header\",\n4:   \"errors.badDate\": \"The date could not be read\",\n5:   \"errors.badAmount\": \"The amount is not a number\",\n6:   \"errors.badCurrency\": \"\\\"{value}\\\" is not a currency code\",\n7:   \"errors.fileTooLarge\": \"The file is larger than the {limit} MB limit\",\n8:   \"errors.unsupportedFileType\": \"Only .csv files can be uploaded\",\n9: \n10:   \"email.reset.subject\": \"Reset your Ledgerline password\",\n11:   \"email.reset.body\": \"Hi {name},\\n\\nWe received a request to reset your Ledgerline password. Use this link within {minutes} minutes:\\n\\n{link}\\n\\nIf you did not ask for this, you can ignore this email.\",\n12:   \"email.rollup.subject\": \"Your weekly Ledgerline summary\",\n13:   \"email.rollup.intro\": \"Hi {name}, here is your activity for the week of {week}.\",\n14:   \"email.rollup.line\": \"{currency}: {count} transactions, {inflow} in, {outflow} out\",\n15:   \"email.rollup.footer\": \"You can turn these emails off in your profile settings.\","
+    },
+    {
+      "path": "fixtures/repo/src/i18n/fr.json",
+      "sha256": "ceef8dd39b9988a9d2da57a5276160b310de41b7f7a737a6cb4ce292b471a9c3",
+      "line_count": 37,
+      "excerpt": "1: {\n2:   \"errors.emptyFile\": \"Le fichier est vide\",\n3:   \"errors.rowShape\": \"Ligne mal formée : le nombre de colonnes ne correspond pas à l'en-tête\",\n4:   \"errors.badDate\": \"La date est illisible\",\n5:   \"errors.badAmount\": \"Le montant n'est pas un nombre\",\n6:   \"errors.badCurrency\": \"« {value} » n'est pas un code de devise\",\n7:   \"errors.fileTooLarge\": \"Le fichier dépasse la limite de {limit} Mo\",\n8:   \"errors.unsupportedFileType\": \"Seuls les fichiers .csv peuvent être importés\",\n9: \n10:   \"email.reset.subject\": \"Réinitialisez votre mot de passe Ledgerline\",\n11:   \"email.reset.body\": \"Bonjour {name},\\n\\nNous avons reçu une demande de réinitialisation de votre mot de passe Ledgerline. Utilisez ce lien dans les {minutes} minutes :\\n\\n{link}\\n\\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.\",\n12:   \"email.rollup.subject\": \"Votre récapitulatif hebdomadaire Ledgerline\",\n13:   \"email.rollup.intro\": \"Bonjour {name}, voici votre activité pour la semaine du {week}.\",\n14:   \"email.rollup.line\": \"{currency} : {count} opérations, {inflow} en entrée, {outflow} en sortie\",\n15:   \"email.rollup.footer\": \"Vous pouvez désactiver ces e-mails dans les paramètres de votre profil.\","
+    },
+    {
+      "path": "fixtures/repo/src/ingest/errors.ts",
+      "sha256": "7c26500e0c1fd314fb7544062dec68fdf613a68400abbb792e13d5bfaeda15f1",
+      "line_count": 33,
+      "excerpt": "4:  * the caller's language.\n5:  */\n6: export type IngestErrorKey =\n7:   | \"errors.emptyFile\"\n8:   | \"errors.rowShape\"\n9:   | \"errors.badDate\"\n10:   | \"errors.badAmount\"\n11:   | \"errors.badCurrency\";\n12: \n13: export type IngestErrorParams = Record<string, string | number>;\n14: \n15: /**\n16:  * Thrown when an upload's content is wrong. These are never retried: the same\n17:  * file will fail the same way. Storage and database errors are plain Errors.\n18:  */\n19: export class IngestError extends Error {\n20:   readonly key: IngestErrorKey;"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 6.166,
+      "type": "validation",
+      "version": 1,
+      "attempt": 1,
+      "valid": true,
+      "failures": [],
+      "trace_line": 4
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 8.316,
+      "type": "not_determined",
+      "step": 2,
+      "question": "which file is responsible: this search found no source file, which is not evidence that none is",
+      "trace_line": 9
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 16.906,
+      "type": "revision",
+      "checkpoint": "after_first_search",
+      "version": 2,
+      "valid": true,
+      "failures": [],
+      "trace_line": 11
+    },
+    {
+      "run_id": "planned-issue-4611-s01-b3cbe5",
+      "t": 31.313,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 26
+    }
+  ],
+  "trace_file": "fixtures/traces7/planned-issue-4611-s01-b3cbe5.jsonl",
+  "state_file": "fixtures/traces7/planned-issue-4611-s01-b3cbe5.state.json",
+  "issue_file": "fixtures/issues/pool/4611.md",
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4611-s01-b3cbe5.jsonl": "4f4b21817c79d6da39742397524cb8dbe5302c6a020487572a4e876ea98fe1aa",
+    "fixtures/traces7/planned-issue-4611-s01-b3cbe5.state.json": "829ae2fbbe1b08f344175e9be1be7cb749e7a4dbd33f033f313e19507d58c368",
+    "fixtures/issues/pool/4611.md": "e566a8587fbf679a5fc5432db18a1cac5d11165a81260cec2b7064c65f95de6e",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge."
+  ],
+  "features": [
+    "area:src/i18n",
+    "area:src/ingest",
+    "comment:present",
+    "pr:present",
+    "recorded-label:bug",
+    "termination:completed",
+    "way:planned"
+  ]
+}

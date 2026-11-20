@@ -1,0 +1,27 @@
+id: g10
+kind: single
+issues:
+- 4602
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/notifications/rollup.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4602: Fixed in #966: the rollup in src/notifications/rollup.ts
+  now checks every quarter of an hour and sends once the user''s local time reaches
+  08:00, so half-hour and 45-minute zones get it on time.'
+runs:
+- agent-issue-4602-s01-e6b5b0
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

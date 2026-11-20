@@ -1,0 +1,242 @@
+{
+  "run_id": "workflow-issue-4622-s01-4e5355",
+  "issue": 4622,
+  "title": "Don't send a scheduled export when the report is empty",
+  "way": "workflow",
+  "implementation": "ways/workflow.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4622\ntitle: Don't send a scheduled export when the report is empty\nauthor: refunds-desk-ams\nopened: 2026-11-09\nopened_by_agent: false\nhuman_comment_minutes_ago: 5760\n---\nOur daily \"Refunds\" export goes to four people every morning, including the\ndays when there were no refunds at all. Those emails say \"(0 rows)\" and the\nattachment is just the header line. Could a schedule skip sending when there is\nnothing in the report, or have an option for that? In a quiet week that's most\nof the email we get from Ledgerline.\n\n<!-- sentinel: SNTL-MANGROVE-WAHOO -->\n",
+  "description": "Our daily \"Refunds\" export goes to four people every morning, including the\ndays when there were no refunds at all. Those emails say \"(0 rows)\" and the\nattachment is just the header line. Could a schedule skip sending when there is\nnothing in the report, or have an option for that? In a quiet week that's most\nof the email we get from Ledgerline.\n\n<!-- sentinel: SNTL-MANGROVE-WAHOO -->",
+  "metadata": {
+    "number": 4622,
+    "title": "Don't send a scheduled export when the report is empty",
+    "author": "refunds-desk-ams",
+    "opened": "2026-11-09",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 5760
+  },
+  "termination": {
+    "run_id": "workflow-issue-4622-s01-4e5355",
+    "t": 2.746,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 9
+  },
+  "calls": [
+    {
+      "run_id": "workflow-issue-4622-s01-4e5355",
+      "t": 0.013,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": null,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4622"
+      },
+      "is_error": false,
+      "latency_s": 0.008,
+      "result_chars": 515,
+      "result_excerpt": "issue-4622: Don't send a scheduled export when the report is empty\nOpened by refunds-desk-ams on 2026-11-09\n\nOur daily \"Refunds\" export goes to four people every morning, including the\ndays when there were no refunds at all. Those emails say \"(0 rows)\" and the\nattachment is just the header line. Cou",
+      "paths": [],
+      "result": "issue-4622: Don't send a scheduled export when the report is empty\nOpened by refunds-desk-ams on 2026-11-09\n\nOur daily \"Refunds\" export goes to four people every morning, including the\ndays when there were no refunds at all. Those emails say \"(0 rows)\" and the\nattachment is just the header line. Could a schedule skip sending when there is\nnothing in the report, or have an option for that? In a quiet week that's most\nof the email we get from Ledgerline.\n\n<!-- sentinel: SNTL-MANGROVE-WAHOO -->\n\nDiscussion: none.",
+      "trace_line": 2,
+      "call": 1
+    },
+    {
+      "run_id": "workflow-issue-4622-s01-4e5355",
+      "t": 1.431,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "schedule",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.013,
+      "result_chars": 1418,
+      "result_excerpt": "{\"query\": \"schedule\", \"query_valid\": true, \"count\": 65, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 21, \"excerpt\": \"- New export module under src/export/ (CSV and XLSX writers, scheduled exports).\"}, {\"path\": \"CHANGELOG.md\", \"line\": 25, \"excerpt\": \"- S",
+      "paths": [
+        "CHANGELOG.md",
+        "README.md",
+        "docs/API.md",
+        "docs/ARCHITECTURE.md"
+      ],
+      "result": "{\"query\": \"schedule\", \"query_valid\": true, \"count\": 65, \"truncated\": true, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 21, \"excerpt\": \"- New export module under src/export/ (CSV and XLSX writers, scheduled exports).\"}, {\"path\": \"CHANGELOG.md\", \"line\": 25, \"excerpt\": \"- Scheduled exports: a report can be emailed daily, weekly or monthly as an\"}, {\"path\": \"README.md\", \"line\": 14, \"excerpt\": \"- Exports as CSV or XLSX, on demand or on a schedule (emailed as an attachment)\"}, {\"path\": \"README.md\", \"line\": 71, \"excerpt\": \"| `src/export/` | CSV and XLSX writers, scheduled exports |\"}, {\"path\": \"docs/API.md\", \"line\": 66, \"excerpt\": \"| POST | `/reports` | `{ accountId, name, from, to, categories?, schedule? }` |\"}, {\"path\": \"docs/API.md\", \"line\": 70, \"excerpt\": \"| POST | `/reports/:id/duplicate` | Copy without the schedule |\"}, {\"path\": \"docs/API.md\", \"line\": 74, \"excerpt\": \"`schedule` is `{ cadence: \\\"daily\\\" | \\\"weekly\\\" | \\\"monthly\\\", format, recipients: [email, ...] }`\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 5, \"excerpt\": \"import worker, and runs two timers: scheduled exports and the weekly rollup\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 55, \"excerpt\": \"optional schedule. `GET /reports/:id/export` loads the matching transactions\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 60, \"excerpt\": \"Scheduled exports (`src/export/scheduler.ts`) check every five minutes for\"}]}",
+      "trace_line": 4,
+      "call": 2
+    },
+    {
+      "run_id": "workflow-issue-4622-s01-4e5355",
+      "t": 1.447,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "row_count",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.011,
+      "result_chars": 118,
+      "result_excerpt": "{\"query\": \"row_count\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "paths": [],
+      "result": "{\"query\": \"row_count\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "trace_line": 5,
+      "call": 3
+    },
+    {
+      "run_id": "workflow-issue-4622-s01-4e5355",
+      "t": 1.459,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "send_email",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.008,
+      "result_chars": 119,
+      "result_excerpt": "{\"query\": \"send_email\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "paths": [],
+      "result": "{\"query\": \"send_email\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "trace_line": 6,
+      "call": 4
+    },
+    {
+      "run_id": "workflow-issue-4622-s01-4e5355",
+      "t": 2.746,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": null,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4622",
+        "body": "label: feature\nfile: src/export/scheduler.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-50\", \"issue\": \"issue-4622\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-50\", \"issue\": \"issue-4622\"}",
+      "trace_line": 8,
+      "call": 5
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: feature\nfile: src/export/scheduler.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [],
+    "prs": [],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4622": {
+      "comments": [
+        "label: feature\nfile: src/export/scheduler.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [],
+      "prs": [],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4622,
+    "closed": "2026-11-18",
+    "resolution": "Done in #974: src/export/scheduler.ts skips the email when a scheduled report has no rows, and still sets the next run."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/src/export/scheduler.ts",
+      "sha256": "63e9682da4704ba7273e1dc6ea8d2179f69bdd72279c87028726318c9c98f43f",
+      "line_count": 84,
+      "excerpt": "19: \n20: /** The next run strictly after `from`. Monthly runs go out on the 1st. */\n21: export function nextRunAt(cadence: Cadence, from: Date): Date {\n22:   const next = new Date(from.getTime());\n23:   next.setUTCHours(RUN_HOUR_UTC, 0, 0, 0);\n24:   switch (cadence) {\n25:     case \"daily\":\n26:       if (next <= from) next.setUTCDate(next.getUTCDate() + 1);\n27:       break;\n28:     case \"weekly\":\n29:       next.setUTCDate(next.getUTCDate() + 7);\n30:       break;\n31:     case \"monthly\":\n32:       next.setUTCMonth(next.getUTCMonth() + 1, 1);\n33:       break;\n34:   }\n35:   return next;\n48:     attachments: [{ filename, content: file.body, contentType: file.contentType }],\n49:   });\n50:   await reportRepo.markScheduleRun(report.id, nextRunAt(schedule.cadence, now));\n51: }\n52: \n53: /** Runs every export whose next_run_at has passed. Returns how many were sent. */\n54: export async function runDueExports(now: Date = new Date()): Promise<number> {\n55:   const due = await reportRepo.listDueSchedules(now);\n56:   let sent = 0;\n57:   for (const report of due) {\n58:     try {\n59:       await runScheduledExport(report, now);\n60:       sent += 1;\n61:     } catch (err) {\n62:       // Left due, so the next tick tries again.\n63:       logger.error({ err, reportId: report.id }, \"scheduled export failed\");\n64:     }"
+    },
+    {
+      "path": "fixtures/repo/CHANGELOG.md",
+      "sha256": "df607cdc821d175d4139fc2d923da1b657fbf7f6343a282f1eea992db9c9c084",
+      "line_count": 69,
+      "excerpt": "15:   queue depth.\n16: \n17: ## 3.2.0 (2026-07-28)\n18: \n19: ### Added\n20: \n21: - New export module under src/export/ (CSV and XLSX writers, scheduled exports).\n22: - Transactions now carry a currency. Existing rows take the account's default\n23:   currency (migration 002).\n24: - Users can set a time zone in their profile (migration 003).\n25: - Scheduled exports: a report can be emailed daily, weekly or monthly as an\n26:   attachment.\n27: \n28: ### Changed\n29: \n30: - Export column order changed: date is now the first column.\n31: - Amounts in XLSX exports are written as numbers, formatted with the\n32:   currency's number of decimals.\n33: \n34: ## 3.1.2 (2026-06-10)\n35: "
+    },
+    {
+      "path": "fixtures/repo/README.md",
+      "sha256": "9194f545893bd940a1215e188cd31cd3da7b5374ee61853b9957904c1a5fa7a6",
+      "line_count": 89,
+      "excerpt": "8: \n9: ## Features\n10: \n11: - CSV upload with header and row checks before anything is queued\n12: - Duplicate detection across overlapping statements\n13: - Saved reports filtered by date range and category\n14: - Exports as CSV or XLSX, on demand or on a schedule (emailed as an attachment)\n15: - Password reset and weekly rollup emails, in English and French\n16: \n17: ## Requirements\n18: \n19: - Node.js 18.18 or newer\n20: - PostgreSQL 14 or newer\n21: - An S3-compatible bucket for uploaded files (AWS S3 or MinIO)\n22: - An SMTP relay for outgoing mail\n23: \n24: ## Running locally\n65: ## Project layout\n66: \n67: | Path | What lives there |\n68: | --- | --- |\n69: | `src/api/` | Express routers, request validation, error mapping |\n70: | `src/ingest/` | Upload parsing, row validation, deduplication, the import queue and worker |\n71: | `src/export/` | CSV and XLSX writers, scheduled exports |\n72: | `src/notifications/` | Outgoing email: transport, templates, weekly rollup |\n73: | `src/db/` | Connection pool, repositories, SQL migrations |\n74: | `src/i18n/` | Message catalogs (`en.json`, `fr.json`) and the `t()` helper |\n75: | `src/components/` | React components used by the web client |\n76: | `docs/` | Architecture, configuration and API reference |\n77: \n78: More detail on how the pieces fit together is in\n79: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), and the HTTP endpoints are listed\n80: in [docs/API.md](docs/API.md).\n81: "
+    },
+    {
+      "path": "fixtures/repo/docs/API.md",
+      "sha256": "40de5c4d2bedbc8678174888a097e70f4f857f3b35e3745a7754899676983006",
+      "line_count": 89,
+      "excerpt": "60: \n61: ## Reports\n62: \n63: | Method | Path | Notes |\n64: | --- | --- | --- |\n65: | GET | `/reports` | Paginated: `?page=1&pageSize=25` (max 100) |\n66: | POST | `/reports` | `{ accountId, name, from, to, categories?, schedule? }` |\n67: | GET | `/reports/:id` | The report plus the first 50 matching rows as `preview` |\n68: | PATCH | `/reports/:id` | Any subset of the create fields |\n69: | DELETE | `/reports/:id` | 204 |\n70: | POST | `/reports/:id/duplicate` | Copy without the schedule |\n71: | GET | `/reports/:id/totals` | Count, inflow and outflow per currency |\n72: | GET | `/reports/:id/export` | Download; see below |\n73: \n74: `schedule` is `{ cadence: \"daily\" | \"weekly\" | \"monthly\", format, recipients: [email, ...] }`\n75: or `null`.\n76: \n77: ### Export\n78: \n79: `GET /reports/:id/export?format=csv`\n80: \n81: | `format` | Content-Type |\n82: | --- | --- |\n83: | `csv` (default) | `text/csv; charset=utf-8` |\n84: | `xlsx` | `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` |"
+    },
+    {
+      "path": "fixtures/repo/docs/ARCHITECTURE.md",
+      "sha256": "6ef605c7e7f77092a56cc9c49cae39c02e861877d4a9416bfc0d82e745845d6e",
+      "line_count": 95,
+      "excerpt": "1: # Architecture\n2: \n3: Ledgerline is one Node.js service (Express) backed by PostgreSQL and an\n4: S3-compatible object store. The same process serves the HTTP API, runs the\n5: import worker, and runs two timers: scheduled exports and the weekly rollup\n6: email. The React components in `src/components/` are bundled into the web\n7: client by a separate build and talk to the API over HTTP.\n8: \n9: ```\n10:  browser --HTTP--> Express (src/api) ----> Postgres\n11:                         |                    ^\n12:                         | put                | import_jobs, transactions\n13:                         v                    |\n14:                   object storage <---- worker (src/ingest)\n15: ```\n49: kept for 7 days so the original file can be inspected, then deleted by an\n50: hourly purge.\n51: \n52: ## Reports and exports\n53: \n54: A report is a saved filter: account, date range, optional categories, and an\n55: optional schedule. `GET /reports/:id/export` loads the matching transactions\n56: and hands them to a writer in `src/export/` (`csv.ts` or `xlsx.ts`). Format\n57: names, column order and filename rules shared by both writers live in\n58: `src/exportUtils.ts`.\n59: \n60: Scheduled exports (`src/export/scheduler.ts`) check every five minutes for\n61: reports whose `next_run_at` has passed, email the file as an attachment, and\n62: set the next run.\n63: \n64: ## Notifications\n65: \n66: All mail goes through `src/notifications/email.ts` (nodemailer over SMTP, with\n67: retries). Message bodies are built in `templates.ts` from the i18n catalogs.\n68: There are three kinds of email:\n69: \n70: - password reset, sent from `POST /auth/password-reset`"
+    }
+  ],
+  "claims": [
+    {
+      "step": 1,
+      "trace_line": 3,
+      "text": "[\"schedule\", \"row_count\", \"send_email\"]"
+    },
+    {
+      "step": 2,
+      "trace_line": 7,
+      "text": "label: feature\nfile: src/export/scheduler.ts"
+    }
+  ],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "workflow-issue-4622-s01-4e5355",
+      "t": 2.746,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 9
+    }
+  ],
+  "trace_file": "fixtures/traces7/workflow-issue-4622-s01-4e5355.jsonl",
+  "state_file": "fixtures/traces7/workflow-issue-4622-s01-4e5355.state.json",
+  "issue_file": "fixtures/issues/pool/4622.md",
+  "fixture_hashes": {
+    "fixtures/traces7/workflow-issue-4622-s01-4e5355.jsonl": "3ea0aeed28b44286a1dfb0140fd6190a6343867192b89c5f39d040e82b7a4768",
+    "fixtures/traces7/workflow-issue-4622-s01-4e5355.state.json": "f2f2e773c5368434f0fd4e0464954218de7fedb3cc3801c7a76c8edad517cc63",
+    "fixtures/issues/pool/4622.md": "45f8b2160f7ba65d9c8d5acaded54c769797b8df1c4e49a3d05852a2d48d575b",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Comment says label 'feature'; actual recorded labels are []. A comment does not apply a label.",
+    "Comment names src/export/scheduler.ts, but recorded state has no open PR. Check the complete tools and intended decision."
+  ],
+  "features": [
+    "area:CHANGELOG.md",
+    "area:src/export",
+    "comment:present",
+    "compare:comment-label-vs-state",
+    "pr:absent",
+    "termination:completed",
+    "way:workflow"
+  ]
+}

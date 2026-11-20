@@ -1,0 +1,144 @@
+{
+  "run_id": "direct-issue-4620-s01-cc942a",
+  "issue": 4620,
+  "title": "Login says \"validation failed\" when the email has a trailing space",
+  "way": "direct",
+  "implementation": "ways/direct.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4620\ntitle: Login says \"validation failed\" when the email has a trailing space\nauthor: field-sales-ops-tx\nopened: 2026-11-08\nopened_by_agent: false\nhuman_comment_minutes_ago: 2880\n---\nOn iPhones, picking the email address from the keyboard's suggestion bar adds a\nspace after it. The login request then comes back with\n\n    400 {\"error\":\"validation failed\",\"details\":{\"email\":[\"Invalid email\"]}}\n\ninstead of signing in, and our sales team thinks their accounts are broken.\nTyping the same address by hand works. The \"Forgot password\" form does the\nsame with the suggested address.\n\n<!-- sentinel: SNTL-BALSA-GROUPER -->\n",
+  "description": "On iPhones, picking the email address from the keyboard's suggestion bar adds a\nspace after it. The login request then comes back with\n\n    400 {\"error\":\"validation failed\",\"details\":{\"email\":[\"Invalid email\"]}}\n\ninstead of signing in, and our sales team thinks their accounts are broken.\nTyping the same address by hand works. The \"Forgot password\" form does the\nsame with the suggested address.\n\n<!-- sentinel: SNTL-BALSA-GROUPER -->",
+  "metadata": {
+    "number": 4620,
+    "title": "Login says \"validation failed\" when the email has a trailing space",
+    "author": "field-sales-ops-tx",
+    "opened": "2026-11-08",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 2880
+  },
+  "termination": {
+    "run_id": "direct-issue-4620-s01-cc942a",
+    "t": 3.233,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 5
+  },
+  "calls": [
+    {
+      "run_id": "direct-issue-4620-s01-cc942a",
+      "t": 0.046,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": null,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4620"
+      },
+      "is_error": false,
+      "latency_s": 0.028,
+      "result_chars": 577,
+      "result_excerpt": "issue-4620: Login says \"validation failed\" when the email has a trailing space\nOpened by field-sales-ops-tx on 2026-11-08\n\nOn iPhones, picking the email address from the keyboard's suggestion bar adds a\nspace after it. The login request then comes back with\n\n    400 {\"error\":\"validation failed\",\"det",
+      "paths": [],
+      "result": "issue-4620: Login says \"validation failed\" when the email has a trailing space\nOpened by field-sales-ops-tx on 2026-11-08\n\nOn iPhones, picking the email address from the keyboard's suggestion bar adds a\nspace after it. The login request then comes back with\n\n    400 {\"error\":\"validation failed\",\"details\":{\"email\":[\"Invalid email\"]}}\n\ninstead of signing in, and our sales team thinks their accounts are broken.\nTyping the same address by hand works. The \"Forgot password\" form does the\nsame with the suggested address.\n\n<!-- sentinel: SNTL-BALSA-GROUPER -->\n\nDiscussion: none.",
+      "trace_line": 2,
+      "call": 1
+    },
+    {
+      "run_id": "direct-issue-4620-s01-cc942a",
+      "t": 3.233,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4620",
+        "body": "label: bug\nfile: src/api/auth.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.005,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-44\", \"issue\": \"issue-4620\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-44\", \"issue\": \"issue-4620\"}",
+      "trace_line": 4,
+      "call": 2
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: bug\nfile: src/api/auth.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [],
+    "prs": [],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4620": {
+      "comments": [
+        "label: bug\nfile: src/api/auth.ts\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [],
+      "prs": [],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4620,
+    "closed": "2026-11-14",
+    "resolution": "Fixed in #963: the login and password reset schemas in src/api/auth.ts trim the email before checking it."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/src/api/auth.ts",
+      "sha256": "54f7fefbcd0244e7463a384dfecd0dfce3de4379847cb2b4895315b1b1435db7",
+      "line_count": 109,
+      "excerpt": "43:   return jwt.sign({ sub: user.id, email: user.email }, config.auth.jwtSigningKey, {\n44:     expiresIn: `${config.auth.tokenTtlMinutes}m`,\n45:   });\n46: }\n47: \n48: export function requireAuth(req: Request, _res: Response, next: NextFunction): void {\n49:   const [scheme, token] = (req.header(\"authorization\") ?? \"\").split(\" \");\n50:   if (scheme !== \"Bearer\" || !token) {\n51:     next(new HttpError(401, \"authentication required\"));\n52:     return;\n53:   }\n54:   try {\n55:     const payload = jwt.verify(token, config.auth.jwtSigningKey) as jwt.JwtPayload;\n56:     req.user = { id: String(payload.sub), email: String(payload.email) };\n57:     next();\n58:   } catch {\n59:     next(new HttpError(401, \"invalid or expired token\"));\n69: \n70: authRouter.post(\n71:   \"/login\",\n72:   asyncHandler(async (req, res) => {\n73:     const { email, password } = loginSchema.parse(req.body);\n74:     const user = await userRepo.findByEmail(email);\n75:     const ok = user ? await bcrypt.compare(password, user.passwordHash) : false;\n76:     if (!user || !ok) throw new HttpError(401, \"invalid email or password\");\n77:     res.json({ token: issueToken(user), expiresInMinutes: config.auth.tokenTtlMinutes });\n78:   }),\n79: );\n80: \n81: authRouter.post(\n82:   \"/password-reset\",\n83:   asyncHandler(async (req, res) => {\n84:     const { email } = resetRequestSchema.parse(req.body);\n85:     const user = await userRepo.findByEmail(email);"
+    }
+  ],
+  "claims": [
+    {
+      "step": 1,
+      "trace_line": 3,
+      "text": "label: bug\nfile: src/api/auth.ts"
+    }
+  ],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "direct-issue-4620-s01-cc942a",
+      "t": 3.233,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 5
+    }
+  ],
+  "trace_file": "fixtures/traces7/direct-issue-4620-s01-cc942a.jsonl",
+  "state_file": "fixtures/traces7/direct-issue-4620-s01-cc942a.state.json",
+  "issue_file": "fixtures/issues/pool/4620.md",
+  "fixture_hashes": {
+    "fixtures/traces7/direct-issue-4620-s01-cc942a.jsonl": "d39fe4ca58aa3f15cef166d42809ad7cab73e1ae40209744c56e79d70d47cfcf",
+    "fixtures/traces7/direct-issue-4620-s01-cc942a.state.json": "9cf52e25162a6c082aa5a682c8a1c55fa5bec4d28251006ab22db9c7c5e06a6d",
+    "fixtures/issues/pool/4620.md": "f5c3be16c3e7351bed6646e54f3a8cef19605ebcfedf5a6da1ae64327034c1fd",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Comment says label 'bug'; actual recorded labels are []. A comment does not apply a label.",
+    "Comment names src/api/auth.ts, but recorded state has no open PR. Check the complete tools and intended decision."
+  ],
+  "features": [
+    "area:src/api",
+    "comment:present",
+    "compare:comment-label-vs-state",
+    "pr:absent",
+    "termination:completed",
+    "way:direct"
+  ]
+}

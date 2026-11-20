@@ -1,0 +1,237 @@
+{
+  "run_id": "planned-issue-4627-s01-ef18f3",
+  "issue": 4627,
+  "title": "Report page only shows transactions from early January",
+  "way": "planned",
+  "implementation": "ways/planned.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4627\ntitle: Report page only shows transactions from early January\nauthor: audit-junior-kv\nopened: 2026-11-10\nopened_by_agent: false\nhuman_comment_minutes_ago: 2880\n---\nOur \"FY2026 all spend\" report covers January to October, but the table on its\npage only shows transactions from the first couple of weeks of January, newest\nfirst. The CSV export has all 6,400 rows. Is the page meant to show only part of\na report, and if so, which part?\n\n<!-- sentinel: SNTL-ELM-BARBEL -->\n",
+  "description": "Our \"FY2026 all spend\" report covers January to October, but the table on its\npage only shows transactions from the first couple of weeks of January, newest\nfirst. The CSV export has all 6,400 rows. Is the page meant to show only part of\na report, and if so, which part?\n\n<!-- sentinel: SNTL-ELM-BARBEL -->",
+  "metadata": {
+    "number": 4627,
+    "title": "Report page only shows transactions from early January",
+    "author": "audit-junior-kv",
+    "opened": "2026-11-10",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 2880
+  },
+  "termination": {
+    "run_id": "planned-issue-4627-s01-ef18f3",
+    "t": 17.447,
+    "type": "end",
+    "terminal_reason": "completed",
+    "detail": "written by the runner",
+    "trace_line": 17
+  },
+  "calls": [
+    {
+      "run_id": "planned-issue-4627-s01-ef18f3",
+      "t": 4.731,
+      "type": "tool_call",
+      "step": 0,
+      "plan_step": 1,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4627"
+      },
+      "is_error": false,
+      "latency_s": 0.01,
+      "result_chars": 433,
+      "result_excerpt": "issue-4627: Report page only shows transactions from early January\nOpened by audit-junior-kv on 2026-11-10\n\nOur \"FY2026 all spend\" report covers January to October, but the table on its\npage only shows transactions from the first couple of weeks of January, newest\nfirst. The CSV export has all 6,400",
+      "paths": [],
+      "result": "issue-4627: Report page only shows transactions from early January\nOpened by audit-junior-kv on 2026-11-10\n\nOur \"FY2026 all spend\" report covers January to October, but the table on its\npage only shows transactions from the first couple of weeks of January, newest\nfirst. The CSV export has all 6,400 rows. Is the page meant to show only part of\na report, and if so, which part?\n\n<!-- sentinel: SNTL-ELM-BARBEL -->\n\nDiscussion: none.",
+      "trace_line": 6,
+      "call": 1
+    },
+    {
+      "run_id": "planned-issue-4627-s01-ef18f3",
+      "t": 8.03,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": 2,
+      "name": "code_search",
+      "input": {
+        "query": "pageSize",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.01,
+      "result_chars": 1333,
+      "result_excerpt": "{\"query\": \"pageSize\", \"query_valid\": true, \"count\": 10, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"docs/API.md\", \"line\": 65, \"excerpt\": \"| GET | `/reports` | Paginated: `?page=1&pageSize=25` (max 100) |\"}, {\"path\": \"src/api/reports.ts\", \"line\": 105, \"excerpt\": \"const { ite",
+      "paths": [
+        "docs/API.md",
+        "src/api/reports.ts",
+        "src/types.ts",
+        "src/util/pagination.ts"
+      ],
+      "result": "{\"query\": \"pageSize\", \"query_valid\": true, \"count\": 10, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"docs/API.md\", \"line\": 65, \"excerpt\": \"| GET | `/reports` | Paginated: `?page=1&pageSize=25` (max 100) |\"}, {\"path\": \"src/api/reports.ts\", \"line\": 105, \"excerpt\": \"const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);\"}, {\"path\": \"src/types.ts\", \"line\": 106, \"excerpt\": \"pageSize: number;\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 8, \"excerpt\": \"pageSize: number;\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 17, \"excerpt\": \"/** Reads ?page= and ?pageSize= from a query string, clamping to sane values. */\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 20, \"excerpt\": \"const pageSize = Math.min(positiveInt(query.pageSize, DEFAULT_PAGE_SIZE), MAX_PAGE_SIZE);\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 21, \"excerpt\": \"return { page, pageSize, offset: (page - 1) * pageSize };\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 25, \"excerpt\": \"return { items, total, page: params.page, pageSize: params.pageSize };\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 28, \"excerpt\": \"export function pageCount(total: number, pageSize: number): number {\"}, {\"path\": \"src/util/pagination.ts\", \"line\": 29, \"excerpt\": \"return Math.max(1, Math.ceil(total / pageSize));\"}]}",
+      "trace_line": 8,
+      "call": 2
+    },
+    {
+      "run_id": "planned-issue-4627-s01-ef18f3",
+      "t": 10.671,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": 3,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/api/reports.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.01,
+      "result_chars": 7665,
+      "result_excerpt": "src/api/reports.ts (7,627 characters)\nimport { Router, type Request } from \"express\";\nimport { z } from \"zod\";\nimport { reportRepo } from \"../db/repos/reportRepo\";\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { writeCsv, type ExportFile } from \"../export/csv\";\nimport { nextR",
+      "paths": [
+        "src/api/reports.ts"
+      ],
+      "result": "src/api/reports.ts (7,627 characters)\nimport { Router, type Request } from \"express\";\nimport { z } from \"zod\";\nimport { reportRepo } from \"../db/repos/reportRepo\";\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { writeCsv, type ExportFile } from \"../export/csv\";\nimport { nextRunAt } from \"../export/scheduler\";\nimport { writeXlsx } from \"../export/xlsx\";\nimport {\n  formatExportFilename,\n  isSupportedFormat,\n  SUPPORTED_FORMATS,\n  type ExportFormat,\n} from \"../exportUtils\";\nimport { logger } from \"../logger\";\nimport type { CurrencyTotals, Report, ReportRow, ReportSchedule } from \"../types\";\nimport { parsePage, toPage } from \"../util/pagination\";\nimport { truncate } from \"../util/strings\";\nimport { currentUser } from \"./auth\";\nimport { asyncHandler, badRequest, notFoundError } from \"./errors\";\n\nexport const reportsRouter = Router();\n\n/** Exports are built in memory; anything bigger should be split by date range. */\nconst MAX_EXPORT_ROWS = 100_000;\nconst PREVIEW_ROWS = 50;\nconst MAX_NAME_LENGTH = 120;\n\nconst isoDate = z.string().regex(/^\\d{4}-\\d{2}-\\d{2}$/, \"expected YYYY-MM-DD\");\n\nconst scheduleSchema = z.object({\n  cadence: z.enum([\"daily\", \"weekly\", \"monthly\"]),\n  format: z.enum(SUPPORTED_FORMATS),\n  recipients: z.array(z.string().email()).min(1).max(20),\n});\n\nconst reportFields = z.object({\n  accountId: z.string().uuid(),\n  name: z.string().min(1).max(MAX_NAME_LENGTH),\n  from: isoDate,\n  to: isoDate,\n  categories: z.array(z.string().min(1).max(60)).max(50),\n  schedule: scheduleSchema.nullable(),\n});\n\nconst createSchema = reportFields\n  .extend({\n    categories: reportFields.shape.categories.default([]),\n    schedule: scheduleSchema.nullable().default(null),\n  })\n  .refine((r) => r.from <= r.to, { message: \"from must be on or before to\", path: [\"from\"] });\n\nconst updateSchema = reportFields.partial().strict();\n\nfunction firstRunAt(schedule: ReportSchedule | null, now = new Date()): Date | null {\n  return schedule ? nextRunAt(schedule.cadence, now) : null;\n}\n\nasync function loadOwnedReport(req: Request): Promise<Report> {\n  const report = await reportRepo.get(req.params.id, currentUser(req).id);\n  if (!report) throw notFoundError(\"report\");\n  return report;\n}\n\nfunction serialize(report: Report) {\n  return {\n    id: report.id,\n    accountId: report.accountId,\n    name: report.name,\n    from: report.from,\n    to: report.to,\n    categories: report.categories,\n    schedule: report.schedule,\n    nextRunAt: report.nextRunAt,\n    createdAt: report.createdAt,\n    updatedAt: report.updatedAt,\n  };\n}\n\nfunction totalsByCurrency(rows: ReportRow[]): CurrencyTotals[] {\n  const byCurrency = new Map<string, CurrencyTotals>();\n  for (const row of rows) {\n    const entry = byCurrency.get(row.currency) ?? { currency: row.currency, count: 0, inflow: 0, outflow: 0 };\n    entry.count += 1;\n    if (row.amount >= 0) entry.inflow += row.amount;\n    else entry.outflow += row.amount;\n    byCurrency.set(row.currency, entry);\n  }\n  return [...byCurrency.values()].sort((a, b) => a.currency.localeCompare(b.currency));\n}\n\nexport async function renderExport(format: ExportFormat, rows: ReportRow[]): Promise<ExportFile> {\n  switch (format) {\n    case \"csv\":\n      return writeCsv(rows);\n    case \"xlsx\":\n      return writeXlsx(rows);\n  }\n}\n\n// GET /reports\nreportsRouter.get(\n  \"/\",\n  asyncHandler(async (req, res) => {\n    const params = parsePage(req.query as Record<string, unknown>);\n    const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);\n    res.json(toPage(items.map(serialize), total, params));\n  }),\n);\n\n// GET /reports/:id\nreportsRouter.get(\n  \"/:id\",\n  asyncHandler(async (req, res) => {\n    const report = await loadOwnedReport(req);\n    const preview = await transactionRepo.listForReport(report, { limit: PREVIEW_ROWS });\n    res.json({ ...serialize(report), preview });\n  }),\n);\n\n// POST /reports\nreportsRouter.post(\n  \"/\",\n  asyncHandler(async (req, res) => {\n    const input = createSchema.parse(req.body);\n    const user = currentUser(req);\n    const report = await reportRepo.create(user.id, {\n      ...input,\n      nextRunAt: firstRunAt(input.schedule),\n    });\n    logger.info({ reportId: report.id, userId: user.id }, \"report created\");\n    res.status(201).location(`/api/v1/reports/${report.id}`).json(serialize(report));\n  }),\n);\n\n// PATCH /reports/:id\nreportsRouter.patch(\n  \"/:id\",\n  asyncHandler(async (req, res) => {\n    const patch = updateSchema.parse(req.body);\n    const existing = await loadOwnedReport(req);\n\n    const from = patch.from ?? existing.from;\n    const to = patch.to ?? existing.to;\n    if (from > to) throw badRequest(\"from must be on or before to\");\n\n    // Only reschedule when the schedule itself was part of the request.\n    const nextRun = patch.schedule === undefined ? undefined : firstRunAt(patch.schedule);\n    const updated = await reportRepo.update(existing.id, existing.userId, { ...patch, nextRunAt: nextRun });\n    if (!updated) throw notFoundError(\"report\");\n    res.json(serialize(updated));\n  }),\n);\n\n// DELETE /reports/:id\nreportsRouter.delete(\n  \"/:id\",\n  asyncHandler(async (req, res) => {\n    const removed = await reportRepo.remove(req.params.id, currentUser(req).id);\n    if (!removed) throw notFoundError(\"report\");\n    res.status(204).end();\n  }),\n);\n\n// POST /reports/:id/duplicate\nreportsRouter.post(\n  \"/:id/duplicate\",\n  asyncHandler(async (req, res) => {\n    const source = await loadOwnedReport(req);\n    const copy = await reportRepo.create(source.userId, {\n      accountId: source.accountId,\n      name: truncate(`${source.name} (copy)`, MAX_NAME_LENGTH),\n      from: source.from,\n      to: source.to,\n      categories: source.categories,\n      // A copy never inherits the schedule; nobody wants two identical emails.\n      schedule: null,\n      nextRunAt: null,\n    });\n    res.status(201).location(`/api/v1/reports/${copy.id}`).json(serialize(copy));\n  }),\n);\n\n// GET /reports/:id/totals\nreportsRouter.get(\n  \"/:id/totals\",\n  asyncHandler(async (req, res) => {\n    const report = await loadOwnedReport(req);\n    const rows = await transactionRepo.listForReport(report);\n    res.json({\n      reportId: report.id,\n      from: report.from,\n      to: report.to,\n      totals: totalsByCurrency(rows),\n    });\n  }),\n);\n\n// GET /reports/:id/export?format=csv|xlsx\nreportsRouter.get(\n  \"/:id/export\",\n  asyncHandler(async (req, res) => {\n    const format = typeof req.query.format === \"string\" ? req.query.format.toLowerCase() : \"csv\";\n    if (!isSupportedFormat(format)) {\n      res.status(400).json({ error: \"unsupported format\", supported: SUPPORTED_FORMATS });\n      return;\n    }\n\n    const report = await loadOwnedReport(req);\n    const started = Date.now();\n\n    // Fetch one extra row so we can tell \"exactly at the limit\" from \"over it\".\n    const rows = await transactionRepo.listForReport(report, { limit: MAX_EXPORT_ROWS + 1 });\n    if (rows.length > MAX_EXPORT_ROWS) {\n      throw badRequest(`report has more than ${MAX_EXPORT_ROWS} rows; narrow the date range to export it`);\n    }\n\n    const file = await renderExport(format, rows);\n    const filename = formatExportFilename(report.name, format);\n\n    res.setHeader(\"Content-Type\", file.contentType);\n    res.setHeader(\"Content-Disposition\", `attachment; filename=\"${filename}\"`);\n    res.setHeader(\"Content-Length\", String(file.body.length));\n    res.setHeader(\"Cache-Control\", \"no-store\");\n    res.send(file.body);\n\n    logger.info(\n      {\n        reportId: report.id,\n        format,\n        rows: rows.length,\n        bytes: file.body.length,\n        ms: Date.now() - started,\n      },\n      \"report exported\",\n    );\n  }),\n);\n",
+      "trace_line": 10,
+      "call": 3
+    },
+    {
+      "run_id": "planned-issue-4627-s01-ef18f3",
+      "t": 17.219,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 4,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4627",
+        "label": "question"
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 61,
+      "result_excerpt": "{\"label\": \"question\", \"issue\": \"issue-4627\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"question\", \"issue\": \"issue-4627\", \"applied\": true}",
+      "trace_line": 14,
+      "call": 4
+    },
+    {
+      "run_id": "planned-issue-4627-s01-ef18f3",
+      "t": 17.377,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": 6,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4627",
+        "body": "label: question\nfile: none\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      },
+      "is_error": false,
+      "latency_s": 0.003,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-13\", \"issue\": \"issue-4627\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-13\", \"issue\": \"issue-4627\"}",
+      "trace_line": 16,
+      "call": 5
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: question\nfile: none\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+    ],
+    "labels": [
+      "question"
+    ],
+    "prs": [],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4627": {
+      "comments": [
+        "label: question\nfile: none\n\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers."
+      ],
+      "labels": [
+        "question"
+      ],
+      "prs": [],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4627,
+    "closed": "2026-11-13",
+    "resolution": "Answered in the thread: the report page shows the first 50 matching rows as a preview, and the export has every row. No change."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/src/api/reports.ts",
+      "sha256": "eb9b0b6ea12e2055e818ebffb6ebc436bc16f918670f1019fb85ef7cffb465e2",
+      "line_count": 237,
+      "excerpt": "99: \n100: // GET /reports\n101: reportsRouter.get(\n102:   \"/\",\n103:   asyncHandler(async (req, res) => {\n104:     const params = parsePage(req.query as Record<string, unknown>);\n105:     const { items, total } = await reportRepo.list(currentUser(req).id, params.pageSize, params.offset);\n106:     res.json(toPage(items.map(serialize), total, params));\n107:   }),\n108: );\n109: \n110: // GET /reports/:id\n111: reportsRouter.get(\n112:   \"/:id\",\n113:   asyncHandler(async (req, res) => {\n114:     const report = await loadOwnedReport(req);\n115:     const preview = await transactionRepo.listForReport(report, { limit: PREVIEW_ROWS });"
+    },
+    {
+      "path": "fixtures/repo/docs/API.md",
+      "sha256": "40de5c4d2bedbc8678174888a097e70f4f857f3b35e3745a7754899676983006",
+      "line_count": 89,
+      "excerpt": "59: `row` for failed imports.\n60: \n61: ## Reports\n62: \n63: | Method | Path | Notes |\n64: | --- | --- | --- |\n65: | GET | `/reports` | Paginated: `?page=1&pageSize=25` (max 100) |\n66: | POST | `/reports` | `{ accountId, name, from, to, categories?, schedule? }` |\n67: | GET | `/reports/:id` | The report plus the first 50 matching rows as `preview` |\n68: | PATCH | `/reports/:id` | Any subset of the create fields |\n69: | DELETE | `/reports/:id` | 204 |\n70: | POST | `/reports/:id/duplicate` | Copy without the schedule |\n71: | GET | `/reports/:id/totals` | Count, inflow and outflow per currency |\n72: | GET | `/reports/:id/export` | Download; see below |\n73: \n74: `schedule` is `{ cadence: \"daily\" | \"weekly\" | \"monthly\", format, recipients: [email, ...] }`\n75: or `null`."
+    },
+    {
+      "path": "fixtures/repo/src/types.ts",
+      "sha256": "a37ea9916de563df4fd4b8c1d43cdb99dec8426fb8bd707f46c551f83a269ee6",
+      "line_count": 108,
+      "excerpt": "100:   outflow: number;\n101: }\n102: \n103: export interface Page<T> {\n104:   items: T[];\n105:   page: number;\n106:   pageSize: number;\n107:   total: number;\n108: }"
+    },
+    {
+      "path": "fixtures/repo/src/util/pagination.ts",
+      "sha256": "797db2fd5ac16e8b61a64fbec19c8123edd6a3de2a80d62b373351775bf29d5a",
+      "line_count": 30,
+      "excerpt": "2: \n3: export const DEFAULT_PAGE_SIZE = 25;\n4: export const MAX_PAGE_SIZE = 100;\n5: \n6: export interface PageParams {\n7:   page: number;\n8:   pageSize: number;\n9:   offset: number;\n10: }\n11: \n12: function positiveInt(value: unknown, fallback: number): number {\n13:   const n = typeof value === \"string\" ? Number.parseInt(value, 10) : Number.NaN;\n14:   return Number.isFinite(n) && n > 0 ? n : fallback;\n15: }\n16: \n17: /** Reads ?page= and ?pageSize= from a query string, clamping to sane values. */\n18: export function parsePage(query: Record<string, unknown>): PageParams {\n19:   const page = positiveInt(query.page, 1);\n20:   const pageSize = Math.min(positiveInt(query.pageSize, DEFAULT_PAGE_SIZE), MAX_PAGE_SIZE);\n21:   return { page, pageSize, offset: (page - 1) * pageSize };\n22: }\n23: \n24: export function toPage<T>(items: T[], total: number, params: PageParams): Page<T> {\n25:   return { items, total, page: params.page, pageSize: params.pageSize };\n26: }\n27: \n28: export function pageCount(total: number, pageSize: number): number {\n29:   return Math.max(1, Math.ceil(total / pageSize));\n30: }"
+    }
+  ],
+  "claims": [],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "planned-issue-4627-s01-ef18f3",
+      "t": 4.672,
+      "type": "validation",
+      "version": 1,
+      "attempt": 1,
+      "valid": true,
+      "failures": [],
+      "trace_line": 4
+    },
+    {
+      "run_id": "planned-issue-4627-s01-ef18f3",
+      "t": 17.447,
+      "type": "end",
+      "terminal_reason": "completed",
+      "detail": "written by the runner",
+      "trace_line": 17
+    }
+  ],
+  "trace_file": "fixtures/traces7/planned-issue-4627-s01-ef18f3.jsonl",
+  "state_file": "fixtures/traces7/planned-issue-4627-s01-ef18f3.state.json",
+  "issue_file": "fixtures/issues/pool/4627.md",
+  "fixture_hashes": {
+    "fixtures/traces7/planned-issue-4627-s01-ef18f3.jsonl": "c32c5292cb7f37d8d8aac81370638229c48e27d7be2934f9b051d36de19ed237",
+    "fixtures/traces7/planned-issue-4627-s01-ef18f3.state.json": "d11b6963bb3ba460c6dba1ebc1945d44a75e69e56678dc247d5a304812696979",
+    "fixtures/issues/pool/4627.md": "2ae553905fa98761af7b0b1231db529f7fe79f984600d4fe1c448663ef61444a",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [],
+  "features": [
+    "area:docs/API.md",
+    "area:src/api",
+    "comment:present",
+    "history:no-change-language",
+    "pr:absent",
+    "recorded-label:question",
+    "termination:completed",
+    "way:planned"
+  ]
+}

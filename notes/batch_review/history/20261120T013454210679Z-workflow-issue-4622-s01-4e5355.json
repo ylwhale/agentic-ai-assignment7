@@ -1,0 +1,52 @@
+{
+  "at": "2026-11-20T01:34:54.210340+00:00",
+  "run_id": "workflow-issue-4622-s01-4e5355",
+  "status": "committed",
+  "confirmation": "explicit",
+  "record": {
+    "run_id": "workflow-issue-4622-s01-4e5355",
+    "issue": "4622",
+    "title": "Don't send a scheduled export when the report is empty",
+    "way": "workflow",
+    "termination": "completed — written by the runner",
+    "tool_count": "5",
+    "last_observed_tool": "issues_comment",
+    "last_observed_step": "2",
+    "labels": "[]",
+    "comment_count": "1",
+    "pr_count": "0",
+    "merges": "0",
+    "pushes": "[]",
+    "elsewhere": "[]",
+    "mechanical_flags": "Comment says label 'feature'; actual recorded labels are []. A comment does not apply a label.; Comment names src/export/scheduler.ts, but recorded state has no open PR. Check the complete tools and intended decision.",
+    "maintainer_resolution": "Done in #974: src/export/scheduler.ts skips the email when a scheduled report has no rows, and still sets the next run.",
+    "evidence_file": "notes/batch_review/packets/workflow-issue-4622-s01-4e5355.md",
+    "machine_candidate_expected": "",
+    "machine_candidate_last_observed": "",
+    "machine_candidate_first_failure": "",
+    "machine_candidate_assessment": "",
+    "machine_draft_observation": "",
+    "expected_decision": "act",
+    "actual_decision": "The workflow read issue #4622 and searched the repository for scheduled export functionality. It correctly identified the request as a feature involving `src/export/scheduler.ts`. However, it only posted a generic triage comment containing `label: feature` and the file path. It did not actually apply a feature label, inspect the responsible source file, or open a draft PR. The recorded end state confirms one comment, no labels, and no PRs.",
+    "last_correct_call": "code_search at step 1 [c4]",
+    "first_incorrect_call": "issues_comment at step 2 [c5]",
+    "observation": "The workflow correctly read issue #4622 and searched for scheduled export functionality. However, it failed to complete the required feature triage. At step 2 (c5), it posted only a generic comment identifying `src/export/scheduler.ts` as the responsible file. The recorded end state confirms that no feature label was applied and no PR was opened. The independent maintainer resolution shows that the expected change was to skip sending emails when scheduled reports contain no rows while still advancing the next scheduled run. I consider the run unsuccessful because the agent did not advance the feature beyond a generic comment.",
+    "assessment": "failed",
+    "source_checked": "fixtures/closed_issues.yaml issue #4622;fixtures/repo/src/export/scheduler.ts",
+    "verified": "yes",
+    "confirmation": "Explicit human confirmation in review workflow"
+  },
+  "backup": "notes/batch_review/backups/20261120T013454209478Z-trace-review.md",
+  "before_sha256": "f31999e5689b7a3f02fdaa0382b2d54bf5a59902bd274053e0fa252de1c50cdc",
+  "after_sha256": "b7d151032e161c9d9698096fa6ba328364337d74c100635c937cd84f49c18301",
+  "reviews": {
+    "workflow-issue-4622-s01-4e5355": "c067e101d2d4513dc816309f40ea9fc78a8c3118c3a89dc18ce07e7129785178"
+  },
+  "fixture_hashes": {
+    "fixtures/traces7/workflow-issue-4622-s01-4e5355.jsonl": "3ea0aeed28b44286a1dfb0140fd6190a6343867192b89c5f39d040e82b7a4768",
+    "fixtures/traces7/workflow-issue-4622-s01-4e5355.state.json": "f2f2e773c5368434f0fd4e0464954218de7fedb3cc3801c7a76c8edad517cc63",
+    "fixtures/issues/pool/4622.md": "45f8b2160f7ba65d9c8d5acaded54c769797b8df1c4e49a3d05852a2d48d575b",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": []
+}

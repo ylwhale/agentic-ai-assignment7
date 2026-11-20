@@ -32,3 +32,9 @@ Removals are logged like additions.
 - **Added:** nothing
 - **Removed:** nothing
 - **Constrained:** multi-agent decomposition, measured against one agent at the same budget and not merged; RepoMind stays one agent
+
+## Assignment 7 — evaluation and reproducible experiment workflow
+
+- **Added:** 30 independently sourced golden tasks, exact reliability/spread/interval calculations, trace/tracker result export, a stage-gated two-arm plan experiment, and a frozen, metered, resumable judge. Completed Part A report from the student's 40 unchanged reviews and nine human categories. Added synthetic tests for experiment matrices, human-label boundaries, prompt isolation and resume provenance.
+- **Removed:** test dependence on the student's live review document; review tests now create their own temporary synthetic ledger. Removed the incorrect 1.0 zero-variance sweep fallback in favor of the actual 1/N sweep-mean step.
+- **Constrained:** no pilot advantage inspection before threshold commitment; no fourth sweep before threshold push; no held-out labels in prompt development; explicit human criterion/label confirmation; no overwrite of human records or expensive verdicts; no fabricated results or budget overrides. Required subset/split commit `a96a722` was pushed first. Actual experiments, human Part D inputs, judge validation and final tag remain explicit dependencies until their evidence exists.

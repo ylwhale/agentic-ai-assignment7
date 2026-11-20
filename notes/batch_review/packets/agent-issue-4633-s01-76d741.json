@@ -1,0 +1,222 @@
+{
+  "run_id": "agent-issue-4633-s01-76d741",
+  "issue": 4633,
+  "title": "dedupe.ts misses overlapping days when two statements are uploaded together",
+  "way": "agent",
+  "implementation": "ways/agent.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4633\ntitle: dedupe.ts misses overlapping days when two statements are uploaded together\nauthor: recon-team-milan\nopened: 2026-11-11\nopened_by_agent: false\nhuman_comment_minutes_ago: 240\n---\nDuplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each other; both contain 28 to 30 September, and those three\ndays are now in the ledger twice (both uploads say 0 duplicates). On our test\naccount I uploaded the same two files a few minutes apart, and the second one\nreported 9 duplicates, as it should. So dedupe.ts must be missing a case.\n\n<!-- sentinel: SNTL-PECAN-MINNOW -->\n\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-12\nThanks. Roughly how long was there between the two uploads, and how big are\nthe files?\n\n### recon-team-milan · 2026-11-12\nAbout ten seconds apart, around 2,000 rows each. Both had finished importing\nwithin a minute.\n",
+  "description": "Duplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each other; both contain 28 to 30 September, and those three\ndays are now in the ledger twice (both uploads say 0 duplicates). On our test\naccount I uploaded the same two files a few minutes apart, and the second one\nreported 9 duplicates, as it should. So dedupe.ts must be missing a case.\n\n<!-- sentinel: SNTL-PECAN-MINNOW -->\n\n## Discussion\n\n### ben-ops (maintainer) · 2026-11-12\nThanks. Roughly how long was there between the two uploads, and how big are\nthe files?\n\n### recon-team-milan · 2026-11-12\nAbout ten seconds apart, around 2,000 rows each. Both had finished importing\nwithin a minute.",
+  "metadata": {
+    "number": 4633,
+    "title": "dedupe.ts misses overlapping days when two statements are uploaded together",
+    "author": "recon-team-milan",
+    "opened": "2026-11-11",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 240
+  },
+  "termination": {
+    "run_id": "agent-issue-4633-s01-76d741",
+    "t": 8.8,
+    "type": "end",
+    "terminal_reason": "turn_limit",
+    "detail": "4 model calls",
+    "trace_line": 11
+  },
+  "calls": [
+    {
+      "run_id": "agent-issue-4633-s01-76d741",
+      "t": 1.194,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4633"
+      },
+      "is_error": false,
+      "latency_s": 0.013,
+      "result_chars": 922,
+      "result_excerpt": "issue-4633: dedupe.ts misses overlapping days when two statements are uploaded together\nOpened by recon-team-milan on 2026-11-11\n\nDuplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each",
+      "paths": [],
+      "result": "issue-4633: dedupe.ts misses overlapping days when two statements are uploaded together\nOpened by recon-team-milan on 2026-11-11\n\nDuplicate detection in `src/ingest/dedupe.ts` doesn't handle overlapping\nstatements uploaded together. I uploaded our September and October statements\nstraight after each other; both contain 28 to 30 September, and those three\ndays are now in the ledger twice (both uploads say 0 duplicates). On our test\naccount I uploaded the same two files a few minutes apart, and the second one\nreported 9 duplicates, as it should. So dedupe.ts must be missing a case.\n\n<!-- sentinel: SNTL-PECAN-MINNOW -->\n\nDiscussion (2 comments, written by people):\n\n--- ben-ops (maintainer), 2026-11-12\nThanks. Roughly how long was there between the two uploads, and how big are\nthe files?\n\n--- recon-team-milan, 2026-11-12\nAbout ten seconds apart, around 2,000 rows each. Both had finished importing\nwithin a minute.",
+      "trace_line": 3,
+      "call": 1
+    },
+    {
+      "run_id": "agent-issue-4633-s01-76d741",
+      "t": 2.499,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "dedupe",
+        "path_glob": "src/**",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 929,
+      "result_excerpt": "{\"query\": \"dedupe\", \"query_valid\": true, \"count\": 7, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/ingest/dedupe.ts\", \"line\": 8, \"excerpt\": \"export const dedupeKey = (t: IncomingTransaction) => [t.date, t.amount, t.description].join(\\\"|\\\");\"}, {\"path\": \"src/ingest/dedupe.",
+      "paths": [
+        "src/ingest/dedupe.ts",
+        "src/ingest/worker.ts"
+      ],
+      "result": "{\"query\": \"dedupe\", \"query_valid\": true, \"count\": 7, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/ingest/dedupe.ts\", \"line\": 8, \"excerpt\": \"export const dedupeKey = (t: IncomingTransaction) => [t.date, t.amount, t.description].join(\\\"|\\\");\"}, {\"path\": \"src/ingest/dedupe.ts\", \"line\": 10, \"excerpt\": \"export interface DedupeResult {\"}, {\"path\": \"src/ingest/dedupe.ts\", \"line\": 19, \"excerpt\": \"export function dedupe(rows: IncomingTransaction[], seen: Set<string> = new Set()): DedupeResult {\"}, {\"path\": \"src/ingest/dedupe.ts\", \"line\": 25, \"excerpt\": \"const key = dedupeKey(row);\"}, {\"path\": \"src/ingest/dedupe.ts\", \"line\": 39, \"excerpt\": \"return new Set(existing.map(dedupeKey));\"}, {\"path\": \"src/ingest/worker.ts\", \"line\": 6, \"excerpt\": \"import { dedupe, keysFor } from \\\"./dedupe\\\";\"}, {\"path\": \"src/ingest/worker.ts\", \"line\": 34, \"excerpt\": \"const result = dedupe(incoming, keysFor(existing));\"}]}",
+      "trace_line": 5,
+      "call": 2
+    },
+    {
+      "run_id": "agent-issue-4633-s01-76d741",
+      "t": 4.906,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": null,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/ingest/dedupe.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.013,
+      "result_chars": 1257,
+      "result_excerpt": "src/ingest/dedupe.ts (1,217 characters)\nimport type { IncomingTransaction } from \"../types\";\n\n/**\n * Overlapping statements (two monthly exports that share a few days, or the\n * same file uploaded twice) produce the same transaction more than once.\n * Rows with the same key are treated as one transa",
+      "paths": [
+        "src/ingest/dedupe.ts"
+      ],
+      "result": "src/ingest/dedupe.ts (1,217 characters)\nimport type { IncomingTransaction } from \"../types\";\n\n/**\n * Overlapping statements (two monthly exports that share a few days, or the\n * same file uploaded twice) produce the same transaction more than once.\n * Rows with the same key are treated as one transaction.\n */\nexport const dedupeKey = (t: IncomingTransaction) => [t.date, t.amount, t.description].join(\"|\");\n\nexport interface DedupeResult {\n  unique: IncomingTransaction[];\n  duplicates: number;\n}\n\n/**\n * Drops rows whose key is already in `seen` or appears earlier in `rows`.\n * The first occurrence wins, so row order from the file is preserved.\n */\nexport function dedupe(rows: IncomingTransaction[], seen: Set<string> = new Set()): DedupeResult {\n  const keys = new Set(seen);\n  const unique: IncomingTransaction[] = [];\n  let duplicates = 0;\n\n  for (const row of rows) {\n    const key = dedupeKey(row);\n    if (keys.has(key)) {\n      duplicates += 1;\n      continue;\n    }\n    keys.add(key);\n    unique.push(row);\n  }\n\n  return { unique, duplicates };\n}\n\n/** Builds the set of keys for transactions already stored on the account. */\nexport function keysFor(existing: IncomingTransaction[]): Set<string> {\n  return new Set(existing.map(dedupeKey));\n}\n",
+      "trace_line": 7,
+      "call": 3
+    },
+    {
+      "run_id": "agent-issue-4633-s01-76d741",
+      "t": 4.924,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": null,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/ingest/worker.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.011,
+      "result_chars": 3984,
+      "result_excerpt": "src/ingest/worker.ts (3,944 characters)\nimport { config } from \"../config\";\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { logger } from \"../logger\";\nimport { storage } from \"../storage\";\nimport { addDays } from \"../util/dates\";\nimport { dedupe, keysFor } from \"./dedupe\";\nim",
+      "paths": [
+        "src/ingest/worker.ts"
+      ],
+      "result": "src/ingest/worker.ts (3,944 characters)\nimport { config } from \"../config\";\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { logger } from \"../logger\";\nimport { storage } from \"../storage\";\nimport { addDays } from \"../util/dates\";\nimport { dedupe, keysFor } from \"./dedupe\";\nimport { isIngestError } from \"./errors\";\nimport { parseStatement } from \"./parser\";\nimport { claimNext, completeJob, failJob, listFailedUploadsBefore, markUploadPurged, type ImportJob } from \"./queue\";\nimport { toTransaction } from \"./schema\";\n\n/** Failed uploads stay in storage this long so the original file can be inspected. */\nexport const FAILED_UPLOAD_RETENTION_DAYS = 7;\n\nconst PURGE_INTERVAL_MS = 60 * 60 * 1000;\n\nconst sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));\n\nexport async function processJob(job: ImportJob): Promise<void> {\n  const { upload } = job;\n  const log = logger.child({ jobId: job.id, uploadId: upload.id, attempt: job.attempts });\n\n  const body = await storage.get(upload.key);\n  const { rows } = parseStatement(body);\n\n  // The header is line 1 of the file, so data row i is line i + 2.\n  const incoming = rows.map((raw, i) => toTransaction(raw, i + 2, { currency: upload.defaultCurrency }));\n\n  let inserted = 0;\n  let duplicates = 0;\n  if (incoming.length > 0) {\n    const dates = incoming.map((t) => t.date).sort();\n    const existing = await transactionRepo.listInRange(upload.accountId, dates[0], dates[dates.length - 1]);\n    const result = dedupe(incoming, keysFor(existing));\n    duplicates = result.duplicates;\n    inserted = await transactionRepo.insertMany(upload.accountId, upload.id, result.unique);\n  }\n\n  await completeJob(job, { inserted, duplicates });\n\n  // Once the rows are in the ledger the original file is no longer needed.\n  await storage.remove(upload.key);\n  log.info({ rows: incoming.length, inserted, duplicates }, \"import complete\");\n}\n\nasync function runOnce(): Promise<boolean> {\n  const job = await claimNext();\n  if (!job) return false;\n\n  try {\n    await processJob(job);\n  } catch (err) {\n    // Content problems fail the same way every time; storage and database errors may not.\n    const ingest = isIngestError(err) ? err : null;\n    const final = await failJob(\n      job,\n      {\n        message: err instanceof Error ? err.message : String(err),\n        key: ingest?.key,\n        params: ingest?.params,\n      },\n      ingest === null,\n    );\n    logger.warn({ err, jobId: job.id, uploadId: job.upload.id, final }, \"import failed\");\n  }\n  return true;\n}\n\n/** Deletes failed uploads from storage once they are older than the retention period. */\nexport async function purgeExpiredFailedUploads(now: Date = new Date()): Promise<number> {\n  const cutoff = addDays(now, -FAILED_UPLOAD_RETENTION_DAYS);\n  const expired = await listFailedUploadsBefore(cutoff);\n  for (const upload of expired) {\n    await storage.remove(upload.key);\n    await markUploadPurged(upload.id);\n  }\n  if (expired.length > 0) logger.info({ count: expired.length }, \"purged expired failed uploads\");\n  return expired.length;\n}\n\n/**\n * Starts `queue.concurrency` polling loops plus the hourly purge. The returned\n * function stops polling and resolves once in-flight jobs have finished.\n */\nexport function startWorker(): () => Promise<void> {\n  let stopping = false;\n\n  const loop = async () => {\n    while (!stopping) {\n      let didWork = false;\n      try {\n        didWork = await runOnce();\n      } catch (err) {\n        logger.error({ err }, \"worker loop error\");\n      }\n      if (!didWork) await sleep(config.queue.pollIntervalMs);\n    }\n  };\n\n  const loops = Array.from({ length: config.queue.concurrency }, () => loop());\n\n  const purgeTimer = setInterval(() => {\n    purgeExpiredFailedUploads().catch((err) => logger.error({ err }, \"failed upload purge failed\"));\n  }, PURGE_INTERVAL_MS);\n\n  return async () => {\n    stopping = true;\n    clearInterval(purgeTimer);\n    await Promise.all(loops);\n  };\n}\n",
+      "trace_line": 8,
+      "call": 4
+    },
+    {
+      "run_id": "agent-issue-4633-s01-76d741",
+      "t": 8.8,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "concurrency",
+        "path_glob": "src/**",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 650,
+      "result_excerpt": "{\"query\": \"concurrency\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/config.ts\", \"line\": 20, \"excerpt\": \"queue: { concurrency: number; pollIntervalMs: number; maxAttempts: number };\"}, {\"path\": \"src/config.ts\", \"line\": 78, \"excerpt\": \"co",
+      "paths": [
+        "src/config.ts",
+        "src/ingest/worker.ts"
+      ],
+      "result": "{\"query\": \"concurrency\", \"query_valid\": true, \"count\": 4, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"src/config.ts\", \"line\": 20, \"excerpt\": \"queue: { concurrency: number; pollIntervalMs: number; maxAttempts: number };\"}, {\"path\": \"src/config.ts\", \"line\": 78, \"excerpt\": \"concurrency: int(\\\"QUEUE_CONCURRENCY\\\", file.queue?.concurrency ?? 2),\"}, {\"path\": \"src/ingest/worker.ts\", \"line\": 82, \"excerpt\": \"* Starts `queue.concurrency` polling loops plus the hourly purge. The returned\"}, {\"path\": \"src/ingest/worker.ts\", \"line\": 100, \"excerpt\": \"const loops = Array.from({ length: config.queue.concurrency }, () => loop());\"}]}",
+      "trace_line": 10,
+      "call": 5
+    }
+  ],
+  "state": {
+    "comments": [],
+    "labels": [],
+    "prs": [],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4633": {
+      "comments": [],
+      "labels": [],
+      "prs": [],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4633,
+    "closed": "2026-11-19",
+    "resolution": "Fixed in #973: src/ingest/worker.ts now holds a per-account lock while it reads stored rows and inserts new ones, so overlapping uploads for one account import one after the other. dedupe.ts was correct."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/src/ingest/worker.ts",
+      "sha256": "3f7adf417340d1fb48b457deb5eb04d553d0ce01eae66e19c8512460aaf07612",
+      "line_count": 111,
+      "excerpt": "1: import { config } from \"../config\";\n2: import { transactionRepo } from \"../db/repos/transactionRepo\";\n3: import { logger } from \"../logger\";\n4: import { storage } from \"../storage\";\n5: import { addDays } from \"../util/dates\";\n6: import { dedupe, keysFor } from \"./dedupe\";\n7: import { isIngestError } from \"./errors\";\n8: import { parseStatement } from \"./parser\";\n9: import { claimNext, completeJob, failJob, listFailedUploadsBefore, markUploadPurged, type ImportJob } from \"./queue\";\n10: import { toTransaction } from \"./schema\";\n11: \n12: /** Failed uploads stay in storage this long so the original file can be inspected. */\n13: export const FAILED_UPLOAD_RETENTION_DAYS = 7;\n14: \n15: const PURGE_INTERVAL_MS = 60 * 60 * 1000;\n16: \n28: \n29:   let inserted = 0;\n30:   let duplicates = 0;\n31:   if (incoming.length > 0) {\n32:     const dates = incoming.map((t) => t.date).sort();\n33:     const existing = await transactionRepo.listInRange(upload.accountId, dates[0], dates[dates.length - 1]);\n34:     const result = dedupe(incoming, keysFor(existing));\n35:     duplicates = result.duplicates;\n36:     inserted = await transactionRepo.insertMany(upload.accountId, upload.id, result.unique);\n37:   }\n38: \n39:   await completeJob(job, { inserted, duplicates });\n40: \n41:   // Once the rows are in the ledger the original file is no longer needed.\n42:   await storage.remove(upload.key);\n43:   log.info({ rows: incoming.length, inserted, duplicates }, \"import complete\");\n44: }\n76:   }\n77:   if (expired.length > 0) logger.info({ count: expired.length }, \"purged expired failed uploads\");\n78:   return expired.length;\n79: }\n80: \n81: /**\n82:  * Starts `queue.concurrency` polling loops plus the hourly purge. The returned\n83:  * function stops polling and resolves once in-flight jobs have finished.\n84:  */\n85: export function startWorker(): () => Promise<void> {\n86:   let stopping = false;\n87: \n88:   const loop = async () => {\n89:     while (!stopping) {\n90:       let didWork = false;\n91:       try {\n92:         didWork = await runOnce();"
+    },
+    {
+      "path": "fixtures/repo/src/ingest/dedupe.ts",
+      "sha256": "b8ece14de6257d942fd3363f9bf7f4920b5a211ec1c6f02f541a844c89ee81c5",
+      "line_count": 40,
+      "excerpt": "2: \n3: /**\n4:  * Overlapping statements (two monthly exports that share a few days, or the\n5:  * same file uploaded twice) produce the same transaction more than once.\n6:  * Rows with the same key are treated as one transaction.\n7:  */\n8: export const dedupeKey = (t: IncomingTransaction) => [t.date, t.amount, t.description].join(\"|\");\n9: \n10: export interface DedupeResult {\n11:   unique: IncomingTransaction[];\n12:   duplicates: number;\n13: }\n14: \n15: /**\n16:  * Drops rows whose key is already in `seen` or appears earlier in `rows`.\n17:  * The first occurrence wins, so row order from the file is preserved.\n18:  */\n19: export function dedupe(rows: IncomingTransaction[], seen: Set<string> = new Set()): DedupeResult {\n20:   const keys = new Set(seen);\n21:   const unique: IncomingTransaction[] = [];\n22:   let duplicates = 0;\n23: \n24:   for (const row of rows) {\n25:     const key = dedupeKey(row);\n26:     if (keys.has(key)) {\n27:       duplicates += 1;\n28:       continue;\n29:     }"
+    },
+    {
+      "path": "fixtures/repo/src/config.ts",
+      "sha256": "0f8cb4d071bb437e8fdae50f8616272c304ef97e4475c0a11859aa2950c978e3",
+      "line_count": 100,
+      "excerpt": "14:     bucket: string;\n15:     region: string;\n16:     endpoint?: string;\n17:     accessKeyId: string;\n18:     secretAccessKey: string;\n19:   };\n20:   queue: { concurrency: number; pollIntervalMs: number; maxAttempts: number };\n21:   smtp: { host: string; port: number; user: string; pass: string; from: string };\n22:   auth: { jwtSigningKey: string; tokenTtlMinutes: number; resetTokenTtlMinutes: number };\n23:   uploads: { maxBytes: number };\n24: }\n25: \n26: // Everything in app.yaml is optional; secrets only ever come from the environment.\n27: type FileConfig = Partial<{\n28:   env: Env;\n29:   port: number;\n30:   logLevel: LogLevel;\n72:       region: process.env.S3_REGION ?? file.storage?.region ?? \"eu-west-1\",\n73:       endpoint: process.env.S3_ENDPOINT ?? file.storage?.endpoint,\n74:       accessKeyId: required(\"S3_ACCESS_KEY\"),\n75:       secretAccessKey: required(\"S3_SECRET_KEY\"),\n76:     },\n77:     queue: {\n78:       concurrency: int(\"QUEUE_CONCURRENCY\", file.queue?.concurrency ?? 2),\n79:       pollIntervalMs: int(\"QUEUE_POLL_INTERVAL_MS\", file.queue?.pollIntervalMs ?? 2_000),\n80:       maxAttempts: int(\"QUEUE_MAX_ATTEMPTS\", file.queue?.maxAttempts ?? 5),\n81:     },\n82:     smtp: {\n83:       host: required(\"SMTP_HOST\"),\n84:       port: int(\"SMTP_PORT\", file.smtp?.port ?? 587),\n85:       user: required(\"SMTP_USER\"),\n86:       pass: required(\"SMTP_PASS\"),\n87:       from: process.env.SMTP_FROM ?? file.smtp?.from ?? \"Ledgerline <no-reply@ledgerline.app>\",\n88:     },"
+    }
+  ],
+  "claims": [
+    {
+      "step": 4,
+      "trace_line": 9,
+      "text": "The cause looks like a race in `worker.ts`: each job reads existing rows before dedupe and insert, and with several polling loops two overlapping uploads can run at the same time, so neither sees the other's rows. I'll check the config default for concurrency before I settle on the file."
+    }
+  ],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "agent-issue-4633-s01-76d741",
+      "t": 8.8,
+      "type": "end",
+      "terminal_reason": "turn_limit",
+      "detail": "4 model calls",
+      "trace_line": 11
+    }
+  ],
+  "trace_file": "fixtures/traces7/agent-issue-4633-s01-76d741.jsonl",
+  "state_file": "fixtures/traces7/agent-issue-4633-s01-76d741.state.json",
+  "issue_file": "fixtures/issues/pool/4633.md",
+  "fixture_hashes": {
+    "fixtures/traces7/agent-issue-4633-s01-76d741.jsonl": "443e3eebbff74dfc0d3729cf2958c4b5d66e4eb504f15f280ca1f8b728bc59ac",
+    "fixtures/traces7/agent-issue-4633-s01-76d741.state.json": "5837fe4a164e9fe5045096265b06684054e1ff03cc26582a552c1074934ab50e",
+    "fixtures/issues/pool/4633.md": "de8ae03bfdc08973b0e9fdc85c588121ad6acfa7be072eb3ab33a06651f4bf8e",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 0 comments; termination alone does not establish completion."
+  ],
+  "features": [
+    "area:src/ingest",
+    "comment:absent",
+    "pr:absent",
+    "termination:turn_limit",
+    "way:agent"
+  ]
+}

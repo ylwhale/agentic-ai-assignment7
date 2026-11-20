@@ -1,0 +1,27 @@
+id: g19
+kind: single
+issues:
+- 4638
+stratum: unusual
+decision: act
+expect:
+  comment:
+    label: bug
+    file: src/util/strings.ts
+  labels:
+  - bug
+  pr: draft
+source: 'Maintainer history for #4638: Fixed in #976: normalizeDescription in src/util/strings.ts
+  applies NFC normalization, so a description written with combined or separate accents
+  gives one dedupe key.'
+runs:
+- agent-issue-4638-s01-8e2fca
+reference:
+  calls: 6
+  tools:
+  - issues_read
+  - code_search
+  - code_read_file
+  - issues_label
+  - pulls_open
+  - issues_comment

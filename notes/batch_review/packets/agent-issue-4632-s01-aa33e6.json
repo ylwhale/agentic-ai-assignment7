@@ -1,0 +1,337 @@
+{
+  "run_id": "agent-issue-4632-s01-aa33e6",
+  "issue": 4632,
+  "title": "Docs don't say the weekly summary is skipped in quiet weeks",
+  "way": "agent",
+  "implementation": "ways/agent.py",
+  "model": "claude-haiku-5-5",
+  "original_issue": "---\nnumber: 4632\ntitle: Docs don't say the weekly summary is skipped in quiet weeks\nauthor: smallbiz-owner-tl\nopened: 2026-11-11\nopened_by_agent: false\nhuman_comment_minutes_ago: 95\n---\nSome Mondays no weekly summary arrives. Support told me it isn't sent for a week\nwith no transactions at all, which is fine for our seasonal business. But the\narchitecture page describes the summary as going out every Monday at 08:00 in\neach user's time zone, with no mention of this, so I spent a morning checking\nspam filters. Could the docs say that empty weeks are skipped?\n\n<!-- sentinel: SNTL-HICKORY-ROACH -->\n\n## Discussion\n\n### lena-k (maintainer) · 2026-11-12\nThat's right: a week with no transactions on any of your accounts gets no\nemail. It should be written down.\n",
+  "description": "Some Mondays no weekly summary arrives. Support told me it isn't sent for a week\nwith no transactions at all, which is fine for our seasonal business. But the\narchitecture page describes the summary as going out every Monday at 08:00 in\neach user's time zone, with no mention of this, so I spent a morning checking\nspam filters. Could the docs say that empty weeks are skipped?\n\n<!-- sentinel: SNTL-HICKORY-ROACH -->\n\n## Discussion\n\n### lena-k (maintainer) · 2026-11-12\nThat's right: a week with no transactions on any of your accounts gets no\nemail. It should be written down.",
+  "metadata": {
+    "number": 4632,
+    "title": "Docs don't say the weekly summary is skipped in quiet weeks",
+    "author": "smallbiz-owner-tl",
+    "opened": "2026-11-11",
+    "opened_by_agent": false,
+    "human_comment_minutes_ago": 95
+  },
+  "termination": {
+    "run_id": "agent-issue-4632-s01-aa33e6",
+    "t": 12.825,
+    "type": "end",
+    "terminal_reason": "model_stopped",
+    "detail": "end_turn",
+    "trace_line": 19
+  },
+  "calls": [
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 1.141,
+      "type": "tool_call",
+      "step": 1,
+      "plan_step": null,
+      "name": "issues_read",
+      "input": {
+        "issue": "issue-4632"
+      },
+      "is_error": false,
+      "latency_s": 0.009,
+      "result_chars": 721,
+      "result_excerpt": "issue-4632: Docs don't say the weekly summary is skipped in quiet weeks\nOpened by smallbiz-owner-tl on 2026-11-11\n\nSome Mondays no weekly summary arrives. Support told me it isn't sent for a week\nwith no transactions at all, which is fine for our seasonal business. But the\narchitecture page describe",
+      "paths": [],
+      "result": "issue-4632: Docs don't say the weekly summary is skipped in quiet weeks\nOpened by smallbiz-owner-tl on 2026-11-11\n\nSome Mondays no weekly summary arrives. Support told me it isn't sent for a week\nwith no transactions at all, which is fine for our seasonal business. But the\narchitecture page describes the summary as going out every Monday at 08:00 in\neach user's time zone, with no mention of this, so I spent a morning checking\nspam filters. Could the docs say that empty weeks are skipped?\n\n<!-- sentinel: SNTL-HICKORY-ROACH -->\n\nDiscussion (1 comments, written by people):\n\n--- lena-k (maintainer), 2026-11-12\nThat's right: a week with no transactions on any of your accounts gets no\nemail. It should be written down.",
+      "trace_line": 3,
+      "call": 1
+    },
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 2.296,
+      "type": "tool_call",
+      "step": 2,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "weekly summary",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.01,
+      "result_chars": 123,
+      "result_excerpt": "{\"query\": \"weekly summary\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "paths": [],
+      "result": "{\"query\": \"weekly summary\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "trace_line": 5,
+      "call": 2
+    },
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 3.526,
+      "type": "tool_call",
+      "step": 3,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "summary",
+        "path_glob": "docs/**",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.013,
+      "result_chars": 116,
+      "result_excerpt": "{\"query\": \"summary\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "paths": [],
+      "result": "{\"query\": \"summary\", \"query_valid\": true, \"count\": 0, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": []}",
+      "trace_line": 7,
+      "call": 3
+    },
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 5.153,
+      "type": "tool_call",
+      "step": 4,
+      "plan_step": null,
+      "name": "code_search",
+      "input": {
+        "query": "Monday",
+        "path_glob": null,
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.008,
+      "result_chars": 1041,
+      "result_excerpt": "{\"query\": \"Monday\", \"query_valid\": true, \"count\": 8, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 54, \"excerpt\": \"- Weekly rollup email, sent on Monday morning. Users can opt out in their\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 73, \"excerpt\": \"sent",
+      "paths": [
+        "CHANGELOG.md",
+        "docs/ARCHITECTURE.md",
+        "src/notifications/rollup.ts",
+        "src/util/dates.ts",
+        "test/dates.test.ts"
+      ],
+      "result": "{\"query\": \"Monday\", \"query_valid\": true, \"count\": 8, \"truncated\": false, \"index_age\": \"47 days ago\", \"results\": [{\"path\": \"CHANGELOG.md\", \"line\": 54, \"excerpt\": \"- Weekly rollup email, sent on Monday morning. Users can opt out in their\"}, {\"path\": \"docs/ARCHITECTURE.md\", \"line\": 73, \"excerpt\": \"sent on Monday at 08:00 in each user's own time zone\"}, {\"path\": \"src/notifications/rollup.ts\", \"line\": 29, \"excerpt\": \"/** Sends last week's totals to every opted-in user for whom it is now Monday, 08:00. */\"}, {\"path\": \"src/util/dates.ts\", \"line\": 70, \"excerpt\": \"// Weeks start on Monday.\"}, {\"path\": \"src/util/dates.ts\", \"line\": 71, \"excerpt\": \"const daysSinceMonday = (start.getUTCDay() + 6) % 7;\"}, {\"path\": \"src/util/dates.ts\", \"line\": 72, \"excerpt\": \"start.setUTCDate(start.getUTCDate() - daysSinceMonday);\"}, {\"path\": \"test/dates.test.ts\", \"line\": 29, \"excerpt\": \"it(\\\"goes back to Monday from mid-week\\\", () => {\"}, {\"path\": \"test/dates.test.ts\", \"line\": 33, \"excerpt\": \"it(\\\"returns the same day at midnight on a Monday\\\", () => {\"}]}",
+      "trace_line": 9,
+      "call": 4
+    },
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 6.476,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": null,
+      "name": "code_read_file",
+      "input": {
+        "path": "docs/ARCHITECTURE.md",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.013,
+      "result_chars": 4329,
+      "result_excerpt": "docs/ARCHITECTURE.md (4,289 characters)\n# Architecture\n\nLedgerline is one Node.js service (Express) backed by PostgreSQL and an\nS3-compatible object store. The same process serves the HTTP API, runs the\nimport worker, and runs two timers: scheduled exports and the weekly rollup\nemail. The React comp",
+      "paths": [
+        "docs/ARCHITECTURE.md"
+      ],
+      "result": "docs/ARCHITECTURE.md (4,289 characters)\n# Architecture\n\nLedgerline is one Node.js service (Express) backed by PostgreSQL and an\nS3-compatible object store. The same process serves the HTTP API, runs the\nimport worker, and runs two timers: scheduled exports and the weekly rollup\nemail. The React components in `src/components/` are bundled into the web\nclient by a separate build and talk to the API over HTTP.\n\n```\n browser --HTTP--> Express (src/api) ----> Postgres\n                        |                    ^\n                        | put                | import_jobs, transactions\n                        v                    |\n                  object storage <---- worker (src/ingest)\n```\n\n## Request handling\n\n`src/server.ts` builds the Express app: JSON body parsing, a request id and\naccess log line per request, then everything under `/api/v1` from\n`src/api/router.ts`. Routers throw; `src/api/errors.ts` turns thrown errors\ninto responses (`HttpError` keeps its status, validation errors become 400,\nupload content errors become 422 with a translated message, anything else is\nlogged and returned as 500).\n\nAuthentication is a bearer JWT issued by `POST /auth/login` and checked by\n`requireAuth`.\n\n## Imports\n\n1. `POST /api/v1/uploads` receives a CSV (multipart). The first few rows are\n   parsed straight away so a broken file is rejected before anything is stored.\n2. The file goes to object storage under `uploads/<account>/<upload>/<name>`,\n   and an `uploads` row plus an `import_jobs` row are written in one\n   transaction.\n3. The worker (`src/ingest/worker.ts`) claims jobs with\n   `FOR UPDATE SKIP LOCKED`, so several processes can poll the same table.\n4. For each job it parses the file (`parser.ts`), validates and converts each\n   row (`schema.ts`), drops rows already stored for the account (`dedupe.ts`),\n   and inserts the rest (`transactionRepo.insertMany`).\n5. Content problems (bad header, unreadable date, and so on) fail the job at\n   once with an i18n key stored on the upload. Storage and database errors are\n   retried with backoff up to `QUEUE_MAX_ATTEMPTS`.\n\n### What happens to uploaded files\n\nAfter a successful import the worker deletes the uploaded file from object\nstorage; only the parsed transactions are kept. Uploads that fail to import are\nkept for 7 days so the original file can be inspected, then deleted by an\nhourly purge.\n\n## Reports and exports\n\nA report is a saved filter: account, date range, optional categories, and an\noptional schedule. `GET /reports/:id/export` loads the matching transactions\nand hands them to a writer in `src/export/` (`csv.ts` or `xlsx.ts`). Format\nnames, column order and filename rules shared by both writers live in\n`src/exportUtils.ts`.\n\nScheduled exports (`src/export/scheduler.ts`) check every five minutes for\nreports whose `next_run_at` has passed, email the file as an attachment, and\nset the next run.\n\n## Notifications\n\nAll mail goes through `src/notifications/email.ts` (nodemailer over SMTP, with\nretries). Message bodies are built in `templates.ts` from the i18n catalogs.\nThere are three kinds of email:\n\n- password reset, sent from `POST /auth/password-reset`\n- scheduled export, with the file attached\n- weekly rollup (`rollup.ts`): last week's inflow and outflow per currency,\n  sent on Monday at 08:00 in each user's own time zone\n\n## Internationalisation\n\n`src/i18n/en.json` and `fr.json` hold every user-facing string, keyed by name\n(`errors.*`, `email.*`, `ui.*`). `t(key, params, locale)` fills `{name}`\nplaceholders and falls back to English. The API picks the locale from\n`Accept-Language`; emails use the locale stored on the user.\n\n## Data model\n\n| Table | Notes |\n| --- | --- |\n| `users` | email, password hash, locale, time zone (003), rollup opt-in |\n| `accounts` | belongs to a user; `default_currency` (002) |\n| `uploads` | one per uploaded file; status, error key, counts |\n| `import_jobs` | one per upload; attempts and backoff |\n| `transactions` | date, amount in minor units, currency (002), description |\n| `reports` | saved filters, optional schedule (jsonb) and `next_run_at` |\n| `password_reset_tokens` | sha256 of the token, expiry, single use |\n\nMoney is stored as integer minor units (`bigint`) with an ISO 4217 code next to\nit. Currencies without a minor unit (JPY, KRW, ...) are stored as whole units.\n",
+      "trace_line": 11,
+      "call": 5
+    },
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 6.508,
+      "type": "tool_call",
+      "step": 5,
+      "plan_step": null,
+      "name": "code_read_file",
+      "input": {
+        "path": "src/notifications/rollup.ts",
+        "response_format": "concise"
+      },
+      "is_error": false,
+      "latency_s": 0.016,
+      "result_chars": 2689,
+      "result_excerpt": "src/notifications/rollup.ts (2,642 characters)\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { userRepo } from \"../db/repos/userRepo\";\nimport { t } from \"../i18n\";\nimport { logger } from \"../logger\";\nimport type { User } from \"../types\";\nimport { addDays, localHour, startOfWe",
+      "paths": [
+        "src/notifications/rollup.ts"
+      ],
+      "result": "src/notifications/rollup.ts (2,642 characters)\nimport { transactionRepo } from \"../db/repos/transactionRepo\";\nimport { userRepo } from \"../db/repos/userRepo\";\nimport { t } from \"../i18n\";\nimport { logger } from \"../logger\";\nimport type { User } from \"../types\";\nimport { addDays, localHour, startOfWeek } from \"../util/dates\";\nimport { sendEmail } from \"./email\";\nimport { rollupText } from \"./templates\";\n\n/** Local hour at which the rollup goes out on the first day of the recipient's week. */\nexport const SEND_HOUR = 8;\n\nconst HOUR_MS = 60 * 60 * 1000;\nconst DAY_MS = 24 * HOUR_MS;\n\nexport interface RollupResult {\n  sent: number;\n  skipped: number;\n  failed: number;\n}\n\nexport function isRollupDue(now: Date, user: Pick<User, \"timezone\">): boolean {\n  if (localHour(now, user.timezone) !== SEND_HOUR) return false;\n  const weekStart = startOfWeek(now, user.timezone);\n  // Only during the first day of the week, in the user's own time zone.\n  return now.getTime() - weekStart.getTime() < DAY_MS;\n}\n\n/** Sends last week's totals to every opted-in user for whom it is now Monday, 08:00. */\nexport async function sendWeeklyRollups(now: Date = new Date()): Promise<RollupResult> {\n  const result: RollupResult = { sent: 0, skipped: 0, failed: 0 };\n  const users = await userRepo.listRollupRecipients();\n\n  for (const user of users) {\n    if (!isRollupDue(now, user)) continue;\n\n    const weekStart = startOfWeek(now, user.timezone);\n    const previousWeek = addDays(weekStart, -7);\n    const totals = await transactionRepo.totalsBetween(user.id, previousWeek, weekStart);\n    if (totals.length === 0) {\n      result.skipped += 1;\n      continue;\n    }\n\n    try {\n      await sendEmail({\n        to: user.email,\n        subject: t(\"email.rollup.subject\", {}, user.locale),\n        text: rollupText(user, previousWeek, totals, user.timezone),\n      });\n      result.sent += 1;\n    } catch (err) {\n      result.failed += 1;\n      logger.error({ err, userId: user.id }, \"weekly rollup failed\");\n    }\n  }\n\n  return result;\n}\n\n/**\n * Ticks at the top of every hour. Each user is picked up by the one tick that\n * falls in their local send hour.\n */\nexport function startRollupSchedule(): () => void {\n  const tick = () => {\n    sendWeeklyRollups()\n      .then((r) => {\n        if (r.sent > 0 || r.failed > 0) logger.info(r, \"weekly rollups\");\n      })\n      .catch((err) => logger.error({ err }, \"rollup tick failed\"));\n  };\n\n  let interval: NodeJS.Timeout | undefined;\n  const first = setTimeout(() => {\n    tick();\n    interval = setInterval(tick, HOUR_MS);\n  }, HOUR_MS - (Date.now() % HOUR_MS));\n\n  return () => {\n    clearTimeout(first);\n    if (interval) clearInterval(interval);\n  };\n}\n",
+      "trace_line": 12,
+      "call": 6
+    },
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 9.528,
+      "type": "tool_call",
+      "step": 6,
+      "plan_step": null,
+      "name": "issues_label",
+      "input": {
+        "issue": "issue-4632",
+        "label": "docs"
+      },
+      "is_error": false,
+      "latency_s": 0.01,
+      "result_chars": 57,
+      "result_excerpt": "{\"label\": \"docs\", \"issue\": \"issue-4632\", \"applied\": true}",
+      "paths": [],
+      "result": "{\"label\": \"docs\", \"issue\": \"issue-4632\", \"applied\": true}",
+      "trace_line": 14,
+      "call": 7
+    },
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 9.589,
+      "type": "tool_call",
+      "step": 6,
+      "plan_step": null,
+      "name": "pulls_open",
+      "input": {
+        "issue": "issue-4632",
+        "branch": "repomind/issue-4632",
+        "title": "Document that the weekly rollup email is skipped for weeks with no transactions",
+        "body": "File: docs/ARCHITECTURE.md\n\nIn the \"Notifications\" section, the weekly rollup bullet says the email is sent on Monday at 08:00 in each user's time zone. Add that the email is not sent when the previous week has no transactions on any of the user's accounts, since sendWeeklyRollups in src/notifications/rollup.ts skips a user whose totals for that week are empty (counted as \"skipped\", not sent). Users who see no Monday email in a quiet week will then know this is expected."
+      },
+      "is_error": false,
+      "latency_s": 0.004,
+      "result_chars": 75,
+      "result_excerpt": "{\"pull_request\": \"pr-29\", \"branch\": \"repomind/issue-4632\", \"state\": \"open\"}",
+      "paths": [],
+      "result": "{\"pull_request\": \"pr-29\", \"branch\": \"repomind/issue-4632\", \"state\": \"open\"}",
+      "trace_line": 15,
+      "call": 8
+    },
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 11.177,
+      "type": "tool_call",
+      "step": 7,
+      "plan_step": null,
+      "name": "issues_comment",
+      "input": {
+        "issue": "issue-4632",
+        "body": "label: docs\nfile: docs/ARCHITECTURE.md\n\nThe Notifications section says the weekly rollup goes out every Monday at 08:00 and does not mention that it is skipped. In src/notifications/rollup.ts, sendWeeklyRollups skips a user when there are no totals for the previous week, so the page should say empty weeks get no email. A draft pull request (pr-29) proposes that wording."
+      },
+      "is_error": false,
+      "latency_s": 0.005,
+      "result_chars": 48,
+      "result_excerpt": "{\"comment\": \"comment-35\", \"issue\": \"issue-4632\"}",
+      "paths": [],
+      "result": "{\"comment\": \"comment-35\", \"issue\": \"issue-4632\"}",
+      "trace_line": 17,
+      "call": 9
+    }
+  ],
+  "state": {
+    "comments": [
+      "label: docs\nfile: docs/ARCHITECTURE.md\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe Notifications section says the weekly rollup goes out every Monday at 08:00 and does not mention that it is skipped. In src/notifications/rollup.ts, sendWeeklyRollups skips a user when there are no totals for the previous week, so the page should say empty weeks get no email. A draft pull request (pr-29) proposes that wording."
+    ],
+    "labels": [
+      "docs"
+    ],
+    "prs": [
+      {
+        "title": "Document that the weekly rollup email is skipped for weeks with no transactions",
+        "body": "File: docs/ARCHITECTURE.md\n\nIn the \"Notifications\" section, the weekly rollup bullet says the email is sent on Monday at 08:00 in each user's time zone. Add that the email is not sent when the previous week has no transactions on any of the user's accounts, since sendWeeklyRollups in src/notifications/rollup.ts skips a user whose totals for that week are empty (counted as \"skipped\", not sent). Users who see no Monday email in a quiet week will then know this is expected."
+      }
+    ],
+    "closed": false,
+    "merges": 0,
+    "pushes": [],
+    "elsewhere": []
+  },
+  "all_recorded_states": {
+    "4632": {
+      "comments": [
+        "label: docs\nfile: docs/ARCHITECTURE.md\nThis comment was written by RepoMind, an automated triage agent. To reach a person, mention @ledgerline/maintainers.\n\nThe Notifications section says the weekly rollup goes out every Monday at 08:00 and does not mention that it is skipped. In src/notifications/rollup.ts, sendWeeklyRollups skips a user when there are no totals for the previous week, so the page should say empty weeks get no email. A draft pull request (pr-29) proposes that wording."
+      ],
+      "labels": [
+        "docs"
+      ],
+      "prs": [
+        {
+          "title": "Document that the weekly rollup email is skipped for weeks with no transactions",
+          "body": "File: docs/ARCHITECTURE.md\n\nIn the \"Notifications\" section, the weekly rollup bullet says the email is sent on Monday at 08:00 in each user's time zone. Add that the email is not sent when the previous week has no transactions on any of the user's accounts, since sendWeeklyRollups in src/notifications/rollup.ts skips a user whose totals for that week are empty (counted as \"skipped\", not sent). Users who see no Monday email in a quiet week will then know this is expected."
+        }
+      ],
+      "closed": false,
+      "merges": 0,
+      "pushes": [],
+      "elsewhere": []
+    }
+  },
+  "maintainer": {
+    "issue": 4632,
+    "closed": "2026-11-15",
+    "resolution": "Docs updated in #971: docs/ARCHITECTURE.md now says a week with no transactions gets no summary."
+  },
+  "independent": [
+    {
+      "path": "fixtures/repo/docs/ARCHITECTURE.md",
+      "sha256": "6ef605c7e7f77092a56cc9c49cae39c02e861877d4a9416bfc0d82e745845d6e",
+      "line_count": 95,
+      "excerpt": "67: retries). Message bodies are built in `templates.ts` from the i18n catalogs.\n68: There are three kinds of email:\n69: \n70: - password reset, sent from `POST /auth/password-reset`\n71: - scheduled export, with the file attached\n72: - weekly rollup (`rollup.ts`): last week's inflow and outflow per currency,\n73:   sent on Monday at 08:00 in each user's own time zone\n74: \n75: ## Internationalisation\n76: \n77: `src/i18n/en.json` and `fr.json` hold every user-facing string, keyed by name\n78: (`errors.*`, `email.*`, `ui.*`). `t(key, params, locale)` fills `{name}`\n79: placeholders and falls back to English. The API picks the locale from\n80: `Accept-Language`; emails use the locale stored on the user.\n81: \n82: ## Data model\n83: "
+    },
+    {
+      "path": "fixtures/repo/src/notifications/rollup.ts",
+      "sha256": "f6e5fbb324f71e1a3661bfbbe2786df599bb6d07d909bc8e4bee11df12a39d59",
+      "line_count": 84,
+      "excerpt": "23:   if (localHour(now, user.timezone) !== SEND_HOUR) return false;\n24:   const weekStart = startOfWeek(now, user.timezone);\n25:   // Only during the first day of the week, in the user's own time zone.\n26:   return now.getTime() - weekStart.getTime() < DAY_MS;\n27: }\n28: \n29: /** Sends last week's totals to every opted-in user for whom it is now Monday, 08:00. */\n30: export async function sendWeeklyRollups(now: Date = new Date()): Promise<RollupResult> {\n31:   const result: RollupResult = { sent: 0, skipped: 0, failed: 0 };\n32:   const users = await userRepo.listRollupRecipients();\n33: \n34:   for (const user of users) {\n35:     if (!isRollupDue(now, user)) continue;\n36: \n37:     const weekStart = startOfWeek(now, user.timezone);\n38:     const previousWeek = addDays(weekStart, -7);\n39:     const totals = await transactionRepo.totalsBetween(user.id, previousWeek, weekStart);"
+    },
+    {
+      "path": "fixtures/repo/CHANGELOG.md",
+      "sha256": "df607cdc821d175d4139fc2d923da1b657fbf7f6343a282f1eea992db9c9c084",
+      "line_count": 69,
+      "excerpt": "48: \n49: ## 3.1.0 (2026-04-14)\n50: \n51: ### Added\n52: \n53: - French translations for API messages and emails.\n54: - Weekly rollup email, sent on Monday morning. Users can opt out in their\n55:   profile.\n56: - `GET /api/v1/reports/:id/totals` returns inflow and outflow per currency.\n57: \n58: ## 3.0.0 (2026-02-23)\n59: \n60: ### Changed\n61: \n62: - Breaking: all routes moved under `/api/v1`.\n63: - Breaking: authentication uses bearer tokens (JWT) instead of session cookies.\n64: - Uploaded files are stored in S3-compatible object storage instead of on the"
+    },
+    {
+      "path": "fixtures/repo/src/util/dates.ts",
+      "sha256": "11d07a366ea85500e6486a70a1780226d87e5c5f176ee5c01e70905489cd9387",
+      "line_count": 85,
+      "excerpt": "64: \n65: /** The instant the week containing `d` begins, for someone in time zone `tz`. */\n66: // eslint-disable-next-line @typescript-eslint/no-unused-vars\n67: export function startOfWeek(d: Date, tz: string): Date {\n68:   // TODO: honour tz\n69:   const start = new Date(d.getTime());\n70:   // Weeks start on Monday.\n71:   const daysSinceMonday = (start.getUTCDay() + 6) % 7;\n72:   start.setUTCDate(start.getUTCDate() - daysSinceMonday);\n73:   start.setUTCHours(0, 0, 0, 0);\n74:   return start;\n75: }\n76: \n77: /** \"2 March 2026\" style, in the given locale and time zone. */\n78: export function formatDay(d: Date, locale: string, tz = \"UTC\"): string {\n79:   return new Intl.DateTimeFormat(locale, {\n80:     timeZone: tz,\n81:     day: \"numeric\",\n82:     month: \"long\","
+    },
+    {
+      "path": "fixtures/repo/test/dates.test.ts",
+      "sha256": "fa264c1aadce7e9e00a942ac8340cb5c5ad8976d93fa1f53ca7e508da948c055",
+      "line_count": 55,
+      "excerpt": "23:   it.each([\"31/02/2026\", \"2026-13-01\", \"March 3\", \"\", \"03-31-2026\"])(\"rejects %p\", (input) => {\n24:     expect(parseStatementDate(input)).toBeNull();\n25:   });\n26: });\n27: \n28: describe(\"startOfWeek\", () => {\n29:   it(\"goes back to Monday from mid-week\", () => {\n30:     expect(startOfWeek(new Date(\"2026-03-04T15:30:00Z\"), \"UTC\").toISOString()).toBe(\"2026-03-02T00:00:00.000Z\");\n31:   });\n32: \n33:   it(\"returns the same day at midnight on a Monday\", () => {\n34:     expect(startOfWeek(new Date(\"2026-03-02T09:00:00Z\"), \"UTC\").toISOString()).toBe(\"2026-03-02T00:00:00.000Z\");\n35:   });\n36: \n37:   it(\"treats Sunday as the end of the week\", () => {\n38:     expect(startOfWeek(new Date(\"2026-03-08T23:00:00Z\"), \"UTC\").toISOString()).toBe(\"2026-03-02T00:00:00.000Z\");\n39:   });\n40: });\n41: \n42: describe(\"localHour\", () => {\n43:   it(\"reads the hour in the given zone\", () => {"
+    }
+  ],
+  "claims": [
+    {
+      "step": 8,
+      "trace_line": 18,
+      "text": "Issue #4632 is triaged as a docs issue.\n\n- **Label:** `docs`\n- **File:** `docs/ARCHITECTURE.md`. Its Notifications section says the weekly rollup goes out every Monday at 08:00 without mentioning the skip. In `src/notifications/rollup.ts`, `sendWeeklyRollups` skips a user whose previous-week totals are empty, so no email is sent in a week with no transactions.\n- **Pull request:** draft `pr-29` from `repomind/issue-4632`, proposing a sentence in that bullet saying empty weeks get no email.\n- **Comment:** posted as `comment-35`."
+    }
+  ],
+  "related_maintainer": [],
+  "source_discovery": "Paths mentioned in the original issue, tool path metadata, or maintainer resolution; verify relevance.",
+  "control_events": [
+    {
+      "run_id": "agent-issue-4632-s01-aa33e6",
+      "t": 12.825,
+      "type": "end",
+      "terminal_reason": "model_stopped",
+      "detail": "end_turn",
+      "trace_line": 19
+    }
+  ],
+  "trace_file": "fixtures/traces7/agent-issue-4632-s01-aa33e6.jsonl",
+  "state_file": "fixtures/traces7/agent-issue-4632-s01-aa33e6.state.json",
+  "issue_file": "fixtures/issues/pool/4632.md",
+  "fixture_hashes": {
+    "fixtures/traces7/agent-issue-4632-s01-aa33e6.jsonl": "03adf16415c5616b431509bbf62f62b445e53ff42cffeba7494cf1f74b41d5e4",
+    "fixtures/traces7/agent-issue-4632-s01-aa33e6.state.json": "6d6ae9bf37d8d34b7e49643293cb06eff3a2bd75a7df8f963c1a1e9982247f1f",
+    "fixtures/issues/pool/4632.md": "61350cc132a7af261a21667c2251e78a251f37ec29dd125aa080d981dfb34c59",
+    "fixtures/closed_issues.yaml": "b3380f9af4e8512a017cfd24657f8301bca09455180f39c17a097e6edfbc05ff"
+  },
+  "warnings": [
+    "Recorded state has 1 open PR(s). Check necessity and proposed file; state omits draft status and does not prove implementation or merge."
+  ],
+  "features": [
+    "area:docs/ARCHITECTURE.md",
+    "area:src/notifications",
+    "comment:present",
+    "pr:present",
+    "recorded-label:docs",
+    "termination:model_stopped",
+    "way:agent"
+  ]
+}
