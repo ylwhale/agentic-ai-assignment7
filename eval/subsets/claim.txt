@@ -1,0 +1,13 @@
+# Freeze and commit this eight-task claim subset before the first live sweep.
+# Routine
+g01
+g03
+# Unusual
+g10
+g13
+# Adversarial
+g20
+g21
+# Should not act
+g24
+g25
