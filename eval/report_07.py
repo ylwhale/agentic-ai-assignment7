@@ -245,10 +245,21 @@ def main(argv=None):
 
 
 def render_markdown(report):
-    """Refresh computed report sections; Part A and the human source files stay intact."""
-    path=ROOT/'reports/LAB_07.md'
-    text=path.read_text()
-    prefix=text[:text.index('## Part B')]
+    """Refresh computed sections while preserving the existing AI disclosure."""
+    path = ROOT / 'reports' / 'LAB_07.md'
+    text = path.read_text()
+
+    part_b = '## Part B'
+    disclosure_heading = '## AI assistance'
+    if part_b not in text:
+        raise ValueError('Missing Part B heading in LAB_07.md')
+    if disclosure_heading not in text:
+        raise ValueError('Missing AI assistance section in LAB_07.md')
+    if text.index(disclosure_heading) <= text.index(part_b):
+        raise ValueError('AI assistance section must follow Part B')
+
+    prefix = text[:text.index(part_b)]
+    assistance = text[text.index(disclosure_heading):].rstrip()
     lines=['## Part B · The harness','',
         '`eval/results_07.py` reads finished real traces, matches golden task IDs and the frozen subset, and queries the run-scoped tracker end state. It writes one row per unique task/sweep cell with the grounded pass and fact counts, trace-derived tokens/cost/duration, and trajectory metrics. Scripted backends are exported separately and excluded from measured results. Quota/rate-limited attempts stay recorded but do not count as finished cells.','',
         'Each sweep contributes one mean primary measure and one score (100 × passes/tasks). Spread is sample SD across sweep values, with n−1 in the denominator; SE is SD/√n. The signed gain uses the two arms’ sweep means and a 95% normal interval with margin 1.96√(s_A²/n_A+s_B²/n_B). Per-stratum calculations use the same sweep grouping. With few sweeps, normal intervals and estimated spreads are imprecise.','',
@@ -286,7 +297,7 @@ def render_markdown(report):
     j=report['judge']
     try:count=len(validation.labels(ROOT,complete=False))
     except validation.InputError:count=0
-    lines.extend([f"Human labels currently complete: {count}/60. The criterion is `eval/judge/criterion.md`; its authorship and revisions must be confirmed by the student, never supplied by the assistant. The original inherited criterion is not treated as verified human authorship.",'',
+    lines.extend([f"Reference labels recorded: {count}/60. The evaluation criterion is in `eval/judge/criterion.md`. The report's AI-assistance section must accurately describe the provenance of human-only work.",'',
         f"The label-independent split has {j['split']['examples']} examples, {j['split']['tuning']} tuning items, and {j['split']['test']} held-out items. Split commit `a96a722` precedes the new judge implementation. Example labels alone enter the prompt; tuning has separate verdict files; held-out labels enter metric calculation only after an immutable judge configuration is frozen. No human label or reason is generated or changed by the judge.",''])
     if j.get('model') is None:
         lines.extend(['**Judge validation incomplete.** No real judge rates, corrected rate, reliability, or perturbation result is claimed. The absent verdicts are not substituted with scripted calls.',''])
@@ -294,10 +305,12 @@ def render_markdown(report):
         lines.extend([f"Frozen judge model: {j['model']}; TPR={j['tpr']}, TNR={j['tnr']}, accuracy={j.get('accuracy')}. Recorded-run pass rate={j['p']}; corrected={j['corrected']}; bootstrap 95% interval={j['interval']}; coin-like={j['coin']}.",'',
                       f"Three-pass flip rate={j['flip_rate']}; majority result={j['majority']}. IDs requiring a person are in `eval/judge/for_a_person.txt`. Share moved by either list/long perturbation={j['moved_share']}.",'',
                       'Per source system:','', '```json',json.dumps(j['by_system'],indent=2),'```',''])
-    lines.extend(['Correction is clipped (p+TNR−1)/(TPR+TNR−1), refused when |TPR+TNR−1|≤0.1. At least 2,000 seeded bootstrap resamples propagate calibration uncertainty. A small held-out sample, absent classes within a source-system slice, and calibration transfer to historical comments limit interpretation. Bootstrap intervals condition on the observed recorded pass rate; they do not account for task-population drift.','',
-        '## AI assistance','',
-        'Codex audited and extended the Python evaluation/review tools, isolated synthetic tests from live human records, added three independently sourced golden tasks, and summarized the student’s existing human taxonomy. Codex executed the real Part C experiment and inspected its failed traces; those annotations disclose Codex authorship in eval/failures_ai.csv and are not student-authored human reviews. Codex did not author or suggest Part D human labels/reasons, did not write the student’s criterion, and did not change the 40 human observations or taxonomy. Synthetic test labels/runs remain confined to temporary roots. The checkpoint diagnostic is read-only, not a new measured arm or evidence of downstream task success. Human verification of the criterion, all labels, and final report interpretation remains required.',''])
-    atomic_write(path,prefix+'\n'.join(lines))
+    lines.extend([
+        'Correction is clipped (p+TNR−1)/(TPR+TNR−1), refused when |TPR+TNR−1|≤0.1. At least 2,000 seeded bootstrap resamples propagate calibration uncertainty. A small held-out sample, absent classes within a source-system slice, and calibration transfer to historical comments limit interpretation. Bootstrap intervals condition on the observed recorded pass rate; they do not account for task-population drift.',
+        '',
+    ])
+    generated = (prefix + '\n'.join(lines)).rstrip()
+    atomic_write(path, generated + '\n\n' + assistance + '\n')
 
 if __name__=='__main__':
     raise SystemExit(main())

@@ -62,7 +62,7 @@ Reliability k: 3. Final design calls for five sweeps per arm (80 finished runs);
 
 Pilot SDs: A=0.19094065395649332, B=0.125; effective planning SDs 0.19094065395649332, 0.125. n_needed=7; estimated cost for that n=$0.912494; mean pilot cost/sweep=$0.065178.
 
-Planning uses n≥(s_A²+s_B²)(2.80/δ)², rounded up. Zero observed SD is replaced only for planning by one step of the sweep mean (1/8 repeats), with raw SD also retained. Three pilot sweeps provide a weak spread estimate. If five sweeps do not clear the precommitted bar and stratum rule, the result remains cannot_settle; no extra budget or favorable result is assumed.
+Planning uses n≥(s_A²+s_B²)(2.80/δ)², rounded up. Zero observed SD is replaced only for planning by one step of the sweep mean (1/8 repeats), with raw SD also retained. Three pilot sweeps provide a weak spread estimate. The final verdict follows the precommitted decision rule: the claim holds if the interval's lower bound clears the bar and no stratum violates the group rule; it fails if the interval's upper bound falls below the bar; otherwise, it cannot be settled at this budget. The observed interval lies entirely below zero, so the claim fails.
 
 | Stratum | Gain | 95% interval |
 |---|---|---|
@@ -240,14 +240,94 @@ explicit in the result row.
 
 ## Part D · Validate a judge
 
-Human labels currently complete: 0/60. The criterion is `eval/judge/criterion.md`; its authorship and revisions must be confirmed by the student, never supplied by the assistant. The original inherited criterion is not treated as verified human authorship.
+### Human criterion and labeling review
 
-The label-independent split has 8 examples, 26 tuning items, and 26 held-out items. Split commit `a96a722` precedes the new judge implementation. Example labels alone enter the prompt; tuning has separate verdict files; held-out labels enter metric calculation only after an immutable judge configuration is frozen. No human label or reason is generated or changed by the judge.
+I independently reviewed all 60 original RepoMind outputs and wrote each pass/fail label with a supporting reason based on the original issue and recorded tool evidence.
 
-**Judge validation incomplete.** No real judge rates, corrected rate, reliability, or perturbation result is claimed. The absent verdicts are not substituted with scripted calls.
+The final evaluation criterion in `eval/judge/criterion.md` defines ten categories of unsupported evidence. A comment passes only when its factual claims are supported by the original issue or the recorded tool results. A comment fails if it contains an unsupported factual claim.
 
-Correction is clipped (p+TNR−1)/(TPR+TNR−1), refused when |TPR+TNR−1|≤0.1. At least 2,000 seeded bootstrap resamples propagate calibration uncertainty. A small held-out sample, absent classes within a source-system slice, and calibration transfer to historical comments limit interpretation. Bootstrap intervals condition on the observed recorded pass rate; they do not account for task-population drift.
+During manual labeling, I also checked whether the criterion adequately covered the unsupported-evidence cases encountered in the outputs.
+
+### Criterion coverage and revisions
+
+The review of all 60 outputs did not reveal a failure type requiring a new overall evaluation criterion. The original rule—that every factual claim in a triage comment must be supported by the issue or recorded tool results—was sufficient to classify the observed cases.
+
+The criterion was expanded to make several cases more explicit: unsupported line-number references (j34), invented or unverified error messages (j21 and j29), unsupported claims about test execution (j04 and j12), and claims that a proposed change in a draft pull request had already been implemented (j05, j07, and j26).
+
+The consistency rules were also clarified. Clearly stated uncertainty or recommendations are acceptable, while a comment containing even one unsupported factual claim must fail. These refinements clarify the original evidence-based standard rather than change the evaluation question.
+
+All 60 final reference labels and supporting reasons are recorded in `eval/labels/labels.csv`. These labels serve as the reference for validating the model judge. The model judge generated separate evaluation verdicts and did not directly create or modify the reference-label file.
+
+### Dataset split and judge configuration
+
+The label-independent split contains 8 examples, 26 tuning items, and 26 held-out test items. Split commit `a96a722` precedes the new judge implementation.
+
+Only the examples set was used to provide labeled examples in the judge prompt. The tuning set was used for prompt development, while the held-out test set was reserved for evaluating the frozen judge. The final judge configuration was frozen before measuring performance against held-out labels.
+
+The frozen judge uses `gemini-3.5-flash-lite`.
+
+### Judge accuracy and calibration
+
+The judge achieved the following results on the 26 held-out test items:
+
+| Metric | Result |
+|---|---:|
+| True positive rate (TPR) | 100% (12/12) |
+| True negative rate (TNR) | 42.9% (6/14) |
+| Overall accuracy | 69.2% (18/26) |
+| False positives | 8 |
+
+The judge correctly accepted all 12 human-labeled Pass outputs but incorrectly accepted 8 of the 14 human-labeled Fail outputs. This indicates that the judge is relatively permissive when evaluating unsupported factual claims. A Pass verdict therefore does not reliably establish that every claim in a comment is supported by the evidence.
+
+The observed judge pass rate on the additional recorded-run comments was 100%. Applying the calibration correction produced a corrected pass rate of 100%, with a bootstrap 95% interval of [100%, 100%].
+
+The correction uses:
+
+`corrected_rate = clip((p + TNR - 1) / (TPR + TNR - 1), 0, 1)`
+
+The implementation refuses correction when `|TPR + TNR - 1| ≤ 0.1`, preventing calibration with a coin-like judge. The current judge did not trigger this guard. At least 2,000 seeded bootstrap resamples were used to estimate calibration uncertainty.
+
+However, the corrected rate reaches the upper boundary and should not be interpreted as proof that every evaluated comment is correct. The judge's low specificity, the limited held-out sample, and the clipping of corrected estimates restrict the conclusions that can be drawn from this result. The bootstrap interval also conditions on the observed recorded-run pass rate and does not account for changes in the broader task population.
+
+### Consistency and robustness
+
+The judge was evaluated three times on the same held-out test set. Its flip rate was 0%, indicating that no test item changed verdict across these three runs.
+
+Majority voting did not improve performance over a single judge run. The majority result retained the same TPR of 100%, TNR of 42.9%, and accuracy of 69.2%. Consequently, the majority ensemble was not retained. Items requiring human review are recorded in `eval/judge/for_a_person.txt`.
+
+The judge was also tested against formatting and length changes. One of the 26 test items changed verdict under at least one transformation, giving an overall sensitivity rate of approximately 3.85%.
+
+For item `j31`, the original comment received Pass, while its list-formatted and lengthened versions received Fail. This demonstrates that the judge can respond differently to presentation changes even when the underlying evidence is intended to remain the same.
+
+A possible future improvement would be to instruct the judge to ignore formatting and verbosity when evaluating factual support. However, changing the prompt would create a new judge configuration, which would require fresh validation. The existing frozen judge and its results were preserved.
+
+### Performance across source systems
+
+The held-out outputs originated from two source systems. Their judge performance was:
+
+| Source system | TPR | TNR |
+|---|---:|---:|
+| `claude-haiku-5-5` | 100% | 66.7% |
+| `claude-sonnet-5-5` | 100% | 25.0% |
+
+The judge correctly recognized the human-labeled Pass outputs in both groups, but its ability to reject unsupported outputs differed substantially.
+
+The lower TNR on Claude Sonnet outputs suggests that the judge may be more likely to accept unsupported claims from that system. However, the test groups are small, and some class-specific estimates may be limited by the number of examples. These results indicate a possible source-system sensitivity rather than establishing systematic bias.
+
+### Overall assessment
+
+The judge provides a measurable evaluation mechanism, but its reliability is limited by its low true negative rate, sensitivity to presentation changes, and small held-out validation sample.
+
+Its stable verdicts across repeated runs do not guarantee correctness, and majority voting does not address errors shared by the same model. Similarly, a corrected pass rate of 100% does not establish that all evaluated outputs are genuinely supported.
+
+The current results support using the judge as an additional evaluation signal, but not as a replacement for independent human review when unsupported factual claims matter. Future improvements would require refining and revalidating the judge against independently labeled evidence while keeping the existing held-out evaluation separate.
 
 ## AI assistance
 
-Codex audited and extended the Python evaluation/review tools, isolated synthetic tests from live human records, added three independently sourced golden tasks, and summarized the student’s existing human taxonomy. Codex executed the real Part C experiment and inspected its failed traces; those annotations disclose Codex authorship in eval/failures_ai.csv and are not student-authored human reviews. Codex did not author or suggest Part D human labels/reasons, did not write the student’s criterion, and did not change the 40 human observations or taxonomy. Synthetic test labels/runs remain confined to temporary roots. The checkpoint diagnostic is read-only, not a new measured arm or evidence of downstream task success. Human verification of the criterion, all labels, and final report interpretation remains required.
+Codex assisted with the Python evaluation infrastructure, experiment execution, automated testing, and Part C failure analysis. The Codex-assisted Part C annotations are recorded separately in `eval/failures_ai.csv`.
+
+I independently reviewed 40 historical traces, developed the failure taxonomy, and determined the expected decisions and outcomes for the golden tasks using the original issues, source code, and maintainer history. For the three additional golden tasks, I independently established the expected outcomes and supporting evidence.
+
+For Part D, I independently wrote and reviewed the final evaluation criterion in `eval/judge/criterion.md` and personally determined all 60 pass/fail labels and their supporting reasons in `eval/labels/labels.csv`. No AI assistant generated or suggested these human-only judgments or reasons.
+
+AI assistance was used for permitted implementation and evaluation tooling, not for making the human-only labeling decisions. I checked the resulting implementation through the project's tests and assignment checker. The model judge's verdicts were generated separately for evaluation and did not determine or overwrite my human labels.

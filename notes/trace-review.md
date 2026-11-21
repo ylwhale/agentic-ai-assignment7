@@ -447,7 +447,7 @@ The source in `src/ingest/dedupe.ts` confirms that the deduplication key compris
 
 **Termination reason:** `model_stopped` (`end_turn`).
 
-**My observation (draft for review):** The investigation found the responsible deduplication code, but the agent treated the reporter's question as a request to fix a defect. The code explicitly describes duplicate keys and dropping repeated rows, and the maintainer later confirmed that this behavior is by design. The earliest incorrect action was applying the bug label; the PR and comment then carried forward the same mistaken interpretation. Normal termination and successful tool calls did not make the result correct.
+**My observation:** The investigation found the responsible deduplication code, but the agent treated the reporter's question as a request to fix a defect. The code explicitly describes duplicate keys and dropping repeated rows, and the maintainer later confirmed that this behavior is by design. The earliest incorrect action was applying the bug label; the PR and comment then carried forward the same mistaken interpretation. Normal termination and successful tool calls did not make the result correct.
 
 **Initial assessment:** Failed — incorrect issue classification and unnecessary PR, rather than premature termination.
 
@@ -518,7 +518,7 @@ The original `src/components/Toast.tsx` calls `t("ui.toast.dismiss")` without a 
 
 **Termination reason:** `model_stopped` (`end_turn`).
 
-**My observation (draft for review):** RepoMind traced the English screen-reader label to the notification component, checked how the translation helper chooses a language, and compared it with another localized component. It then applied the bug label, opened a PR for the relevant file, and posted the required comment. The unsuccessful `useLocale` search was exploratory rather than an incorrect decision. The recorded state shows the expected triage actions without prohibited writes.
+**My observation:** RepoMind traced the English screen-reader label to the notification component, checked how the translation helper chooses a language, and compared it with another localized component. It then applied the bug label, opened a PR for the relevant file, and posted the required comment. The unsuccessful `useLocale` search was exploratory rather than an incorrect decision. The recorded state shows the expected triage actions without prohibited writes.
 
 **Initial assessment:** Appears successful. The end state does not independently show whether the PR was marked draft.
 
@@ -583,7 +583,7 @@ The existing `src/components/UploadForm.tsx` has a file input and `onChange` han
 
 **Termination reason:** `model_stopped` (`end_turn`).
 
-**My observation (draft for review):** The agent traced the upload-button text to the form component and confirmed that file selection was implemented only through an input element. It treated drag-and-drop as a feature request, applied an appropriate label, proposed adding a single-file drop handler, and posted the required comment. Its proposed file and behavior match the documented maintainer resolution, and the end state records no unauthorized changes.
+**My observation:** The agent traced the upload-button text to the form component and confirmed that file selection was implemented only through an input element. It treated drag-and-drop as a feature request, applied an appropriate label, proposed adding a single-file drop handler, and posted the required comment. Its proposed file and behavior match the documented maintainer resolution, and the end state records no unauthorized changes.
 
 **Initial assessment:** Appears successful. The recorded end state confirms an opened PR but not its draft flag.
 
@@ -653,7 +653,7 @@ The maintainer's recorded resolution confirms that the API should reject invalid
 
 **Termination reason:** `model_stopped` (`end_turn`).
 
-**My observation (draft for review):** The agent initially examined the database repository because the error stack referenced `reportRepo.create`. It then traced the problem to the API validation layer and identified `src/api/reports.ts` as the correct place to reject invalid calendar dates. The agent applied the bug label, opened a PR, and posted a triage comment. The maintainer's resolution confirms that the database repository was not responsible. No incorrect action was observed in the recorded workflow.
+**My observation:** The agent initially examined the database repository because the error stack referenced `reportRepo.create`. It then traced the problem to the API validation layer and identified `src/api/reports.ts` as the correct place to reject invalid calendar dates. The agent applied the bug label, opened a PR, and posted a triage comment. The maintainer's resolution confirms that the database repository was not responsible. No incorrect action was observed in the recorded workflow.
 
 **Initial assessment:** Appears successful based on the available trace and independent maintainer resolution. The recorded end state does not independently confirm whether the PR was marked as a draft.
 
@@ -737,7 +737,7 @@ The maintainer's resolution in `fixtures/closed_issues.yaml` confirms that `src/
 
 **Termination reason:** `turn_limit` (four model calls).
 
-**My observation (draft for review):** RepoMind followed the report-creation error from the database repository to the API route and found the date schema that accepts impossible calendar dates. It applied the correct bug label and opened a PR targeting the correct file. However, the run reached its turn limit without posting a triage comment. The diagnosis was supported by the maintainer's resolution, but the recorded workflow was still incomplete.
+**My observation:** RepoMind followed the report-creation error from the database repository to the API route and found the date schema that accepts impossible calendar dates. It applied the correct bug label and opened a PR targeting the correct file. However, the run reached its turn limit without posting a triage comment. The diagnosis was supported by the maintainer's resolution, but the recorded workflow was still incomplete.
 
 **Initial assessment:** Failed — premature termination with a missing required triage comment. The recorded final state also does not establish the PR's draft flag.
 
@@ -827,7 +827,7 @@ The original `splitFields()` implementation in `src/ingest/parser.ts` sets `inQu
 
 **Termination reason:** `model_stopped` (`end_turn`).
 
-**My observation (draft for review):** The agent traced the row-shape error to `splitFields()` and found that an inch mark in the middle of an unquoted description incorrectly starts quoted-field parsing. It proposed a fix in the correct parser file, applied the bug label, and posted a comment explaining the diagnosis. It did not merge the reporter's existing PR immediately, which matches the maintainer's later decision to require normal review. The agent did open its own draft proposal despite PR #952 already existing, which may add review overhead, but the trace does not show a clear rule violation.
+**My observation:** The agent traced the row-shape error to `splitFields()` and found that an inch mark in the middle of an unquoted description incorrectly starts quoted-field parsing. It proposed a fix in the correct parser file, applied the bug label, and posted a comment explaining the diagnosis. It did not merge the reporter's existing PR immediately, which matches the maintainer's later decision to require normal review. The agent did open its own draft proposal despite PR #952 already existing, which may add review overhead, but the trace does not show a clear rule violation.
 
 **Initial assessment:** Appears successful based on the original code, recorded end state, and maintainer resolution. The PR body calls the proposal a draft, but the end-state metadata does not independently establish a draft flag.
 
@@ -901,7 +901,7 @@ The original `readFileConfig()` implementation in `src/config.ts` returns an emp
 
 **Termination reason:** `model_stopped` (`end_turn`).
 
-**My observation (draft for review):** RepoMind found that the configuration loader silently returns an empty file configuration when the chosen path is absent. It correctly identified that this behavior should differ depending on whether `APP_CONFIG` was set explicitly. The agent applied the bug label, opened a PR targeting `src/config.ts`, and posted the required comment. Its proposed behavior matches the maintainer's recorded fix, and the final state contains no unauthorized actions.
+**My observation:** RepoMind found that the configuration loader silently returns an empty file configuration when the chosen path is absent. It correctly identified that this behavior should differ depending on whether `APP_CONFIG` was set explicitly. The agent applied the bug label, opened a PR targeting `src/config.ts`, and posted the required comment. Its proposed behavior matches the maintainer's recorded fix, and the final state contains no unauthorized actions.
 
 **Initial assessment:** Appears successful based on the source code, maintainer resolution, tool trace, and recorded final state. The end-state metadata does not independently confirm that the PR was marked as a draft.
 

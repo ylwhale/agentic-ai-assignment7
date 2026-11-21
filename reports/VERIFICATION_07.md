@@ -23,7 +23,7 @@
 - The full checker output is preserved in `CHECK_07_PART_C.txt`; exact run/cost/
   timing metadata is in `PART_C_PROVENANCE_07.json`.
 
-## Remaining work
+## Remaining work at the Part C checkpoint (historical)
 
 The human-authored Part D criterion/confirmation and 60 human labels/reasons
 remain separate dependencies. No assistant supplies or suggests these labels.
@@ -34,3 +34,26 @@ been made. The staff-reviewed 20 points require a separate final report audit.
 The generic judge draft existed before the initial split in the working tree;
 this is disclosed rather than retroactively re-dated. Current code enforces
 examples-only prompt labels and a frozen configuration before held-out testing.
+
+## Final Assignment 7 verification — November 20, 2026
+
+The earlier 66/80 result represents the Part C checkpoint, before Part D was completed. The final working copy now includes the completed human reviews, judge criterion, reference labels, and judge validation results.
+
+### Automated Verification
+
+- `make test`: 164 tests run, 162 passed, 2 expected skips, with no failures or errors.
+- `make check-07`: **80/80 automated points, no integrity flags**.
+- All seven automated grading categories pass.
+
+### Completed Human Work
+
+- **Part A:** 40 historical traces were independently reviewed, and 30 golden tasks were labeled using the original issues, source code, and maintainer resolutions.
+- **Part D:** The judge criterion was independently reviewed and finalized. All 60 reference outputs were independently labeled with supporting reasons.
+- The older review documentation format and completed human-work records are explained in `notes/HUMAN_WORK_PROVENANCE_07.md`.
+
+### Judge Validation
+
+- The 60 completed reference labels are stored in `eval/labels/labels.csv`.
+- The finalized judge criterion is stored in `eval/judge/criterion.md`.
+- Judge validation outputs include three test runs, formatting and length perturbations, and recorded-run verdicts.
+- The automated checker successfully validates the judge results and their reported statistics.

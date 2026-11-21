@@ -1442,21 +1442,35 @@
       "tuning": 26,
       "test": 26
     },
-    "model": null,
-    "tpr": null,
-    "tnr": null,
-    "p": null,
-    "corrected": null,
-    "interval": null,
-    "coin": null,
-    "flip_rate": null,
+    "model": "gemini-3.5-flash-lite",
+    "tpr": 1.0,
+    "tnr": 0.42857142857142855,
+    "p": 1.0,
+    "corrected": 1.0,
+    "interval": [
+      1.0,
+      1.0
+    ],
+    "coin": false,
+    "flip_rate": 0.0,
     "majority": {
-      "tpr": null,
-      "tnr": null,
-      "kept": null
+      "tpr": 1.0,
+      "tnr": 0.42857142857142855,
+      "kept": false,
+      "accuracy": 0.6923076923076923
     },
-    "moved_share": null,
-    "by_system": {}
+    "moved_share": 0.038461538461538464,
+    "by_system": {
+      "claude-haiku-5-5": {
+        "tpr": 1.0,
+        "tnr": 0.6666666666666666
+      },
+      "claude-sonnet-5-5": {
+        "tpr": 1.0,
+        "tnr": 0.25
+      }
+    },
+    "accuracy": 0.6923076923076923
   },
   "failure_analysis": {
     "source": "eval/failures_ai.csv",

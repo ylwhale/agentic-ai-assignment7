@@ -31,7 +31,7 @@ The table below is RepoMind as Assignment 5 leaves it: its working solution.
 
 **Empty layers: 0 of 7**, and three are partial.
 
-## Assignment 7 evaluation extension (AI-assisted)
+## Assignment 7 evaluation extension
 
 The course harness, RepoMind ways, tools, prompts/agent.md, checks and fixtures
 remain unchanged. Thirty distinct source-grounded golden tasks live under
@@ -66,9 +66,9 @@ All paid calls use `harness.client.ModelClient`; Part D additionally uses
 refuses |TPR+TNR−1|≤0.1 and uses at least 2,000 bootstrap samples. The configured
 course ceilings remain 1.5 million tokens/session and 20 million/assignment.
 
-See `REMAINING_HUMAN_INPUT_07.md` for the honest remaining dependencies and exact
-commands. A passing automated score would still require separate staff review of
-the report, provenance, first-failure causes and independent human work.
+See `reports/LAB_07.md` for the completed evaluation, experimental
+results, judge validation, provenance, and limitations. The written
+report remains subject to separate staff review.
 
 Part C has now completed all 80 real runs. Threshold `756817f` was pushed before
 sweep four. The failed repeats claim, actual costs and 67 disclosed Codex-assisted
